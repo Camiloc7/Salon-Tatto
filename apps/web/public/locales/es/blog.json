@@ -1,0 +1,13 @@
+{
+  "title": "Blog",
+  "description": "Noticias, consejos e historias de nuestro estudio",
+  "readMore": "Leer más",
+  "categories": "Categorías",
+  "tags": "Etiquetas",
+  "search": "Buscar artículos...",
+  "noPosts": "No se encontraron publicaciones",
+  "relatedPosts": "Artículos relacionados",
+  "publishedOn": "Publicado el",
+  "by": "por",
+  "share": "Compartir"
+}

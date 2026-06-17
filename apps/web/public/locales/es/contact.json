@@ -1,0 +1,19 @@
+{
+  "title": "Contáctanos",
+  "description": "Ponte en contacto con nosotros",
+  "address": "Dirección",
+  "phone": "Teléfono",
+  "email": "Correo electrónico",
+  "whatsapp": "WhatsApp",
+  "socialMedia": "Redes Sociales",
+  "schedule": "Horario",
+  "form": {
+    "title": "Envíanos un mensaje",
+    "name": "Nombre",
+    "email": "Correo electrónico",
+    "message": "Mensaje",
+    "submit": "Enviar mensaje",
+    "success": "Mensaje enviado correctamente",
+    "error": "Error al enviar el mensaje"
+  }
+}

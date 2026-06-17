@@ -1,0 +1,33 @@
+{
+  "hero": {
+    "title": "Exprésate a Través del Arte",
+    "subtitle": "Estudio profesional de tatuajes donde tu piel se convierte en un lienzo",
+    "cta": "Conoce a nuestros artistas",
+    "secondaryCta": "Ver nuestro trabajo"
+  },
+  "studio": {
+    "title": "Bienvenido a Salon Tatto",
+    "description": "Somos un estudio profesional de tatuajes dedicado a crear arte único y personalizado. Nuestro equipo de talentosos artistas se especializa en diversos estilos para hacer realidad tu visión."
+  },
+  "featuredArtists": {
+    "title": "Nuestros Artistas",
+    "description": "Conoce a nuestro talentoso equipo de tatuadores"
+  },
+  "styles": {
+    "title": "Estilos de Tatuaje",
+    "description": "Nos especializamos en una amplia variedad de estilos de tatuaje"
+  },
+  "testimonials": {
+    "title": "Lo Que Dicen Nuestros Clientes",
+    "description": "Escucha a nuestros clientes satisfechos"
+  },
+  "faq": {
+    "title": "Preguntas Frecuentes",
+    "description": "Todo lo que necesitas saber antes de tu primer tatuaje"
+  },
+  "contact": {
+    "title": "Ponte en Contacto",
+    "description": "¿Listo para empezar tu proyecto? Contáctanos hoy",
+    "whatsapp": "Chatear en WhatsApp"
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "login": {
+    "title": "Admin Login",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Sign in",
+    "error": "Invalid credentials"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome back",
+    "totalArtists": "Total Artists",
+    "totalPosts": "Blog Posts",
+    "totalImages": "Gallery Images"
+  },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "artists": "Artists",
+    "blog": "Blog",
+    "seo": "SEO",
+    "settings": "Settings"
+  },
+  "artists": {
+    "title": "Artist Management",
+    "create": "Add Artist",
+    "edit": "Edit Artist",
+    "delete": "Delete Artist",
+    "confirmDelete": "Are you sure you want to delete this artist?",
+    "form": {
+      "name": "Name",
+      "biography": "Biography",
+      "specialty": "Specialty",
+      "slug": "Slug",
+      "instagram": "Instagram URL",
+      "avatar": "Avatar Image",
+      "order": "Display Order",
+      "active": "Active"
+    }
+  },
+  "blog": {
+    "title": "Blog Management",
+    "create": "New Post",
+    "edit": "Edit Post",
+    "delete": "Delete Post",
+    "confirmDelete": "Are you sure you want to delete this post?",
+    "draft": "Draft",
+    "published": "Published",
+    "publish": "Publish",
+    "unpublish": "Unpublish",
+    "form": {
+      "title": "Title",
+      "content": "Content",
+      "excerpt": "Excerpt",
+      "slug": "Slug",
+      "featuredImage": "Featured Image",
+      "category": "Category",
+      "tags": "Tags"
+    }
+  },
+  "seo": {
+    "title": "SEO Management",
+    "pages": "SEO Pages",
+    "form": {
+      "title": "SEO Title",
+      "description": "Meta Description",
+      "ogTitle": "Open Graph Title",
+      "ogDescription": "Open Graph Description",
+      "ogImage": "Open Graph Image",
+      "keywords": "Keywords",
+      "canonical": "Canonical URL"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "general": "General",
+    "contact": "Contact",
+    "social": "Social Media",
+    "location": "Location",
+    "hours": "Business Hours",
+    "saved": "Settings saved successfully"
+  }
+}

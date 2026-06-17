@@ -1,0 +1,82 @@
+{
+  "login": {
+    "title": "Inicio de Sesión Admin",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "submit": "Iniciar sesión",
+    "error": "Credenciales inválidas"
+  },
+  "dashboard": {
+    "title": "Panel de Control",
+    "welcome": "Bienvenido de nuevo",
+    "totalArtists": "Total de Artistas",
+    "totalPosts": "Publicaciones del Blog",
+    "totalImages": "Imágenes de la Galería"
+  },
+  "sidebar": {
+    "dashboard": "Panel",
+    "artists": "Artistas",
+    "blog": "Blog",
+    "seo": "SEO",
+    "settings": "Configuración"
+  },
+  "artists": {
+    "title": "Gestión de Artistas",
+    "create": "Agregar Artista",
+    "edit": "Editar Artista",
+    "delete": "Eliminar Artista",
+    "confirmDelete": "¿Estás seguro de que deseas eliminar este artista?",
+    "form": {
+      "name": "Nombre",
+      "biography": "Biografía",
+      "specialty": "Especialidad",
+      "slug": "Slug",
+      "instagram": "URL de Instagram",
+      "avatar": "Imagen de Avatar",
+      "order": "Orden de Visualización",
+      "active": "Activo"
+    }
+  },
+  "blog": {
+    "title": "Gestión del Blog",
+    "create": "Nueva Publicación",
+    "edit": "Editar Publicación",
+    "delete": "Eliminar Publicación",
+    "confirmDelete": "¿Estás seguro de que deseas eliminar esta publicación?",
+    "draft": "Borrador",
+    "published": "Publicado",
+    "publish": "Publicar",
+    "unpublish": "Despublicar",
+    "form": {
+      "title": "Título",
+      "content": "Contenido",
+      "excerpt": "Extracto",
+      "slug": "Slug",
+      "featuredImage": "Imagen Destacada",
+      "category": "Categoría",
+      "tags": "Etiquetas"
+    }
+  },
+  "seo": {
+    "title": "Gestión de SEO",
+    "pages": "Páginas SEO",
+    "form": {
+      "title": "Título SEO",
+      "description": "Meta Descripción",
+      "ogTitle": "Título de Open Graph",
+      "ogDescription": "Descripción de Open Graph",
+      "ogImage": "Imagen de Open Graph",
+      "keywords": "Palabras clave",
+      "canonical": "URL Canónica"
+    }
+  },
+  "settings": {
+    "title": "Configuración",
+    "general": "General",
+    "contact": "Contacto",
+    "social": "Redes Sociales",
+    "location": "Ubicación",
+    "hours": "Horario de Atención",
+    "saved": "Configuración guardada correctamente"
+  }
+}

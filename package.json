@@ -1,0 +1,33 @@
+{
+  "name": "salon-tatto",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Tattoo studio platform — monorepo",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "test": "turbo test",
+    "format": "prettier --write \"**/*.{ts,tsx,json,md}\"",
+    "db:migration:generate": "npm run -w apps/api migration:generate",
+    "db:migration:run": "npm run -w apps/api migration:run",
+    "db:seed": "npm run -w apps/api seed",
+    "docker:dev": "docker compose -f docker-compose.yml up",
+    "docker:prod": "docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d"
+  },
+  "devDependencies": {
+    "prettier": "^3.2.0",
+    "turbo": "^2.1.0",
+    "typescript": "^5.5.0",
+    "eslint": "^9.0.0",
+    "@types/node": "^20.14.0"
+  },
+  "packageManager": "npm@10.8.0",
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

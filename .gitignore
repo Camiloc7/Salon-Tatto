@@ -1,0 +1,26 @@
+node_modules/
+dist/
+.next/
+*.log
+.env
+.env.local
+.env.production
+.env.*.local
+coverage/
+.turbo/
+*.tsbuildinfo
+.next/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+postgres_data/
+pgadmin_data/

@@ -1,0 +1,19 @@
+{
+  "title": "Contact Us",
+  "description": "Get in touch with us",
+  "address": "Address",
+  "phone": "Phone",
+  "email": "Email",
+  "whatsapp": "WhatsApp",
+  "socialMedia": "Social Media",
+  "schedule": "Schedule",
+  "form": {
+    "title": "Send us a message",
+    "name": "Name",
+    "email": "Email",
+    "message": "Message",
+    "submit": "Send message",
+    "success": "Message sent successfully",
+    "error": "Error sending message"
+  }
+}

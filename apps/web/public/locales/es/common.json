@@ -1,0 +1,48 @@
+{
+  "site": {
+    "name": "Salon Tatto",
+    "description": "Estudio profesional de tatuajes"
+  },
+  "nav": {
+    "home": "Inicio",
+    "studio": "Estudio",
+    "artists": "Artistas",
+    "gallery": "Galería",
+    "blog": "Blog",
+    "contact": "Contacto",
+    "admin": "Admin"
+  },
+  "actions": {
+    "readMore": "Leer más",
+    "viewAll": "Ver todo",
+    "seeMore": "Ver más",
+    "sendMessage": "Enviar mensaje",
+    "bookNow": "Reservar ahora",
+    "contactUs": "Contáctanos",
+    "learnMore": "Saber más",
+    "submit": "Enviar",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "create": "Crear",
+    "back": "Volver",
+    "close": "Cerrar"
+  },
+  "common": {
+    "loading": "Cargando...",
+    "error": "Ocurrió un error",
+    "notFound": "No encontrado",
+    "noResults": "Sin resultados",
+    "page": "Página",
+    "of": "de",
+    "previous": "Anterior",
+    "next": "Siguiente"
+  },
+  "footer": {
+    "rights": "Todos los derechos reservados",
+    "followUs": "Síguenos",
+    "contactInfo": "Información de contacto",
+    "schedule": "Horario"
+  }
+}

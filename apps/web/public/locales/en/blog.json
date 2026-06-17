@@ -1,0 +1,13 @@
+{
+  "title": "Blog",
+  "description": "News, tips, and stories from our studio",
+  "readMore": "Read more",
+  "categories": "Categories",
+  "tags": "Tags",
+  "search": "Search articles...",
+  "noPosts": "No posts found",
+  "relatedPosts": "Related posts",
+  "publishedOn": "Published on",
+  "by": "by",
+  "share": "Share"
+}

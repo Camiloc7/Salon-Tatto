@@ -1,0 +1,33 @@
+{
+  "hero": {
+    "title": "Express Yourself Through Art",
+    "subtitle": "Professional tattoo studio where your skin becomes a canvas",
+    "cta": "Meet our artists",
+    "secondaryCta": "See our work"
+  },
+  "studio": {
+    "title": "Welcome to Salon Tatto",
+    "description": "We are a professional tattoo studio dedicated to creating unique and personalized art. Our team of talented artists specializes in various styles to bring your vision to life."
+  },
+  "featuredArtists": {
+    "title": "Our Artists",
+    "description": "Meet our talented team of tattoo artists"
+  },
+  "styles": {
+    "title": "Tattoo Styles",
+    "description": "We specialize in a wide range of tattoo styles"
+  },
+  "testimonials": {
+    "title": "What Our Clients Say",
+    "description": "Hear from our satisfied clients"
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "description": "Everything you need to know before your first tattoo"
+  },
+  "contact": {
+    "title": "Get in Touch",
+    "description": "Ready to start your project? Contact us today",
+    "whatsapp": "Chat on WhatsApp"
+  }
+}
