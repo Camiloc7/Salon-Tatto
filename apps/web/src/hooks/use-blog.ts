@@ -5,7 +5,7 @@ import { api } from '@/lib/api-client';
 import { queryKeys } from '@/lib/query-keys';
 import type { BlogPost, Category, Tag, PaginatedResponse } from '@salon-tatto/shared';
 
-export function useBlogPosts(params?: Record<string, unknown>) {
+export function useBlogPosts(params?: Record<string, any>) {
   return useQuery({
     queryKey: queryKeys.blog.list(params),
     queryFn: () => api.get<PaginatedResponse<BlogPost>>('/blog', { params }),

@@ -1,24 +1,25 @@
 'use client';
 
-import { useEffect, type ReactNode } from 'react';
+import { useEffect, use, type ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/providers/auth-provider';
 import { AdminSidebar } from '@/components/layout/admin-sidebar';
 
 type Props = {
   children: ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 };
 
 export default function AdminLayout({ children, params }: Props) {
   const { isAuthenticated, loading } = useAuth();
   const router = useRouter();
+  const { locale } = use(params);
 
   useEffect(() => {
     if (!loading && !isAuthenticated) {
-      router.replace(`/${params.locale}/admin/login`);
+      router.replace(`/${locale}/admin/login`);
     }
-  }, [isAuthenticated, loading, router, params.locale]);
+  }, [isAuthenticated, loading, router, locale]);
 
   if (loading) {
     return (

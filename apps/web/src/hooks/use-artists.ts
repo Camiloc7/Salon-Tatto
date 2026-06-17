@@ -5,7 +5,7 @@ import { api } from '@/lib/api-client';
 import { queryKeys } from '@/lib/query-keys';
 import type { Artist, PaginatedResponse } from '@salon-tatto/shared';
 
-export function useArtists(params?: Record<string, unknown>) {
+export function useArtists(params?: Record<string, any>) {
   return useQuery({
     queryKey: queryKeys.artists.list(params),
     queryFn: () => api.get<PaginatedResponse<Artist>>('/artists', { params }),
