@@ -5,7 +5,6 @@ import { Hero } from '@/components/home/hero';
 import { FeaturedArtists } from '@/components/home/featured-artists';
 import { Testimonials } from '@/components/home/testimonials';
 import { FAQ } from '@/components/home/faq';
-import { WhatsAppButton } from '@/components/shared/whatsapp-button';
 import { StructuredData } from '@/components/shared/structured-data';
 import type { StudioSettings, SeoPage } from '@salon-tatto/shared';
 import { getOptimizedImageUrl } from '@/lib/utils';
@@ -69,11 +68,10 @@ export default async function HomePage({ params }: Props) {
           ...(settings?.email && { email: settings.email }),
         }}
       />
-      <Hero />
+      <Hero settings={settings} />
       <FeaturedArtists />
       <Testimonials />
       <FAQ />
-      <WhatsAppButton />
     </>
   );
 }

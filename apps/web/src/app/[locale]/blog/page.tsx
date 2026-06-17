@@ -67,22 +67,22 @@ export default async function BlogPage({ params, searchParams }: Props) {
       },
       next: { revalidate: 60 },
     });
-    posts = result.data;
-    totalPages = result.meta.totalPages;
+    posts = result?.data || [];
+    totalPages = result?.meta?.totalPages || 1;
   } catch {}
 
   return (
     <div className="container py-20">
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold tracking-tight">{t('blog.title')}</h1>
+        <h1 className="text-4xl font-bold tracking-tight">{t('title')}</h1>
         <p className="mt-4 text-lg text-muted-foreground">
-          {t('blog.description')}
+          {t('description')}
         </p>
       </div>
 
-      {posts.length === 0 ? (
+      {!posts || posts.length === 0 ? (
         <div className="text-center text-muted-foreground">
-          {t('blog.noPosts')}
+          {t('noPosts')}
         </div>
       ) : (
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">

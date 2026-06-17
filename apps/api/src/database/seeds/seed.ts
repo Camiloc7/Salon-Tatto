@@ -5,6 +5,8 @@ import { seedLanguages } from './languages.seed';
 import { seedAdmin } from './admin.seed';
 import { seedSettings } from './settings.seed';
 import { seedSeo } from './seo.seed';
+import { seedArtists } from './artists.seed';
+import { seedBlog } from './blog.seed';
 
 async function runSeeds() {
   const dataSource = new DataSource(dataSourceOptions);
@@ -16,6 +18,8 @@ async function runSeeds() {
   await seedAdmin(dataSource);
   await seedSettings(dataSource);
   await seedSeo(dataSource);
+  await seedArtists(dataSource);
+  await seedBlog(dataSource);
 
   console.log('\nAll seeds completed successfully!');
   await dataSource.destroy();

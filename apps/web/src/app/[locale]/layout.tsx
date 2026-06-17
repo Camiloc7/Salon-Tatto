@@ -5,6 +5,7 @@ import { locales } from '@/i18n';
 import { QueryProvider } from '@/providers/query-provider';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
+import { WhatsAppButton } from '@/components/shared/whatsapp-button';
 
 type Props = {
   children: ReactNode;
@@ -35,6 +36,7 @@ export default async function LocaleLayout({ children, params }: Props) {
           <Header />
           <main className="flex-1">{children}</main>
           <Footer />
+          <WhatsAppButton />
         </div>
       </QueryProvider>
     </NextIntlClientProvider>

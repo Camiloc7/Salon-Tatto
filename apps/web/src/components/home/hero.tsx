@@ -2,36 +2,82 @@
 
 import Link from 'next/link';
 import { useTranslations, useLocale } from 'next-intl';
+import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
+import { Image as ImageIcon, Star, Users, MapPin } from 'lucide-react';
+import type { StudioSettings } from '@salon-tatto/shared';
 
-export function Hero() {
-  const t = useTranslations();
+export function Hero({ settings }: { settings: StudioSettings | null }) {
+  const t = useTranslations('home');
+  const tCommon = useTranslations();
   const locale = useLocale();
 
-  return (
-    <section className="relative flex min-h-[80vh] items-center justify-center overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/80 z-10" />
+  const title = settings?.name || t('hero.title');
+  const phoneDigits = settings?.phone ? settings.phone.replace(/\D/g, '') : '1234567890';
+  const whatsappLink = `https://wa.me/${phoneDigits}`;
 
-      <div className="container relative z-20 mx-auto px-4 text-center">
-        <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
-          {t('hero.title')}
+  return (
+    <section className="relative min-h-[100dvh] w-full bg-black overflow-hidden flex flex-col items-center justify-center">
+      {/* Sleek, minimal background: subtle dark gradient instead of noisy orbs */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-zinc-900/50 via-black to-black z-0" />
+      <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20 mix-blend-overlay z-0" />
+
+      {/* Main Content Container */}
+      <motion.div 
+        className="relative z-10 w-full max-w-5xl px-6 flex flex-col items-center text-center mt-20"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, ease: 'easeOut' }}
+      >
+        <h1 className="text-5xl sm:text-7xl md:text-8xl font-serif tracking-widest text-white/90 drop-shadow-sm pb-4 uppercase leading-tight font-light">
+          {title}
         </h1>
-        <p className="mx-auto mt-6 max-w-2xl text-lg text-gray-300 sm:text-xl">
+        
+        <div className="w-24 h-[1px] bg-amber-500/50 my-6 mx-auto" />
+        
+        <p className="text-lg md:text-xl text-zinc-400 font-light max-w-2xl tracking-wide leading-relaxed">
           {t('hero.subtitle')}
         </p>
-        <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <Link href={`/${locale}/artistas`}>
-            <Button size="lg" className="min-w-[200px]">
-              {t('hero.cta')}
+        
+        <motion.div 
+          className="mt-12"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.8 }}
+        >
+          <Link href={whatsappLink} target="_blank">
+            <Button size="lg" className="h-14 px-10 text-sm tracking-widest uppercase font-semibold rounded-none bg-white text-black hover:bg-zinc-200 transition-colors border border-transparent">
+              {tCommon('actions.bookNow')}
             </Button>
           </Link>
-          <Link href={`/${locale}/galeria`}>
-            <Button variant="outline" size="lg" className="min-w-[200px] text-white border-white hover:bg-white/10">
-              {t('hero.secondaryCta')}
-            </Button>
-          </Link>
-        </div>
-      </div>
+        </motion.div>
+
+        {/* Minimalist Navigation Icons */}
+        <motion.div 
+          className="mt-24 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-16 w-full max-w-3xl"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6, duration: 1 }}
+        >
+          <NavIcon href={`/${locale}/galeria`} icon={<ImageIcon size={20} strokeWidth={1} />} label={tCommon('nav.gallery')} />
+          <NavIcon href={`/${locale}/artistas`} icon={<Users size={20} strokeWidth={1} />} label={tCommon('nav.artists')} />
+          <NavIcon href={`/${locale}/blog`} icon={<Star size={20} strokeWidth={1} />} label={tCommon('nav.blog')} />
+          <NavIcon href={`/${locale}/contacto`} icon={<MapPin size={20} strokeWidth={1} />} label={tCommon('nav.contact')} />
+        </motion.div>
+      </motion.div>
     </section>
+  );
+}
+
+function NavIcon({ href, icon, label }: { href: string; icon: React.ReactNode; label: string }) {
+  return (
+    <Link href={href} className="flex flex-col items-center gap-4 group">
+      <div className="w-14 h-14 rounded-full border border-zinc-800 flex items-center justify-center text-zinc-400 transition-all duration-500 group-hover:border-zinc-500 group-hover:text-white bg-black/50 backdrop-blur-sm">
+        {icon}
+      </div>
+      <span className="text-[10px] uppercase tracking-[0.2em] font-medium text-zinc-500 group-hover:text-white transition-colors">
+        {label}
+      </span>
+    </Link>
   );
 }

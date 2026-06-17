@@ -124,7 +124,7 @@ export default async function ArtistProfilePage({ params }: Props) {
 
         {artist.images && artist.images.length > 0 && (
           <div className="mt-16">
-            <h2 className="text-2xl font-bold mb-6">{t('gallery')}</h2>
+            <h2 className="text-2xl font-bold mb-6">{tCommon('nav.gallery')}</h2>
             <ArtistGallery images={artist.images} />
           </div>
         )}

@@ -10,12 +10,12 @@ export default getRequestConfig(async ({ requestLocale }) => {
     locale,
     messages: {
       ...(await import(`../public/locales/${locale}/common.json`)).default,
-      ...(await import(`../public/locales/${locale}/home.json`)).default,
-      ...(await import(`../public/locales/${locale}/artists.json`)).default,
-      ...(await import(`../public/locales/${locale}/blog.json`)).default,
-      ...(await import(`../public/locales/${locale}/gallery.json`)).default,
-      ...(await import(`../public/locales/${locale}/contact.json`)).default,
-      ...(await import(`../public/locales/${locale}/admin.json`)).default,
+      home: (await import(`../public/locales/${locale}/home.json`)).default,
+      artists: (await import(`../public/locales/${locale}/artists.json`)).default,
+      blog: (await import(`../public/locales/${locale}/blog.json`)).default,
+      gallery: (await import(`../public/locales/${locale}/gallery.json`)).default,
+      contact: (await import(`../public/locales/${locale}/contact.json`)).default,
+      admin: (await import(`../public/locales/${locale}/admin.json`)).default,
     },
     timeZone: 'UTC',
   };

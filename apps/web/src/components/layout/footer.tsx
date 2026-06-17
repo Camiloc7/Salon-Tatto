@@ -29,88 +29,72 @@ export async function Footer() {
   const settings = await getSettings();
 
   return (
-    <footer className="bg-foreground text-background">
-      <div className="container py-12">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
-          <div className="space-y-3">
-            <h3 className="text-lg font-semibold">{t('site.name')}</h3>
-            <p className="text-sm text-muted-foreground">
-              {t('site.description')}
-            </p>
-          </div>
-
-          <div className="space-y-3">
-            <h4 className="text-sm font-semibold uppercase tracking-wider">
-              {t('nav.home')}
-            </h4>
-            <ul className="space-y-2">
-              {footerNav.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    {t(link.labelKey)}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="space-y-3">
-            <h4 className="text-sm font-semibold uppercase tracking-wider">
-              {t('footer.contactInfo')}
-            </h4>
-            {settings && (
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                {settings.address && <li>{settings.address}</li>}
-                {settings.phone && <li>{settings.phone}</li>}
-                {settings.email && <li>{settings.email}</li>}
-              </ul>
-            )}
-          </div>
-
-          <div className="space-y-3">
-            <h4 className="text-sm font-semibold uppercase tracking-wider">
-              {t('footer.followUs')}
-            </h4>
-            <div className="flex gap-3">
-              {settings?.instagram && (
-                <Link
-                  href={settings.instagram}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-muted-foreground hover:text-primary transition-colors"
-                >
-                  <Instagram className="h-5 w-5" />
-                </Link>
-              )}
-              {settings?.facebook && (
-                <Link
-                  href={settings.facebook}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-muted-foreground hover:text-primary transition-colors"
-                >
-                  <Facebook className="h-5 w-5" />
-                </Link>
-              )}
-              {settings?.tiktok && (
-                <Link
-                  href={settings.tiktok}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-muted-foreground hover:text-primary transition-colors"
-                >
-                  <Music2 className="h-5 w-5" />
-                </Link>
-              )}
-            </div>
-          </div>
+    <footer className="bg-black border-t border-zinc-900 text-zinc-400">
+      <div className="container max-w-5xl mx-auto px-6 py-20 flex flex-col items-center text-center">
+        
+        {/* Top: Social Media */}
+        <div className="flex gap-8 mb-16">
+          <Link
+            href={settings?.instagram || "https://instagram.com"}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-12 h-12 rounded-full border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white hover:border-amber-500 hover:bg-amber-500/10 transition-all duration-300"
+          >
+            <Instagram className="h-5 w-5" />
+          </Link>
+          <Link
+            href={settings?.facebook || "https://facebook.com"}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-12 h-12 rounded-full border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white hover:border-amber-500 hover:bg-amber-500/10 transition-all duration-300"
+          >
+            <Facebook className="h-5 w-5" />
+          </Link>
+          <Link
+            href={settings?.tiktok || "https://tiktok.com"}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-12 h-12 rounded-full border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white hover:border-amber-500 hover:bg-amber-500/10 transition-all duration-300"
+          >
+            <Music2 className="h-5 w-5" />
+          </Link>
         </div>
 
-        <div className="mt-8 border-t border-muted-foreground/20 pt-8 text-center text-sm text-muted-foreground">
-          &copy; {new Date().getFullYear()} {t('site.name')}. {t('footer.rights')}.
+        {/* Middle: Brand & Navigation */}
+        <div className="mb-12">
+          <Link href="/" className="inline-block mb-8">
+            <h2 className="text-3xl font-serif tracking-widest text-white uppercase font-light">
+              {settings?.name || t('site.name')}
+            </h2>
+          </Link>
+          <ul className="flex flex-wrap justify-center gap-x-10 gap-y-4">
+            {footerNav.map((link) => (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  className="text-[11px] uppercase tracking-[0.2em] font-medium text-zinc-500 hover:text-white transition-colors"
+                >
+                  {t(link.labelKey)}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Contact Info (if available) */}
+        {settings && (
+          <div className="flex flex-col md:flex-row gap-4 md:gap-10 text-[11px] uppercase tracking-widest text-zinc-600 mb-16">
+            {settings.email && <span>{settings.email}</span>}
+            {settings.phone && <span className="hidden md:inline">•</span>}
+            {settings.phone && <span>{settings.phone}</span>}
+            {settings.address && <span className="hidden md:inline">•</span>}
+            {settings.address && <span>{settings.address}</span>}
+          </div>
+        )}
+
+        {/* Bottom: Copyright */}
+        <div className="w-full border-t border-zinc-900 pt-8 text-[10px] uppercase tracking-widest text-zinc-700">
+          &copy; {new Date().getFullYear()} {settings?.name || t('site.name')}. {t('footer.rights')}.
         </div>
       </div>
     </footer>
