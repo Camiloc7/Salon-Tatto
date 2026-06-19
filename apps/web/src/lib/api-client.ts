@@ -39,6 +39,10 @@ async function request<T>(
     if (locale) {
       headers['x-locale'] = locale;
     }
+    const token = localStorage.getItem('auth_token');
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
   }
 
   const response = await fetch(url.toString(), {

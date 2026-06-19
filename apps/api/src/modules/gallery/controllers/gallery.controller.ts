@@ -91,4 +91,18 @@ export class GalleryController {
   async setFeatured(@Param('imageId') imageId: string) {
     return this.galleryService.setFeatured(imageId);
   }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin')
+  @Patch('gallery/:imageId/reorder')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Reorder image (admin)' })
+  @ApiBody({ schema: { type: 'object', properties: { orderIndex: { type: 'number' } } } })
+  @ApiResponse({ status: 200, description: 'Image reordered' })
+  async reorder(
+    @Param('imageId') imageId: string,
+    @Body('orderIndex') orderIndex: number,
+  ) {
+    return this.galleryService.reorder(imageId, orderIndex);
+  }
 }

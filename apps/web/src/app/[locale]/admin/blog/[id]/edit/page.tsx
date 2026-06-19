@@ -149,13 +149,15 @@ export default function EditBlogPostPage() {
 
   return (
     <div className="space-y-6 max-w-3xl">
-      <div className="flex items-center gap-4">
-        <Link href="/admin/blog">
-          <Button variant="ghost" size="icon">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-        <h1 className="text-3xl font-bold tracking-tight">{t('edit')}</h1>
+      <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+        <div className="flex items-center gap-4">
+          <Link href="/admin/blog">
+            <Button variant="ghost" size="icon">
+              <ArrowLeft className="h-4 w-4" />
+            </Button>
+          </Link>
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">{t('edit')}</h1>
+        </div>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
@@ -289,15 +291,15 @@ export default function EditBlogPostPage() {
           </div>
         </div>
 
-        <div className="flex gap-4">
-          <Button type="submit" disabled={isSubmitting || updateMutation.isPending}>
+        <div className="flex flex-col sm:flex-row gap-4 pt-4">
+          <Button type="submit" disabled={isSubmitting || updateMutation.isPending} className="w-full sm:w-auto">
             {(isSubmitting || updateMutation.isPending) && (
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
             )}
             {t('edit')}
           </Button>
-          <Link href="/admin/blog">
-            <Button type="button" variant="outline">Cancel</Button>
+          <Link href="/admin/blog" className="w-full sm:w-auto">
+            <Button type="button" variant="outline" className="w-full sm:w-auto">Cancel</Button>
           </Link>
         </div>
       </form>

@@ -9,6 +9,11 @@ type ArtistCardProps = {
 };
 
 export function ArtistCard({ artist, locale }: ArtistCardProps) {
+  const featuredImage = artist.images?.find((img) => img.isFeatured);
+  const coverUrl = featuredImage 
+    ? getImageUrl(featuredImage.url || featuredImage.cloudinaryId) 
+    : getImageUrl(artist.avatar);
+
   return (
     <Link
       href={`/${locale}/artistas/${artist.slug}`}
@@ -16,9 +21,9 @@ export function ArtistCard({ artist, locale }: ArtistCardProps) {
     >
       <Avatar className="mx-auto h-32 w-32">
         <AvatarImage
-          src={getImageUrl(artist.avatar)}
+          src={coverUrl}
           alt={artist.name || ''}
-          className="rounded-full object-cover"
+          className="rounded-full object-cover h-full w-full"
         />
         <AvatarFallback className="flex h-full w-full items-center justify-center rounded-full bg-muted text-3xl font-bold">
           {artist.name?.charAt(0)}

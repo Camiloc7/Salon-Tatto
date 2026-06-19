@@ -12,6 +12,7 @@ import { queryKeys } from '@/lib/query-keys';
 import { Button } from '@/components/ui/button';
 import { ImageUploader } from '@/components/shared/image-uploader';
 import { LocaleTabs } from '@/components/shared/locale-tabs';
+import { GalleryManager } from '@/components/admin/artists/gallery-manager';
 import { Loader2, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import type { Artist, LocaleCode } from '@salon-tatto/shared';
@@ -114,13 +115,15 @@ export default function EditArtistPage() {
 
   return (
     <div className="space-y-6 max-w-3xl">
-      <div className="flex items-center gap-4">
-        <Link href="/admin/artistas">
-          <Button variant="ghost" size="icon">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-        <h1 className="text-3xl font-bold tracking-tight">{t('edit')}</h1>
+      <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+        <div className="flex items-center gap-4">
+          <Link href="/admin/artistas">
+            <Button variant="ghost" size="icon">
+              <ArrowLeft className="h-4 w-4" />
+            </Button>
+          </Link>
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">{t('edit')}</h1>
+        </div>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
@@ -219,15 +222,20 @@ export default function EditArtistPage() {
           </div>
         </div>
 
-        <div className="flex gap-4">
-          <Button type="submit" disabled={isSubmitting || updateMutation.isPending}>
+        <div className="rounded-lg border p-6 space-y-4">
+          <h2 className="font-semibold">Gallery</h2>
+          <GalleryManager artistId={id} />
+        </div>
+
+        <div className="flex flex-col sm:flex-row gap-4 pt-4">
+          <Button type="submit" disabled={isSubmitting || updateMutation.isPending} className="w-full sm:w-auto">
             {(isSubmitting || updateMutation.isPending) && (
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
             )}
             {t('edit')}
           </Button>
-          <Link href="/admin/artistas">
-            <Button type="button" variant="outline">Cancel</Button>
+          <Link href="/admin/artistas" className="w-full sm:w-auto">
+            <Button type="button" variant="outline" className="w-full sm:w-auto">Cancel</Button>
           </Link>
         </div>
       </form>

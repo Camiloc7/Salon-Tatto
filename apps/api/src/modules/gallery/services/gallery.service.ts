@@ -49,7 +49,13 @@ export class GalleryService {
     const uploadedImages: ArtistImage[] = [];
 
     for (const file of files) {
-      const result = await cloudinary.uploader.upload(file.path, {
+      if (!file.buffer) {
+        throw new BadRequestException('File buffer missing. Check multer config.');
+      }
+      const base64 = file.buffer.toString('base64');
+      const dataUri = `data:${file.mimetype || 'image/jpeg'};base64,${base64}`;
+
+      const result = await cloudinary.uploader.upload(dataUri, {
         folder: `salon-tatto/artists/${artistId}`,
         transformation: [
           {
@@ -77,6 +83,13 @@ export class GalleryService {
     }
 
     return uploadedImages;
+  }
+
+  async reorder(imageId: string, orderIndex: number) {
+    const image = await this.imageRepository.findOne({ where: { id: imageId } });
+    if (!image) throw new NotFoundException(`Image not found`);
+    image.orderIndex = orderIndex;
+    return this.imageRepository.save(image);
   }
 
   async remove(imageId: string) {

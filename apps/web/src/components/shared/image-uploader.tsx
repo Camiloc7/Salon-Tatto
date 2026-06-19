@@ -27,8 +27,14 @@ export function ImageUploader({ value, onChange, className }: ImageUploaderProps
       const formData = new FormData();
       formData.append('file', file);
 
-      const res = await fetch('/api/upload', {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
+      const token = localStorage.getItem('auth_token');
+
+      const res = await fetch(`${apiUrl}/upload/image`, {
         method: 'POST',
+        headers: {
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
         body: formData,
       });
 

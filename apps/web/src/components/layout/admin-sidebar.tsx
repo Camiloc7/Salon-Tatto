@@ -45,7 +45,7 @@ export function AdminSidebar() {
         <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold text-sm">
           ST
         </div>
-        <span className="font-semibold text-lg">Salon Tatto</span>
+        <span className="font-semibold text-lg">{t('sidebar.dashboard') ? 'NYC Tattoo Studio' : 'Admin'}</span>
       </div>
 
       <nav className="flex-1 space-y-1 px-3">

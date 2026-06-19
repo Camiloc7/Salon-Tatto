@@ -27,6 +27,7 @@ export class ArtistsService {
       .createQueryBuilder('artist')
       .leftJoinAndSelect('artist.translations', 'translation')
       .leftJoinAndSelect('translation.language', 'language')
+      .leftJoinAndSelect('artist.images', 'images')
       .where('artist.deletedAt IS NULL');
 
     if (isActive !== undefined) {
@@ -44,6 +45,10 @@ export class ArtistsService {
     qb.skip((page - 1) * limit).take(limit);
 
     const artists = await qb.getMany();
+
+    artists.forEach(artist => {
+      imagesOrdering(artist.images);
+    });
 
     const data = artists.map((artist) => this.applyTranslation(artist, locale));
 

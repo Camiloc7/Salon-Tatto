@@ -5,10 +5,11 @@ import { ArtistCard } from '@/components/artists/artist-card';
 import { StructuredData } from '@/components/shared/structured-data';
 import { getOptimizedImageUrl } from '@/lib/utils';
 import type { Artist, SeoPage } from '@salon-tatto/shared';
+import Link from 'next/link';
 
 type Props = {
   params: Promise<{ locale: string }>;
-  searchParams?: Promise<{ page?: string }>;
+  searchParams?: Promise<{ specialty?: string }>;
 };
 
 export function generateStaticParams() {
@@ -43,8 +44,10 @@ export async function generateMetadata({ params }: Props) {
   };
 }
 
-export default async function ArtistsPage({ params }: Props) {
+export default async function ArtistsPage({ params, searchParams }: Props) {
   const { locale } = await params;
+  const sParams = await searchParams;
+  const currentSpecialty = sParams?.specialty || null;
   const t = await getTranslations({ locale, namespace: 'artists' });
 
   let artists: Artist[] = [];
@@ -55,6 +58,12 @@ export default async function ArtistsPage({ params }: Props) {
     });
   } catch {}
 
+  const specialties = Array.from(new Set(artists.map((a) => a.specialty).filter(Boolean))) as string[];
+
+  const filteredArtists = currentSpecialty
+    ? artists.filter((a) => a.specialty === currentSpecialty)
+    : artists;
+
   return (
     <div className="container py-20">
       <div className="text-center">
@@ -64,13 +73,41 @@ export default async function ArtistsPage({ params }: Props) {
         </p>
       </div>
 
-      {artists.length === 0 ? (
+      {specialties.length > 0 && (
+        <div className="mt-8 flex flex-wrap justify-center gap-2">
+          <Link
+            href={`/${locale}/artistas`}
+            className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+              !currentSpecialty
+                ? 'bg-primary text-primary-foreground'
+                : 'bg-muted hover:bg-muted/80 text-muted-foreground'
+            }`}
+          >
+            {t('all')}
+          </Link>
+          {specialties.map((spec) => (
+            <Link
+              key={spec}
+              href={`/${locale}/artistas?specialty=${encodeURIComponent(spec)}`}
+              className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+                currentSpecialty === spec
+                  ? 'bg-primary text-primary-foreground'
+                  : 'bg-muted hover:bg-muted/80 text-muted-foreground'
+              }`}
+            >
+              {spec}
+            </Link>
+          ))}
+        </div>
+      )}
+
+      {filteredArtists.length === 0 ? (
         <div className="mt-12 text-center text-muted-foreground">
           {t('noArtists')}
         </div>
       ) : (
         <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {artists.map((artist) => (
+          {filteredArtists.map((artist) => (
             <ArtistCard key={artist.id} artist={artist} locale={locale} />
           ))}
         </div>

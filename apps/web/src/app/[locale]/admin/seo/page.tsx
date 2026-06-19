@@ -164,7 +164,7 @@ export default function SeoPage() {
 
   return (
     <div className="space-y-6 max-w-3xl">
-      <h1 className="text-3xl font-bold tracking-tight">{t('title')}</h1>
+      <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">{t('title')}</h1>
 
       <div className="space-y-3">
         {SEO_PAGES.map((page) => {
@@ -302,6 +302,7 @@ export default function SeoPage() {
                       <Button
                         onClick={() => handleSave(page.key)}
                         disabled={saveMutation.isPending}
+                        className="w-full sm:w-auto"
                       >
                         <Save className="mr-2 h-4 w-4" />
                         Save
