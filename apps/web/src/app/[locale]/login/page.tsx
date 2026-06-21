@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, use } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
@@ -17,8 +17,14 @@ const loginSchema = z.object({
 
 type LoginFormData = z.infer<typeof loginSchema>;
 
-export default function LoginPage() {
+type Props = {
+  params: Promise<{ locale: string }>;
+};
+
+export default function LoginPage({ params }: Props) {
+  const { locale } = use(params);
   const t = useTranslations('admin.login');
+  const tCommon = useTranslations('common');
   const router = useRouter();
   const { login, isAuthenticated } = useAuth();
   const [error, setError] = useState<string | null>(null);
@@ -33,7 +39,7 @@ export default function LoginPage() {
   });
 
   if (isAuthenticated) {
-    router.replace('/admin');
+    router.replace(`/${locale}/admin`);
     return null;
   }
 
@@ -41,7 +47,7 @@ export default function LoginPage() {
     try {
       setError(null);
       await login(data);
-      router.replace('/admin');
+      router.replace(`/${locale}/admin`);
     } catch {
       setError(t('error'));
     }
@@ -104,7 +110,7 @@ export default function LoginPage() {
             {isSubmitting ? (
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
             ) : null}
-            {isSubmitting ? t('common.loading') : t('submit')}
+            {isSubmitting ? tCommon('loading') : t('submit')}
           </Button>
         </form>
       </div>

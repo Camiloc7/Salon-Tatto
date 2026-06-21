@@ -13,7 +13,7 @@ export default function NotFound() {
       <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/dark-matter.png')] opacity-30 z-0 mix-blend-overlay pointer-events-none" />
       
       <div className="relative z-10 space-y-6">
-        <h1 className="text-glow text-7xl font-black text-white md:text-9xl tracking-tighter drop-shadow-2xl">404</h1>
+        <h1 className="font-serif text-7xl font-medium text-primary md:text-9xl tracking-tight drop-shadow-md">404</h1>
         <h2 className="text-2xl font-bold text-gray-200 md:text-3xl tracking-tight">Página no encontrada</h2>
         <p className="text-gray-400 max-w-md mx-auto text-lg font-light">
           Parece que te has perdido. Esta página no existe en nuestro estudio, pero de seguro tenemos el tatuaje perfecto para ti.

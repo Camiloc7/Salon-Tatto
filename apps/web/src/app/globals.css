@@ -4,40 +4,48 @@
 
 @layer base {
   :root {
-    --background: 240 10% 4%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 5%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 5%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 43 74% 49%;
-    --primary-foreground: 240 10% 4%;
-    --secondary: 240 4% 15%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 4% 15%;
-    --muted-foreground: 240 5% 65%;
-    --accent: 43 74% 49%;
-    --accent-foreground: 240 10% 4%;
+    /* Palette from user prompt */
+    /* Negro carbón (#121212) */
+    --background: 0 0% 7%;
+    --foreground: 40 27% 94%; /* Blanco hueso (#F5F2EC) */
+    
+    --card: 0 0% 9%;
+    --card-foreground: 40 27% 94%;
+    
+    --popover: 0 0% 9%;
+    --popover-foreground: 40 27% 94%;
+    
+    /* Toque cobre o dorado mate (#B08D57) */
+    --primary: 36 36% 52%;
+    --primary-foreground: 0 0% 7%;
+    
+    /* Gris acero (#5E646B) */
+    --secondary: 212 6% 39%;
+    --secondary-foreground: 40 27% 94%;
+    
+    --muted: 212 6% 20%;
+    --muted-foreground: 212 6% 70%;
+    
+    --accent: 36 36% 52%;
+    --accent-foreground: 0 0% 7%;
+    
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 4% 15%;
-    --input: 240 4% 15%;
-    --ring: 43 74% 49%;
-    --radius: 0.75rem;
+    --destructive-foreground: 40 27% 94%;
+    
+    --border: 212 6% 25%;
+    --input: 212 6% 20%;
+    --ring: 36 36% 52%;
+    --radius: 0.25rem; /* Elegant subtle radius */
   }
 }
 
 @layer utilities {
-  .text-glow {
-    text-shadow: 0 0 20px theme('colors.primary.DEFAULT');
-  }
   .glass {
-    @apply bg-background/60 backdrop-blur-md border border-border/50;
+    @apply bg-background/80 backdrop-blur-md border border-border/50;
   }
   .glass-card {
-    @apply bg-card/80 backdrop-blur-xl border border-white/5 shadow-2xl;
+    @apply bg-card/90 backdrop-blur-xl border border-white/5 shadow-xl;
   }
-
 }
 
 @layer base {

@@ -65,7 +65,7 @@ npm run seed --workspace=@salon-tatto/api
 ```
 
 ### 4. Credenciales del Administrador (Generadas por el Seeder)
-Una vez corras el comando anterior, podrás iniciar sesión en `http://localhost:3000/en/admin/login` con:
+Una vez corras el comando anterior, podrás iniciar sesión en `http://localhost:3000/en/login` con:
 - **Email**: `admin@salontatto.com`
 - **Contraseña**: `admin123`
 

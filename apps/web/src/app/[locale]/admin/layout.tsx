@@ -17,7 +17,7 @@ export default function AdminLayout({ children, params }: Props) {
 
   useEffect(() => {
     if (!loading && !isAuthenticated) {
-      router.replace(`/${locale}/admin/login`);
+      router.replace(`/${locale}/login`);
     }
   }, [isAuthenticated, loading, router, locale]);
 
