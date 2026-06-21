@@ -11,6 +11,7 @@ import { Language } from '../../languages/entities/language.entity';
 import { CreateArtistDto } from '../dto/create-artist.dto';
 import { UpdateArtistDto } from '../dto/update-artist.dto';
 import { QueryArtistDto } from '../dto/query-artist.dto';
+import { TranslationService } from '../../translation/translation.service';
 
 @Injectable()
 export class ArtistsService {
@@ -18,6 +19,7 @@ export class ArtistsService {
     @InjectRepository(Artist)
     private readonly artistRepository: Repository<Artist>,
     private readonly dataSource: DataSource,
+    private readonly translationService: TranslationService,
   ) {}
 
   async findAll(query: QueryArtistDto) {
@@ -107,7 +109,25 @@ export class ArtistsService {
 
       const savedArtist = await manager.save(artist);
 
-      for (const transDto of dto.translations) {
+      if (dto.translations) {
+        const hasEs = dto.translations.some(t => t.languageCode === 'es');
+        const hasEn = dto.translations.some(t => t.languageCode === 'en');
+        
+        if (hasEs && !hasEn) {
+          const esTrans = dto.translations.find(t => t.languageCode === 'es');
+          if (esTrans) {
+            const translated = await this.translationService.translateObject(esTrans, [
+              'name', 'biography', 'specialty', 'seoTitle', 'seoDescription'
+            ]);
+            dto.translations.push({
+              ...esTrans,
+              ...translated,
+              languageCode: 'en',
+            });
+          }
+        }
+
+        for (const transDto of dto.translations) {
         const language = await manager.findOneBy(Language, {
           code: transDto.languageCode,
         });
@@ -129,6 +149,7 @@ export class ArtistsService {
         });
 
         await manager.save(translation);
+        }
       }
 
       return manager.findOne(Artist, {
@@ -138,7 +159,7 @@ export class ArtistsService {
     });
   }
 
-  async update(id: string, dto: UpdateArtistDto) {
+  async update(id: string, dto: UpdateArtistDto, user?: any) {
     const artist = await this.artistRepository.findOne({
       where: { id },
       relations: ['translations'],
@@ -146,6 +167,10 @@ export class ArtistsService {
 
     if (!artist) {
       throw new NotFoundException(`Artist with id "${id}" not found`);
+    }
+
+    if (user?.role?.name === 'artist' && artist.userId !== user.id) {
+      throw new BadRequestException('You do not have permission to update this artist profile');
     }
 
     return this.dataSource.transaction(async (manager) => {
@@ -157,6 +182,23 @@ export class ArtistsService {
       await manager.save(artist);
 
       if (dto.translations) {
+        const hasEs = dto.translations.some(t => t.languageCode === 'es');
+        const hasEn = dto.translations.some(t => t.languageCode === 'en');
+        
+        if (hasEs && !hasEn) {
+          const esTrans = dto.translations.find(t => t.languageCode === 'es');
+          if (esTrans) {
+            const translated = await this.translationService.translateObject(esTrans, [
+              'name', 'biography', 'specialty', 'seoTitle', 'seoDescription'
+            ]);
+            dto.translations.push({
+              ...esTrans,
+              ...translated,
+              languageCode: 'en',
+            });
+          }
+        }
+
         await manager.delete(ArtistTranslation, { artistId: id });
 
         for (const transDto of dto.translations) {

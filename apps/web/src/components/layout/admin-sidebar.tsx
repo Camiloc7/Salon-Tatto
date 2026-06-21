@@ -29,7 +29,7 @@ const navItems = [
 export function AdminSidebar() {
   const t = useTranslations('admin');
   const pathname = usePathname();
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const locale = pathname.split('/')[1];
@@ -49,7 +49,16 @@ export function AdminSidebar() {
       </div>
 
       <nav className="flex-1 space-y-1 px-3">
-        {navItems.map((item) => {
+        {navItems
+          .filter((item) => {
+            // Artist role can only see their own profile / artists section
+            // Let's assume user.role is available
+            if (user?.role === 'artist') {
+              return item.href === '/admin/artistas';
+            }
+            return true; // Admin sees everything
+          })
+          .map((item) => {
           const Icon = item.icon;
           const active = isActive(item.href);
           return (

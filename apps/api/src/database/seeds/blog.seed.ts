@@ -29,7 +29,7 @@ export async function seedBlog(dataSource: DataSource) {
 
   const post1 = blogRepo.create({
     slug: 'guide-to-fine-line-tattoos',
-    featuredImage: 'https://images.unsplash.com/photo-1598371839696-5e5bb00b059b?q=80&w=800&auto=format&fit=crop',
+    featuredImage: 'https://res.cloudinary.com/demo/image/upload/sample.jpg',
     status: 'published',
     publishedAt: new Date(),
     isActive: true,
@@ -56,7 +56,7 @@ export async function seedBlog(dataSource: DataSource) {
 
   const post2 = blogRepo.create({
     slug: 'tattoo-aftercare',
-    featuredImage: 'https://images.unsplash.com/photo-1611501271465-9eb84ff6a24d?q=80&w=800&auto=format&fit=crop',
+    featuredImage: 'https://res.cloudinary.com/demo/image/upload/sample.jpg',
     status: 'published',
     publishedAt: new Date(),
     isActive: true,

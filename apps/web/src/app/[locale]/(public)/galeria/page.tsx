@@ -55,10 +55,11 @@ export default async function GalleryPage({ params }: Props) {
 
   let images: ImageEntry[] = [];
   try {
-    const artists = await api.get<Artist[]>('/artists', {
+    const res = await api.get<{ data: Artist[] }>('/artists', {
       params: { locale, isActive: true, limit: 50 },
       next: { revalidate: 60 },
     });
+    const artists = res.data;
 
     artists.forEach((artist) => {
       if (artist.images) {

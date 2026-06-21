@@ -52,11 +52,14 @@ export default async function ArtistsPage({ params, searchParams }: Props) {
 
   let artists: Artist[] = [];
   try {
-    artists = await api.get<Artist[]>('/artists', {
+    const res = await api.get<{ data: Artist[] }>('/artists', {
       params: { locale, isActive: true, limit: 50 },
       next: { revalidate: 60 },
     });
-  } catch {}
+    artists = res.data;
+  } catch (error) {
+    console.error("Failed to fetch artists:", error);
+  }
 
   const specialties = Array.from(new Set(artists.map((a) => a.specialty).filter(Boolean))) as string[];
 

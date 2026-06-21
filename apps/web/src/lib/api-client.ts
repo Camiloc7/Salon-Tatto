@@ -53,13 +53,13 @@ async function request<T>(
     next: options?.next,
   });
 
-  const json: ApiResponse<T> = await response.json();
+  const json: any = await response.json();
 
   if (!response.ok) {
     throw new Error(json.message || 'An error occurred');
   }
 
-  return json.data;
+  return json;
 }
 
 export const api = {

@@ -15,6 +15,7 @@ import { SettingsModule } from './modules/settings/settings.module';
 import { LanguagesModule } from './modules/languages/languages.module';
 import { UploadModule } from './modules/upload/upload.module';
 import { HealthModule } from './modules/health/health.module';
+import { TranslationModule } from './modules/translation/translation.module';
 
 @Module({
   imports: [
@@ -49,6 +50,7 @@ import { HealthModule } from './modules/health/health.module';
     SeoModule,
     SettingsModule,
     UploadModule,
+    TranslationModule,
   ],
   providers: [
     {

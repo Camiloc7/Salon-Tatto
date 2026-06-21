@@ -17,10 +17,12 @@ export function FeaturedArtists() {
 
   const { data: artists, isLoading } = useQuery({
     queryKey: queryKeys.artists.list({ locale, limit: 6 }),
-    queryFn: () =>
-      api.get<Artist[]>('/artists', {
+    queryFn: async () => {
+      const res = await api.get<{ data: Artist[] }>('/artists', {
         params: { locale, limit: 6, isActive: true },
-      }),
+      });
+      return res.data;
+    },
   });
 
   return (

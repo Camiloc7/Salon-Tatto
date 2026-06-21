@@ -11,7 +11,7 @@ export class QueryArtistDto {
   @ApiPropertyOptional()
   @IsOptional()
   @IsBoolean()
-  @Transform(({ value }) => value === 'true')
+  @Transform(({ value }) => value === 'true' || value === true)
   isActive?: boolean;
 
   @ApiPropertyOptional({ default: 1 })

@@ -25,6 +25,7 @@ import { UpdateArtistDto } from '../dto/update-artist.dto';
 import { QueryArtistDto } from '../dto/query-artist.dto';
 import { JwtAuthGuard } from '../../../common/guards/jwt-auth.guard';
 import { RolesGuard } from '../../../common/guards/roles.guard';
+import { CurrentUser } from '../../../common/decorators/current-user.decorator';
 import { Roles } from '../../../common/decorators/roles.decorator';
 import { Public } from '../../../common/decorators/public.decorator';
 
@@ -72,14 +73,18 @@ export class ArtistsController {
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('admin')
+  @Roles('admin', 'artist')
   @Put(':id')
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Update an artist (admin)' })
+  @ApiOperation({ summary: 'Update an artist (admin or self)' })
   @ApiResponse({ status: 200, description: 'Artist updated' })
   @ApiResponse({ status: 404, description: 'Artist not found' })
-  async update(@Param('id') id: string, @Body() dto: UpdateArtistDto) {
-    return this.artistsService.update(id, dto);
+  async update(
+    @Param('id') id: string, 
+    @Body() dto: UpdateArtistDto,
+    @CurrentUser() user: any
+  ) {
+    return this.artistsService.update(id, dto, user);
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)

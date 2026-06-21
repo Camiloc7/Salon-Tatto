@@ -29,7 +29,7 @@ export async function seedArtists(dataSource: DataSource) {
   // Artist 1: Elena Silva
   const artist1 = artistRepo.create({
     slug: 'elena-silva',
-    avatar: 'https://images.unsplash.com/photo-1611501271465-9eb84ff6a24d?q=80&w=600&auto=format&fit=crop',
+    avatar: 'https://res.cloudinary.com/demo/image/upload/sample.jpg',
     instagramUrl: 'https://instagram.com/elenasilva.tattoo',
     isActive: true,
     orderIndex: 0,
@@ -57,7 +57,7 @@ export async function seedArtists(dataSource: DataSource) {
     imageRepo.create({
       artistId: artist1.id,
       cloudinaryId: 'mock-1',
-      url: 'https://images.unsplash.com/photo-1590246814883-58742dcb200d?q=80&w=600&auto=format&fit=crop',
+      url: 'https://res.cloudinary.com/demo/image/upload/sample.jpg',
       alt: 'Fine line floral tattoo',
       isFeatured: true,
       orderIndex: 0,
@@ -65,7 +65,7 @@ export async function seedArtists(dataSource: DataSource) {
     imageRepo.create({
       artistId: artist1.id,
       cloudinaryId: 'mock-2',
-      url: 'https://images.unsplash.com/photo-1583226162295-d2d46e964b4c?q=80&w=600&auto=format&fit=crop',
+      url: 'https://res.cloudinary.com/demo/image/upload/sample.jpg',
       alt: 'NYC Skyline minimalist tattoo',
       isFeatured: false,
       orderIndex: 1,
@@ -75,7 +75,7 @@ export async function seedArtists(dataSource: DataSource) {
   // Artist 2: Marcus Chen
   const artist2 = artistRepo.create({
     slug: 'marcus-chen',
-    avatar: 'https://images.unsplash.com/photo-1598371839696-5e5bb00b059b?q=80&w=600&auto=format&fit=crop',
+    avatar: 'https://res.cloudinary.com/demo/image/upload/sample.jpg',
     instagramUrl: 'https://instagram.com/marcuschen.tattoo',
     isActive: true,
     orderIndex: 1,
@@ -103,7 +103,7 @@ export async function seedArtists(dataSource: DataSource) {
     imageRepo.create({
       artistId: artist2.id,
       cloudinaryId: 'mock-3',
-      url: 'https://images.unsplash.com/photo-1612459284970-e8f027596582?q=80&w=600&auto=format&fit=crop',
+      url: 'https://res.cloudinary.com/demo/image/upload/sample.jpg',
       alt: 'Ornamental back tattoo',
       isFeatured: true,
       orderIndex: 0,
@@ -111,7 +111,7 @@ export async function seedArtists(dataSource: DataSource) {
     imageRepo.create({
       artistId: artist2.id,
       cloudinaryId: 'mock-4',
-      url: 'https://images.unsplash.com/photo-1568515045052-f9a854d70bfd?q=80&w=600&auto=format&fit=crop',
+      url: 'https://res.cloudinary.com/demo/image/upload/sample.jpg',
       alt: 'Scorpion fine line tattoo',
       isFeatured: false,
       orderIndex: 1,

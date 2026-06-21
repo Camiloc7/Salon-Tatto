@@ -13,6 +13,7 @@ import { Language } from '../../languages/entities/language.entity';
 import { CreateBlogPostDto } from '../dto/create-blog-post.dto';
 import { UpdateBlogPostDto } from '../dto/update-blog-post.dto';
 import { QueryBlogDto } from '../dto/query-blog.dto';
+import { TranslationService } from '../../translation/translation.service';
 
 @Injectable()
 export class BlogService {
@@ -20,6 +21,7 @@ export class BlogService {
     @InjectRepository(BlogPost)
     private readonly blogPostRepository: Repository<BlogPost>,
     private readonly dataSource: DataSource,
+    private readonly translationService: TranslationService,
   ) {}
 
   async findAll(query: QueryBlogDto) {
@@ -135,6 +137,23 @@ export class BlogService {
       const savedPost = await manager.save(post);
 
       if (dto.translations) {
+        const hasEs = dto.translations.some(t => t.languageCode === 'es');
+        const hasEn = dto.translations.some(t => t.languageCode === 'en');
+        
+        if (hasEs && !hasEn) {
+          const esTrans = dto.translations.find(t => t.languageCode === 'es');
+          if (esTrans) {
+            const translated = await this.translationService.translateObject(esTrans, [
+              'title', 'excerpt', 'content', 'seoTitle', 'seoDescription'
+            ]);
+            dto.translations.push({
+              ...esTrans,
+              ...translated,
+              languageCode: 'en',
+            });
+          }
+        }
+
         for (const transDto of dto.translations) {
           const language = await manager.findOneBy(Language, {
             code: transDto.languageCode,
@@ -203,6 +222,23 @@ export class BlogService {
       await manager.save(post);
 
       if (dto.translations) {
+        const hasEs = dto.translations.some(t => t.languageCode === 'es');
+        const hasEn = dto.translations.some(t => t.languageCode === 'en');
+        
+        if (hasEs && !hasEn) {
+          const esTrans = dto.translations.find(t => t.languageCode === 'es');
+          if (esTrans) {
+            const translated = await this.translationService.translateObject(esTrans, [
+              'title', 'excerpt', 'content', 'seoTitle', 'seoDescription'
+            ]);
+            dto.translations.push({
+              ...esTrans,
+              ...translated,
+              languageCode: 'en',
+            });
+          }
+        }
+
         await manager.delete(BlogPostTranslation, { blogPostId: id });
 
         for (const transDto of dto.translations) {

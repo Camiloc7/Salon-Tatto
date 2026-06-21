@@ -5,35 +5,37 @@
 @layer base {
   :root {
     /* Palette from user prompt */
-    /* Negro carbón (#121212) */
-    --background: 0 0% 7%;
-    --foreground: 40 27% 94%; /* Blanco hueso (#F5F2EC) */
+    /* Blanco hueso (#F5F2EC) as background */
+    --background: 40 27% 94%;
+    /* Negro carbón (#121212) as text */
+    --foreground: 0 0% 7%; 
     
-    --card: 0 0% 9%;
-    --card-foreground: 40 27% 94%;
+    /* Pure white for cards to stand out against bone background */
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 7%;
     
-    --popover: 0 0% 9%;
-    --popover-foreground: 40 27% 94%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 7%;
     
     /* Toque cobre o dorado mate (#B08D57) */
     --primary: 36 36% 52%;
-    --primary-foreground: 0 0% 7%;
+    --primary-foreground: 40 27% 94%;
     
     /* Gris acero (#5E646B) */
     --secondary: 212 6% 39%;
     --secondary-foreground: 40 27% 94%;
     
-    --muted: 212 6% 20%;
-    --muted-foreground: 212 6% 70%;
+    --muted: 40 15% 85%;
+    --muted-foreground: 212 6% 39%;
     
     --accent: 36 36% 52%;
-    --accent-foreground: 0 0% 7%;
+    --accent-foreground: 40 27% 94%;
     
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 40 27% 94%;
     
-    --border: 212 6% 25%;
-    --input: 212 6% 20%;
+    --border: 40 15% 85%;
+    --input: 40 15% 85%;
     --ring: 36 36% 52%;
     --radius: 0.25rem; /* Elegant subtle radius */
   }

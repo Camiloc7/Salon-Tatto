@@ -25,6 +25,9 @@ export class Artist {
   @Column({ type: 'boolean', default: true })
   isActive: boolean;
 
+  @Column({ type: 'uuid', nullable: true })
+  userId: string | null;
+
   @OneToMany(() => ArtistTranslation, (translation) => translation.artist, { cascade: true })
   translations: ArtistTranslation[];
 

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, use, type ReactNode } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { useAuth } from '@/providers/auth-provider';
 import { AdminSidebar } from '@/components/layout/admin-sidebar';
 
@@ -11,15 +11,32 @@ type Props = {
 };
 
 export default function AdminLayout({ children, params }: Props) {
-  const { isAuthenticated, loading } = useAuth();
+  const { user, isAuthenticated, loading } = useAuth();
   const router = useRouter();
   const { locale } = use(params);
+
+  const pathname = usePathname();
 
   useEffect(() => {
     if (!loading && !isAuthenticated) {
       router.replace(`/${locale}/login`);
+      return;
     }
-  }, [isAuthenticated, loading, router, locale]);
+
+    if (!loading && isAuthenticated && user?.role === 'artist') {
+      // Artists can only access /admin/artistas
+      const allowedPrefix = `/${locale}/admin/artistas`;
+      const isDashboard = pathname === `/${locale}/admin`;
+      
+      if (!pathname.startsWith(allowedPrefix)) {
+        if (isDashboard) {
+          router.replace(allowedPrefix);
+        } else {
+          router.replace(allowedPrefix);
+        }
+      }
+    }
+  }, [isAuthenticated, loading, router, locale, user, pathname]);
 
   if (loading) {
     return (

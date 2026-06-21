@@ -1,12 +1,13 @@
 import { ReactNode } from 'react';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations } from 'next-intl/server';
-import { locales } from '@/i18n';
-import { QueryProvider } from '@/providers/query-provider';
-import { AuthProvider } from '@/providers/auth-provider';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { WhatsAppButton } from '@/components/shared/whatsapp-button';
+import { HideOnAdmin } from '@/components/layout/public-layout-wrapper';
+import { locales } from '@/i18n';
+import { QueryProvider } from '@/providers/query-provider';
+import { AuthProvider } from '@/providers/auth-provider';
 
 type Props = {
   children: ReactNode;
@@ -35,10 +36,16 @@ export default async function LocaleLayout({ children, params }: Props) {
       <QueryProvider>
         <AuthProvider>
           <div className="flex min-h-screen flex-col">
-            <Header />
+            <HideOnAdmin>
+              <Header />
+            </HideOnAdmin>
+            
             <main className="flex-1">{children}</main>
-            <Footer />
-            <WhatsAppButton />
+            
+            <HideOnAdmin>
+              <Footer />
+              <WhatsAppButton />
+            </HideOnAdmin>
           </div>
         </AuthProvider>
       </QueryProvider>

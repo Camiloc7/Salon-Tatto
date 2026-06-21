@@ -12,6 +12,7 @@ import { queryKeys } from '@/lib/query-keys';
 import { Button } from '@/components/ui/button';
 import { ImageUploader } from '@/components/shared/image-uploader';
 import { LocaleTabs } from '@/components/shared/locale-tabs';
+import { SeoPreviewCard } from '@/components/admin/seo-preview-fieldset';
 import { Loader2, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import type { LocaleCode } from '@salon-tatto/shared';
@@ -184,23 +185,16 @@ export default function CreateArtistPage() {
               />
             </div>
 
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div>
-                <label className="block text-sm font-medium mb-1">{ta('seo.form.title')}</label>
-                <input
-                  value={currentTranslation?.seoTitle || ''}
-                  onChange={(e) => updateTranslationField('seoTitle', e.target.value)}
-                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">{ta('seo.form.description')}</label>
-                <input
-                  value={currentTranslation?.seoDescription || ''}
-                  onChange={(e) => updateTranslationField('seoDescription', e.target.value)}
-                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                />
-              </div>
+            <div className="pt-4 border-t mt-4">
+              <h3 className="font-medium mb-4">Optimización SEO</h3>
+              <SeoPreviewCard
+                title={currentTranslation?.seoTitle || ''}
+                description={currentTranslation?.seoDescription || ''}
+                onTitleChange={(val) => updateTranslationField('seoTitle', val)}
+                onDescriptionChange={(val) => updateTranslationField('seoDescription', val)}
+                defaultTitle={currentTranslation?.name || ''}
+                defaultDescription={currentTranslation?.biography?.slice(0, 150) || ''}
+              />
             </div>
           </div>
         </div>

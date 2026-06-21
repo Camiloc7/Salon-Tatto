@@ -11,6 +11,8 @@ import { Instagram } from 'lucide-react';
 import Link from 'next/link';
 import type { Artist, SeoPage } from '@salon-tatto/shared';
 
+import { ArtistHero } from '@/components/artists/artist-hero';
+
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
 };
@@ -19,11 +21,11 @@ export async function generateStaticParams() {
   const params: { locale: string; slug: string }[] = [];
   for (const locale of locales) {
     try {
-      const artists = await api.get<Artist[]>('/artists', {
+      const res = await api.get<{ data: Artist[] }>('/artists', {
         params: { locale, isActive: true, limit: 100 },
         next: { revalidate: 60 },
       });
-      artists.forEach((artist) => {
+      res.data.forEach((artist) => {
         params.push({ locale, slug: artist.slug });
       });
     } catch {}
@@ -65,6 +67,7 @@ export async function generateMetadata({ params }: Props) {
 export default async function ArtistProfilePage({ params }: Props) {
   const { locale, slug } = await params;
   const t = await getTranslations({ locale, namespace: 'artists' });
+  const tNav = await getTranslations({ locale, namespace: 'nav' });
 
   let artist: Artist | null = null;
   try {
@@ -78,53 +81,17 @@ export default async function ArtistProfilePage({ params }: Props) {
 
   return (
     <div className="container py-20">
-      <div className="mx-auto max-w-4xl">
-        <div className="flex flex-col items-center text-center md:flex-row md:items-start md:text-left gap-8">
-          <div className="h-48 w-48 shrink-0 overflow-hidden rounded-full">
-            <ImageOptimized
-              src={getImageUrl(artist.avatar)}
-              alt={artist.name || ''}
-              width={200}
-              height={200}
-              className="h-full w-full object-cover"
-              priority
-            />
-          </div>
-          <div className="space-y-4">
-            <h1 className="text-4xl font-bold">{artist.name}</h1>
-            <p className="text-lg text-muted-foreground">{artist.specialty}</p>
-            {artist.biography && (
-              <p className="text-muted-foreground leading-relaxed">
-                {artist.biography}
-              </p>
-            )}
-            <div className="flex items-center gap-4">
-              {artist.instagramUrl && (
-                <Link
-                  href={artist.instagramUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
-                >
-                  <Instagram className="h-5 w-5" />
-                  {t('instagram')}
-                </Link>
-              )}
-              <Link
-                href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm font-medium text-primary hover:underline"
-              >
-                {t('contactViaWhatsapp')}
-              </Link>
-            </div>
-          </div>
-        </div>
+      <div className="mx-auto max-w-6xl">
+        <ArtistHero 
+          artist={artist} 
+          tInstagram={t('instagram')} 
+          tContact={t('contactViaWhatsapp')} 
+          whatsappNumber={process.env.NEXT_PUBLIC_WHATSAPP || ''} 
+        />
 
         {artist.images && artist.images.length > 0 && (
           <div className="mt-16">
-            <h2 className="text-2xl font-bold mb-6">{tCommon('nav.gallery')}</h2>
+            <h2 className="text-2xl font-bold mb-6">{tNav('gallery')}</h2>
             <ArtistGallery images={artist.images} />
           </div>
         )}

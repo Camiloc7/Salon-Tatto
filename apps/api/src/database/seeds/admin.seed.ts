@@ -7,9 +7,13 @@ export async function seedAdmin(dataSource: DataSource): Promise<void> {
   const userRepository = dataSource.getRepository(User);
   const roleRepository = dataSource.getRepository(Role);
 
+  const passwordHash = await bcrypt.hash('admin123', 12);
+
   const existingAdmin = await userRepository.findOne({ where: { email: 'admin@salontatto.com' } });
   if (existingAdmin) {
-    console.log('Admin user already exists, skipping...');
+    console.log('Admin user exists. Forcing password update to admin123...');
+    existingAdmin.passwordHash = passwordHash;
+    await userRepository.save(existingAdmin);
     return;
   }
 
@@ -19,7 +23,6 @@ export async function seedAdmin(dataSource: DataSource): Promise<void> {
     return;
   }
 
-  const passwordHash = await bcrypt.hash('admin123', 12);
 
   const admin = userRepository.create({
     email: 'admin@salontatto.com',

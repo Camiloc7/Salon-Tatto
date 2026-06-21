@@ -13,6 +13,7 @@ export async function seedRoles(dataSource: DataSource): Promise<void> {
   const roles = [
     { name: 'admin', description: 'Full system access' },
     { name: 'editor', description: 'Content management access' },
+    { name: 'artist', description: 'Artist restricted access' },
   ];
 
   await roleRepository.save(roleRepository.create(roles));

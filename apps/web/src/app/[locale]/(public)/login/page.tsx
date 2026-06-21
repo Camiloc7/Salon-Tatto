@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, use } from 'react';
+import { useState, use, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
@@ -38,8 +38,13 @@ export default function LoginPage({ params }: Props) {
     resolver: zodResolver(loginSchema),
   });
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.replace(`/${locale}/admin`);
+    }
+  }, [isAuthenticated, locale, router]);
+
   if (isAuthenticated) {
-    router.replace(`/${locale}/admin`);
     return null;
   }
 
