@@ -114,9 +114,14 @@ export default function SettingsPage() {
 
   return (
     <div className="space-y-6 max-w-3xl">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">{t('title')}</h1>
-        <Button onClick={handleSave} disabled={saveMutation.isPending} className="w-full sm:w-auto">
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+        <div className="space-y-1.5">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">{t('title')}</h1>
+          <p className="text-muted-foreground text-sm max-w-2xl">
+            Configura la información general de tu estudio. Estos datos aparecerán en el pie de página, en la página de contacto y en otras secciones de la web pública.
+          </p>
+        </div>
+        <Button onClick={handleSave} disabled={saveMutation.isPending} className="w-full sm:w-auto shrink-0">
           <Save className="mr-2 h-4 w-4" />
           Save
         </Button>

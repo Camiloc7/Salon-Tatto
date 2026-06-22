@@ -11,16 +11,20 @@ import { Pagination } from '@/components/shared/pagination';
 import { Plus, Edit, Trash2, Eye, EyeOff, Loader2 } from 'lucide-react';
 import type { BlogPost, PaginatedResponse } from '@salon-tatto/shared';
 
+import { useParams } from 'next/navigation';
+
 export default function BlogListPage() {
   const t = useTranslations('admin.blog');
   const queryClient = useQueryClient();
+  const params = useParams();
+  const locale = params.locale as string;
   const [page, setPage] = useState(1);
   const limit = 10;
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: queryKeys.blog.list({ page, limit }),
+    queryKey: queryKeys.blog.list({ page, limit, locale }),
     queryFn: () =>
-      api.get<PaginatedResponse<BlogPost>>('/blog', { params: { page, limit } }),
+      api.get<PaginatedResponse<BlogPost>>('/blog', { params: { page, limit, locale } }),
   });
 
   const toggleMutation = useMutation({
@@ -54,9 +58,14 @@ export default function BlogListPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">{t('title')}</h1>
-        <Link href="/admin/blog/create" className="w-full sm:w-auto">
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+        <div className="space-y-1.5">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">{t('title')}</h1>
+          <p className="text-muted-foreground text-sm max-w-2xl">
+            Crea y gestiona los artículos de tu blog. Puedes guardarlos como borrador o publicarlos directamente para que aparezcan en la web principal.
+          </p>
+        </div>
+        <Link href="/admin/blog/create" className="w-full sm:w-auto shrink-0">
           <Button className="w-full sm:w-auto">
             <Plus className="mr-2 h-4 w-4" />
             {t('create')}

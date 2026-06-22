@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X } from 'lucide-react';
 import { ImageOptimized } from '@/components/shared/image-optimized';
+import { GalleryLightbox, LightboxImage } from '@/components/shared/gallery-lightbox';
 import { cn } from '@/lib/utils';
 import type { ArtistImage } from '@salon-tatto/shared';
 
@@ -12,24 +12,16 @@ type ArtistGalleryProps = {
 };
 
 export function ArtistGallery({ images }: ArtistGalleryProps) {
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
-
-  // Stop body scroll when modal is open
-  useEffect(() => {
-    if (selectedId) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [selectedId]);
 
   if (!images?.length) return null;
 
-  const selectedImage = images.find((img) => img.id === selectedId);
+  const lightboxImages: LightboxImage[] = images.map(img => ({
+    id: img.id,
+    url: img.url || img.cloudinaryId,
+    alt: img.alt || '',
+  }));
 
   return (
     <div className="relative w-full pb-20">
@@ -45,7 +37,6 @@ export function ArtistGallery({ images }: ArtistGalleryProps) {
           return (
             <motion.div
               key={image.id}
-              layoutId={`gallery-image-${image.id}`}
               className={cn(
                 'relative overflow-hidden cursor-pointer group rounded-sm bg-neutral-950',
                 isLarge ? 'col-span-2 row-span-2' : isLandscape ? 'col-span-2 row-span-1' : 'col-span-1 row-span-1',
@@ -55,7 +46,7 @@ export function ArtistGallery({ images }: ArtistGalleryProps) {
               )}
               onMouseEnter={() => setHoveredId(image.id)}
               onMouseLeave={() => setHoveredId(null)}
-              onClick={() => setSelectedId(image.id)}
+              onClick={() => setSelectedIndex(index)}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
@@ -80,47 +71,12 @@ export function ArtistGallery({ images }: ArtistGalleryProps) {
       </div>
 
       <AnimatePresence>
-        {selectedId && selectedImage && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-12">
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.5, ease: 'easeInOut' }}
-              className="absolute inset-0 bg-background/95 backdrop-blur-md cursor-pointer"
-              onClick={() => setSelectedId(null)}
-            />
-            
-            {/* Close Button */}
-            <motion.button
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.4, delay: 0.2 }}
-              onClick={() => setSelectedId(null)}
-              className="absolute top-6 right-6 md:top-10 md:right-10 z-[110] rounded-full bg-foreground/5 p-3 text-foreground hover:bg-foreground/10 hover:scale-110 transition-all backdrop-blur-sm"
-            >
-              <X className="h-6 w-6" />
-            </motion.button>
-            
-            {/* Expanded Image */}
-            <motion.div
-              layoutId={`gallery-image-${selectedId}`}
-              className="relative z-[105] w-full h-full max-w-7xl flex flex-col items-center justify-center overflow-hidden rounded-sm"
-            >
-              <div className="relative w-full h-full">
-                <ImageOptimized
-                  src={selectedImage.url || selectedImage.cloudinaryId}
-                  alt={selectedImage.alt || ''}
-                  fill
-                  className="object-contain"
-                  priority
-                  sizes="100vw"
-                />
-              </div>
-            </motion.div>
-          </div>
+        {selectedIndex !== null && (
+          <GalleryLightbox
+            images={lightboxImages}
+            initialIndex={selectedIndex}
+            onClose={() => setSelectedIndex(null)}
+          />
         )}
       </AnimatePresence>
     </div>

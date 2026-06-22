@@ -1,12 +1,25 @@
 {
   "title": "Contact Us",
+  "subtitle": "Visit our luxury studio for your next tattoo. Book an appointment or drop by to say hi.",
   "description": "Get in touch with us",
+  "visitUs": "Visit Us",
+  "getDirections": "Get Directions",
+  "getInTouch": "Get in Touch",
   "address": "Address",
   "phone": "Phone",
   "email": "Email",
   "whatsapp": "WhatsApp",
   "socialMedia": "Social Media",
-  "schedule": "Schedule",
+  "hours": "Business Hours",
+  "days": {
+    "monday": "Monday",
+    "tuesday": "Tuesday",
+    "wednesday": "Wednesday",
+    "thursday": "Thursday",
+    "friday": "Friday",
+    "saturday": "Saturday",
+    "sunday": "Sunday"
+  },
   "form": {
     "title": "Send us a message",
     "name": "Name",

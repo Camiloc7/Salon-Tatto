@@ -159,6 +159,10 @@ export class CategoriesService {
       return category;
     }
 
+    if (locale === 'all') {
+      return category;
+    }
+
     let translation: CategoryTranslation | undefined;
 
     if (locale) {

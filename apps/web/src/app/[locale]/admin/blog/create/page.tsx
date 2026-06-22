@@ -19,7 +19,7 @@ import type { Category, Tag, LocaleCode } from '@salon-tatto/shared';
 
 const translationSchema = z.object({
   languageCode: z.enum(['en', 'es']),
-  title: z.string().min(1, 'Title is required').max(200),
+  title: z.string().max(200).optional().or(z.literal('')),
   excerpt: z.string().max(500).optional(),
   content: z.string().optional(),
   seoTitle: z.string().max(70).optional(),
@@ -118,7 +118,12 @@ export default function CreateBlogPostPage() {
   });
 
   const onSubmit = (data: CreatePostFormData) => {
-    createMutation.mutate(data);
+    const validTranslations = data.translations.filter(t => t.title && t.title.trim().length > 0);
+    if (validTranslations.length === 0) {
+      alert('You must provide the post title in at least one language.');
+      return;
+    }
+    createMutation.mutate({ ...data, translations: validTranslations as any });
   };
 
   return (

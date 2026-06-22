@@ -12,6 +12,7 @@ import {
   LogOut,
   Menu,
   X,
+  Tags,
 } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
@@ -22,6 +23,7 @@ const navItems = [
   { href: '/admin', labelKey: 'sidebar.dashboard', icon: LayoutDashboard },
   { href: '/admin/artistas', labelKey: 'sidebar.artists', icon: Users },
   { href: '/admin/blog', labelKey: 'sidebar.blog', icon: FileText },
+  { href: '/admin/categorias', labelKey: 'sidebar.categories', icon: Tags },
   { href: '/admin/seo', labelKey: 'sidebar.seo', icon: Search },
   { href: '/admin/configuracion', labelKey: 'sidebar.settings', icon: Settings },
 ];
@@ -32,6 +34,8 @@ export function AdminSidebar() {
   const { user, logout } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  const [collapsed, setCollapsed] = useState(false);
+
   const locale = pathname.split('/')[1];
   const isActive = (href: string) => {
     const adminPath = `/${locale}${href}`;
@@ -41,22 +45,24 @@ export function AdminSidebar() {
 
   const sidebarContent = (
     <div className="flex h-full flex-col">
-      <div className="flex items-center gap-2 px-6 py-5">
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold text-sm">
+      <div className={cn("flex items-center py-5 transition-all", collapsed ? "justify-center px-2" : "gap-2 px-6")}>
+        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold text-sm">
           ST
         </div>
-        <span className="font-semibold text-lg">{t('sidebar.dashboard') ? 'NYC Tattoo Studio' : 'Admin'}</span>
+        {!collapsed && (
+          <span className="font-semibold text-lg whitespace-nowrap overflow-hidden">
+            {t('sidebar.dashboard') ? 'NYC Tattoo Studio' : 'Admin'}
+          </span>
+        )}
       </div>
 
-      <nav className="flex-1 space-y-1 px-3">
+      <nav className="flex-1 space-y-1 px-3 mt-4">
         {navItems
           .filter((item) => {
-            // Artist role can only see their own profile / artists section
-            // Let's assume user.role is available
             if (user?.role === 'artist') {
               return item.href === '/admin/artistas';
             }
-            return true; // Admin sees everything
+            return true;
           })
           .map((item) => {
           const Icon = item.icon;
@@ -67,26 +73,43 @@ export function AdminSidebar() {
               href={`/${locale}${item.href}`}
               onClick={() => setMobileOpen(false)}
               className={cn(
-                'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+                'flex items-center rounded-lg py-2 transition-all group',
+                collapsed ? 'justify-center px-2' : 'gap-3 px-3',
                 active
                   ? 'bg-primary text-primary-foreground'
                   : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground',
               )}
+              title={collapsed ? t(item.labelKey) : undefined}
             >
-              <Icon className="h-4 w-4" />
-              {t(item.labelKey)}
+              <Icon className={cn("shrink-0", collapsed ? "h-5 w-5" : "h-4 w-4")} />
+              {!collapsed && <span className="text-sm font-medium whitespace-nowrap overflow-hidden">{t(item.labelKey)}</span>}
             </Link>
           );
         })}
       </nav>
 
-      <div className="border-t p-3">
+      <div className="border-t p-3 space-y-2">
+        <button
+          onClick={() => setCollapsed(!collapsed)}
+          className={cn(
+            "hidden md:flex w-full items-center rounded-lg py-2 text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground",
+            collapsed ? "justify-center px-2" : "gap-3 px-3"
+          )}
+          title={collapsed ? "Expand" : "Collapse"}
+        >
+          <Menu className={cn("shrink-0", collapsed ? "h-5 w-5" : "h-4 w-4")} />
+          {!collapsed && <span className="text-sm font-medium whitespace-nowrap overflow-hidden">Colapsar Menú</span>}
+        </button>
         <button
           onClick={logout}
-          className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+          className={cn(
+            "flex w-full items-center rounded-lg py-2 text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground",
+            collapsed ? "justify-center px-2" : "gap-3 px-3"
+          )}
+          title={collapsed ? "Logout" : undefined}
         >
-          <LogOut className="h-4 w-4" />
-          Logout
+          <LogOut className={cn("shrink-0", collapsed ? "h-5 w-5" : "h-4 w-4")} />
+          {!collapsed && <span className="text-sm font-medium whitespace-nowrap overflow-hidden">Logout</span>}
         </button>
       </div>
     </div>
@@ -111,8 +134,9 @@ export function AdminSidebar() {
 
       <aside
         className={cn(
-          'fixed inset-y-0 left-0 z-40 w-64 border-r bg-background transition-transform md:relative md:translate-x-0',
-          mobileOpen ? 'translate-x-0' : '-translate-x-full',
+          'fixed inset-y-0 left-0 z-40 border-r bg-background transition-all duration-300 md:relative md:translate-x-0',
+          mobileOpen ? 'translate-x-0 w-64' : '-translate-x-full w-64',
+          !mobileOpen && collapsed ? 'md:w-20' : 'md:w-64'
         )}
       >
         {sidebarContent}

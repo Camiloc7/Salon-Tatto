@@ -26,10 +26,10 @@ export async function seedArtists(dataSource: DataSource) {
 
   console.log('Seeding mock artists...');
 
-  // Artist 1: Elena Silva
+  // Artist 1: Nathalia Cantillo
   const artist1 = artistRepo.create({
-    slug: 'elena-silva',
-    avatar: 'https://res.cloudinary.com/demo/image/upload/sample.jpg',
+    slug: 'nathalia-cantillo',
+    avatar: 'https://res.cloudinary.com/dlimmlxeh/image/upload/v1782088500/salon-tatto/uploads/idw8qosjdmo8ea3zapj7.jpg',
     instagramUrl: 'https://instagram.com/elenasilva.tattoo',
     isActive: true,
     orderIndex: 0,
@@ -40,16 +40,16 @@ export async function seedArtists(dataSource: DataSource) {
     translationRepo.create({
       artistId: artist1.id,
       languageId: enLang.id,
-      name: 'Elena Silva',
+      name: 'Nathalia Cantillo',
       specialty: 'Fine Line & Micro Realism',
-      biography: 'Elena is a specialist in fine line tattoos and micro realism.',
+      biography: 'Nathalia is a specialist in fine line tattoos and micro realism.',
     }),
     translationRepo.create({
       artistId: artist1.id,
       languageId: esLang.id,
-      name: 'Elena Silva',
+      name: 'Nathalia Cantillo',
       specialty: 'Fine Line y Micro Realismo',
-      biography: 'Elena es especialista en tatuajes de línea fina y micro realismo.',
+      biography: 'Nathalia Cantillo es especialista en tatuajes de línea fina y micro realismo.',
     }),
   ]);
 

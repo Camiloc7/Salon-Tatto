@@ -229,11 +229,13 @@ export default function SeoPage() {
   return (
     <div className="space-y-8 max-w-4xl pb-20">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div>
+        <div className="space-y-1.5">
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">{t('title')}</h1>
-          <p className="text-muted-foreground mt-1">Manage Search Engine Optimization for all your pages.</p>
+          <p className="text-muted-foreground text-sm max-w-2xl">
+            Optimiza cada página para los motores de búsqueda (Google). Configura los títulos, descripciones e imágenes de vista previa para redes sociales.
+          </p>
         </div>
-        <Button onClick={() => sitemapMutation.mutate()} disabled={sitemapMutation.isPending} variant="outline" className="gap-2">
+        <Button onClick={() => sitemapMutation.mutate()} disabled={sitemapMutation.isPending} variant="outline" className="gap-2 shrink-0">
           {sitemapMutation.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Globe className="h-4 w-4" />}
           Generate Sitemap
         </Button>

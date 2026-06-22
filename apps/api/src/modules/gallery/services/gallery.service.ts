@@ -149,24 +149,7 @@ export class GalleryService {
     return this.imageRepository.save(image);
   }
 
-  async reorder(imageId: string, orderIndex: number, user?: any) {
-    const image = await this.imageRepository.findOne({
-      where: { id: imageId },
-      relations: ['artist'],
-    });
 
-    if (!image) {
-      throw new NotFoundException(`Image with id "${imageId}" not found`);
-    }
-    if (user?.role === 'artist' && image.artist?.userId !== user.id) {
-      throw new BadRequestException('You can only manage your own gallery');
-    }
-
-    image.orderIndex = orderIndex;
-    await this.imageRepository.save(image);
-
-    return { message: 'Gallery reordered successfully' };
-  }
 
   async setCategory(imageId: string, categoryId: string | null, user?: any) {
     const image = await this.imageRepository.findOne({

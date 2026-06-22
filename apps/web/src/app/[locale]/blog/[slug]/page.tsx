@@ -97,72 +97,85 @@ export default async function BlogPostPage({ params }: Props) {
     } catch {}
   }
 
+  // A basic reading time estimator
+  const wordCount = post.content?.split(' ').length || post.excerpt?.split(' ').length || 0;
+  const readingTime = Math.max(1, Math.ceil(wordCount / 200));
+
   return (
-    <article className="container py-20">
-      <div className="mx-auto max-w-3xl">
+    <article className="min-h-screen pb-20">
+      {/* Immersive Hero Header */}
+      <header className="relative h-[60vh] min-h-[500px] w-full bg-neutral-950 flex flex-col justify-end">
         {post.featuredImage && (
-          <div className="aspect-video overflow-hidden rounded-lg mb-8">
+          <div className="absolute inset-0 z-0">
             <ImageOptimized
               src={getImageUrl(post.featuredImage)}
               alt={post.title || ''}
-              width={1200}
-              height={675}
-              className="h-full w-full object-cover"
+              fill
               priority
+              sizes="100vw"
+              className="object-cover opacity-80"
             />
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
           </div>
         )}
 
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          {post.publishedAt && (
-            <time dateTime={post.publishedAt}>
-              {formatDate(post.publishedAt, locale)}
-            </time>
-          )}
-          {post.author && (
-            <>
+        <div className="container relative z-10 pb-12 md:pb-20">
+          <div className="max-w-4xl">
+            {post.categories && post.categories.length > 0 && (
+              <div className="mb-6 flex flex-wrap gap-2">
+                {post.categories.map((cat) => (
+                  <span
+                    key={cat.id}
+                    className="rounded-full bg-white/10 backdrop-blur-md px-4 py-1.5 text-xs font-bold text-white uppercase tracking-widest border border-white/20"
+                  >
+                    {cat.name}
+                  </span>
+                ))}
+              </div>
+            )}
+
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-bold tracking-tight text-foreground leading-[1.1] mb-6">
+              {post.title}
+            </h1>
+
+            <div className="flex items-center gap-4 text-sm md:text-base text-muted-foreground uppercase tracking-widest font-medium">
+              {post.publishedAt && (
+                <time dateTime={post.publishedAt}>
+                  {formatDate(post.publishedAt, locale)}
+                </time>
+              )}
               <span>&middot;</span>
-              <span>
-                {t('blog.by')} {post.author.name}
-              </span>
-            </>
+              <span>{readingTime} min read</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Content Section */}
+      <div className="container mt-12 md:mt-16">
+        <div className="mx-auto max-w-3xl">
+          {post.content && (
+            <div
+              className="prose prose-lg md:prose-xl prose-gray dark:prose-invert max-w-none 
+                         prose-headings:font-serif prose-headings:font-bold prose-headings:tracking-tight 
+                         prose-a:text-primary hover:prose-a:text-primary/80 prose-img:rounded-xl"
+              dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content) }}
+            />
+          )}
+
+          {post.tags && post.tags.length > 0 && (
+            <div className="mt-16 pt-8 border-t flex flex-wrap gap-2">
+              {post.tags.map((tag) => (
+                <span
+                  key={tag.id}
+                  className="rounded-full bg-secondary/50 hover:bg-secondary transition-colors cursor-default px-4 py-2 text-xs font-medium uppercase tracking-wider"
+                >
+                  #{tag.name}
+                </span>
+              ))}
+            </div>
           )}
         </div>
-
-        <h1 className="mt-4 text-4xl font-bold tracking-tight">{post.title}</h1>
-
-        {post.categories && post.categories.length > 0 && (
-          <div className="mt-4 flex flex-wrap gap-2">
-            {post.categories.map((cat) => (
-              <span
-                key={cat.id}
-                className="rounded-full bg-muted px-3 py-1 text-xs font-medium"
-              >
-                {cat.name}
-              </span>
-            ))}
-          </div>
-        )}
-
-        {post.content && (
-          <div
-            className="mt-8 prose prose-gray max-w-none dark:prose-invert"
-            dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content) }}
-          />
-        )}
-
-        {post.tags && post.tags.length > 0 && (
-          <div className="mt-8 flex flex-wrap gap-2">
-            {post.tags.map((tag) => (
-              <span
-                key={tag.id}
-                className="rounded-full bg-secondary px-3 py-1 text-xs font-medium"
-              >
-                #{tag.name}
-              </span>
-            ))}
-          </div>
-        )}
       </div>
 
       {relatedPosts.length > 0 && (

@@ -1,7 +1,7 @@
 import { getTranslations } from 'next-intl/server';
 import { locales } from '@/i18n';
 import { api } from '@/lib/api-client';
-import { ImageCard } from '@/components/shared/image-card';
+import { GalleryGrid } from '@/components/gallery/gallery-grid';
 import { getOptimizedImageUrl } from '@/lib/utils';
 import type { Artist, SeoPage } from '@salon-tatto/shared';
 
@@ -94,22 +94,7 @@ export default async function GalleryPage({ params }: Props) {
         </p>
       </div>
 
-      <div className="columns-1 gap-4 sm:columns-2 lg:columns-3 xl:columns-4">
-        {images.map((image) => (
-          <div key={image.id} className="mb-4 break-inside-avoid">
-            <ImageCard
-              src={image.url}
-              alt={image.alt}
-              className="w-full"
-            />
-            {image.artistName && (
-              <p className="mt-1 text-xs text-muted-foreground text-center">
-                {t('byArtist')} {image.artistName}
-              </p>
-            )}
-          </div>
-        ))}
-      </div>
+      <GalleryGrid images={images} />
     </div>
   );
 }

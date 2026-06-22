@@ -11,17 +11,21 @@ import { Pagination } from '@/components/shared/pagination';
 import { Plus, Edit, Trash2, Power, PowerOff, Loader2 } from 'lucide-react';
 import type { Artist, PaginatedResponse } from '@salon-tatto/shared';
 
+import { useParams } from 'next/navigation';
+
 export default function ArtistListPage() {
   const t = useTranslations('admin.artists');
   const tc = useTranslations('admin');
   const queryClient = useQueryClient();
+  const params = useParams();
+  const locale = params.locale as string;
   const [page, setPage] = useState(1);
   const limit = 20;
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: queryKeys.artists.list({ page, limit }),
+    queryKey: queryKeys.artists.list({ page, limit, locale }),
     queryFn: () =>
-      api.get<PaginatedResponse<Artist>>('/artists', { params: { page, limit } }),
+      api.get<PaginatedResponse<Artist>>('/artists', { params: { page, limit, locale } }),
   });
 
   const toggleMutation = useMutation({
@@ -48,9 +52,14 @@ export default function ArtistListPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">{t('title')}</h1>
-        <Link href="/admin/artistas/create" className="w-full sm:w-auto">
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+        <div className="space-y-1.5">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">{t('title')}</h1>
+          <p className="text-muted-foreground text-sm max-w-2xl">
+            Gestiona los perfiles de los artistas del estudio. Aquí puedes editar su información, redes sociales y añadir o eliminar imágenes de su galería personal.
+          </p>
+        </div>
+        <Link href="/admin/artistas/create" className="w-full sm:w-auto shrink-0">
           <Button className="w-full sm:w-auto">
             <Plus className="mr-2 h-4 w-4" />
             {t('create')}

@@ -1,12 +1,25 @@
 {
   "title": "Contáctanos",
+  "subtitle": "Visita nuestro estudio de lujo para tu próximo tatuaje. Agenda una cita o pásate a saludarnos.",
   "description": "Ponte en contacto con nosotros",
+  "visitUs": "Visítanos",
+  "getDirections": "Cómo llegar",
+  "getInTouch": "Comunícate",
   "address": "Dirección",
   "phone": "Teléfono",
   "email": "Correo electrónico",
   "whatsapp": "WhatsApp",
   "socialMedia": "Redes Sociales",
-  "schedule": "Horario",
+  "hours": "Horarios",
+  "days": {
+    "monday": "Lunes",
+    "tuesday": "Martes",
+    "wednesday": "Miércoles",
+    "thursday": "Jueves",
+    "friday": "Viernes",
+    "saturday": "Sábado",
+    "sunday": "Domingo"
+  },
   "form": {
     "title": "Envíanos un mensaje",
     "name": "Nombre",

@@ -19,7 +19,7 @@ import type { BlogPost, Category, Tag, LocaleCode } from '@salon-tatto/shared';
 
 const translationSchema = z.object({
   languageCode: z.enum(['en', 'es']),
-  title: z.string().min(1).max(200),
+  title: z.string().max(200).optional().or(z.literal('')),
   excerpt: z.string().max(500).optional(),
   content: z.string().optional(),
   seoTitle: z.string().max(70).optional(),
@@ -49,8 +49,21 @@ export default function EditBlogPostPage() {
 
   const { data: post, isLoading } = useQuery({
     queryKey: queryKeys.blog.detail(id),
-    queryFn: () => api.get<BlogPost>(`/blog/id/${id}`),
+    queryFn: () => api.get<any>(`/blog/id/${id}?locale=all`),
   });
+
+  const getTranslation = (code: string) => {
+    if (!post || !post.translations) return { languageCode: code as any, title: '', excerpt: '', content: '', seoTitle: '', seoDescription: '' };
+    const tr = post.translations.find((tr: any) => tr.language?.code === code || tr.languageCode === code);
+    return {
+      languageCode: code as any,
+      title: tr?.title || '',
+      excerpt: tr?.excerpt || '',
+      content: tr?.content || '',
+      seoTitle: tr?.seoTitle || '',
+      seoDescription: tr?.seoDescription || '',
+    };
+  };
 
   const { data: categories } = useQuery({
     queryKey: queryKeys.blog.categories,
@@ -75,19 +88,19 @@ export default function EditBlogPostPage() {
           slug: post.slug,
           featuredImage: post.featuredImage || '',
           status: post.status,
-          categoryIds: post.categories?.map((c) => c.id) || [],
-          tagIds: post.tags?.map((t) => t.id) || [],
+          categoryIds: post.categories?.map((c: any) => c.id) || [],
+          tagIds: post.tags?.map((t: any) => t.id) || [],
           translations: [
-            { languageCode: 'en' as const, title: '', excerpt: '', content: '', seoTitle: '', seoDescription: '' },
-            { languageCode: 'es' as const, title: '', excerpt: '', content: '', seoTitle: '', seoDescription: '' },
+            getTranslation('en'),
+            getTranslation('es'),
           ],
         }
       : undefined,
   });
 
   const translations = watch('translations');
-  const currentTranslation = translations?.find((t) => t.languageCode === activeLocale);
-  const currentIndex = translations?.findIndex((t) => t.languageCode === activeLocale);
+  const currentTranslation = translations?.find((tr) => tr.languageCode === activeLocale);
+  const currentIndex = translations?.findIndex((tr) => tr.languageCode === activeLocale);
 
   const updateTranslationField = (field: string, value: string) => {
     if (currentIndex === undefined || currentIndex < 0) return;
@@ -97,10 +110,10 @@ export default function EditBlogPostPage() {
   };
 
   const [selectedCategories, setSelectedCategories] = useState<string[]>(
-    post?.categories?.map((c) => c.id) || [],
+    post?.categories?.map((c: any) => c.id) || [],
   );
   const [selectedTags, setSelectedTags] = useState<string[]>(
-    post?.tags?.map((t) => t.id) || [],
+    post?.tags?.map((t: any) => t.id) || [],
   );
 
   const toggleCategory = (catId: string) => {
@@ -120,7 +133,7 @@ export default function EditBlogPostPage() {
   };
 
   const updateMutation = useMutation({
-    mutationFn: (data: UpdatePostFormData) => api.patch(`/blog/${id}`, data),
+    mutationFn: (data: UpdatePostFormData) => api.put(`/blog/${id}`, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.blog.all });
       queryClient.invalidateQueries({ queryKey: queryKeys.blog.detail(id) });
@@ -133,7 +146,12 @@ export default function EditBlogPostPage() {
   });
 
   const onSubmit = (data: UpdatePostFormData) => {
-    updateMutation.mutate(data);
+    const validTranslations = data.translations.filter(t => t.title && t.title.trim().length > 0);
+    if (validTranslations.length === 0) {
+      alert('You must provide the post title in at least one language.');
+      return;
+    }
+    updateMutation.mutate({ ...data, translations: validTranslations as any });
   };
 
   if (isLoading) {

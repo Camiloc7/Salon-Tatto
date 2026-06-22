@@ -85,9 +85,9 @@ export default async function BlogPage({ params, searchParams }: Props) {
           {t('noPosts')}
         </div>
       ) : (
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {posts.map((post) => (
-            <BlogCard key={post.id} post={post} locale={locale} />
+        <div className="grid gap-4 md:gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 auto-rows-auto">
+          {posts.map((post, index) => (
+            <BlogCard key={post.id} post={post} locale={locale} featured={index === 0} />
           ))}
         </div>
       )}

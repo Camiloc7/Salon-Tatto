@@ -8,6 +8,8 @@ type ImageOptimizedProps = {
   height?: number;
   className?: string;
   priority?: boolean;
+  fill?: boolean;
+  sizes?: string;
 };
 
 export function ImageOptimized({
@@ -17,6 +19,8 @@ export function ImageOptimized({
   height,
   className,
   priority = false,
+  fill = false,
+  sizes,
 }: ImageOptimizedProps) {
   const isCloudinary =
     src.includes('cloudinary') || !src.startsWith('http');
@@ -36,8 +40,7 @@ export function ImageOptimized({
       <Image
         src={optimizedSrc}
         alt={alt}
-        width={width || 800}
-        height={height || 600}
+        {...(fill ? { fill: true, sizes } : { width: width || 800, height: height || 600 })}
         className={className}
         priority={priority}
       />
@@ -48,8 +51,7 @@ export function ImageOptimized({
     <Image
       src={src}
       alt={alt}
-      width={width || 800}
-      height={height || 600}
+      {...(fill ? { fill: true, sizes } : { width: width || 800, height: height || 600 })}
       className={className}
       priority={priority}
     />

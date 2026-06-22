@@ -9,15 +9,22 @@ type ImageCardProps = {
   src: string;
   alt: string;
   className?: string;
+  disableInternalModal?: boolean;
+  onClick?: () => void;
 };
 
-export function ImageCard({ src, alt, className }: ImageCardProps) {
+export function ImageCard({ src, alt, className, disableInternalModal, onClick }: ImageCardProps) {
   const [open, setOpen] = useState(false);
+
+  const handleClick = () => {
+    if (onClick) onClick();
+    if (!disableInternalModal) setOpen(true);
+  };
 
   return (
     <>
       <button
-        onClick={() => setOpen(true)}
+        onClick={handleClick}
         className={cn('group relative overflow-hidden rounded-sm', className)}
       >
         <ImageOptimized
@@ -34,7 +41,7 @@ export function ImageCard({ src, alt, className }: ImageCardProps) {
         </div>
       </button>
 
-      {open && (
+      {open && !disableInternalModal && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
           onClick={() => setOpen(false)}
