@@ -15,6 +15,12 @@ export class SeoPage {
   @Column({ type: 'boolean', default: true })
   isActive: boolean;
 
+  @Column({ type: 'boolean', default: false })
+  noIndex: boolean;
+
+  @Column({ type: 'boolean', default: false })
+  noFollow: boolean;
+
   @OneToMany(() => SeoPageTranslation, (translation) => translation.seoPage, { cascade: true })
   translations: SeoPageTranslation[];
 

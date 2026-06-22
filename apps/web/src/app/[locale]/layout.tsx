@@ -8,6 +8,7 @@ import { HideOnAdmin } from '@/components/layout/public-layout-wrapper';
 import { locales } from '@/i18n';
 import { QueryProvider } from '@/providers/query-provider';
 import { AuthProvider } from '@/providers/auth-provider';
+import { Toaster } from 'sonner';
 
 type Props = {
   children: ReactNode;
@@ -47,6 +48,7 @@ export default async function LocaleLayout({ children, params }: Props) {
               <WhatsAppButton />
             </HideOnAdmin>
           </div>
+          <Toaster position="top-right" richColors />
         </AuthProvider>
       </QueryProvider>
     </NextIntlClientProvider>

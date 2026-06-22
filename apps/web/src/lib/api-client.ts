@@ -29,8 +29,9 @@ async function request<T>(
     });
   }
 
+  const isFormData = body instanceof FormData;
   const headers: Record<string, string> = {
-    'Content-Type': 'application/json',
+    ...(!isFormData && { 'Content-Type': 'application/json' }),
     ...options?.headers,
   };
 
@@ -45,15 +46,48 @@ async function request<T>(
     }
   }
 
-  const response = await fetch(url.toString(), {
+  const fetchOptions: RequestInit = {
     method,
     headers,
-    body: body ? JSON.stringify(body) : undefined,
+    body: body ? (isFormData ? body : JSON.stringify(body)) : undefined,
     cache: options?.cache,
     next: options?.next,
-  });
+  };
 
-  const json: any = await response.json();
+  let response = await fetch(url.toString(), fetchOptions);
+
+  if (response.status === 401 && typeof window !== 'undefined') {
+    const refreshToken = localStorage.getItem('refresh_token');
+    if (refreshToken) {
+      try {
+        const refreshRes = await fetch(`${API_URL}/auth/refresh`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ refreshToken }),
+        });
+
+        if (refreshRes.ok) {
+          const refreshData = await refreshRes.json();
+          localStorage.setItem('auth_token', refreshData.accessToken);
+          localStorage.setItem('refresh_token', refreshData.refreshToken);
+          
+          headers['Authorization'] = `Bearer ${refreshData.accessToken}`;
+          fetchOptions.headers = headers;
+          
+          response = await fetch(url.toString(), fetchOptions);
+        } else {
+          localStorage.removeItem('auth_token');
+          localStorage.removeItem('refresh_token');
+          window.location.href = '/en/login';
+        }
+      } catch (err) {
+        localStorage.removeItem('auth_token');
+        localStorage.removeItem('refresh_token');
+      }
+    }
+  }
+
+  const json: any = await response.json().catch(() => ({}));
 
   if (!response.ok) {
     throw new Error(json.message || 'An error occurred');

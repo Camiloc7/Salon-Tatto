@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, ManyToOne, JoinColumn, Index } from 'typeorm';
 import { Artist } from '../../artists/entities/artist.entity';
+import { Category } from '../../blog/entities/category.entity';
 
 @Entity('artist_images')
 export class ArtistImage {
@@ -13,6 +14,14 @@ export class ArtistImage {
   @ManyToOne(() => Artist, (artist) => artist.images, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'artistId' })
   artist: Artist;
+
+  @Index()
+  @Column({ type: 'uuid', nullable: true })
+  categoryId: string | null;
+
+  @ManyToOne(() => Category, { onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'categoryId' })
+  category: Category;
 
   @Column({ type: 'varchar' })
   cloudinaryId: string;

@@ -48,22 +48,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       .then((data) => setUser(data))
       .catch(() => {
         localStorage.removeItem('auth_token');
+        localStorage.removeItem('refresh_token');
       })
       .finally(() => setLoading(false));
   }, []);
 
   const login = useCallback(async (credentials: LoginCredentials) => {
-    const { accessToken, user: userData } = await api.post<{
+    const { accessToken, refreshToken, user: userData } = await api.post<{
       accessToken: string;
+      refreshToken: string;
       user: User;
     }>('/auth/login', credentials);
 
     localStorage.setItem('auth_token', accessToken);
+    localStorage.setItem('refresh_token', refreshToken);
     setUser(userData);
   }, []);
 
   const logout = useCallback(() => {
     localStorage.removeItem('auth_token');
+    localStorage.removeItem('refresh_token');
     setUser(null);
   }, []);
 

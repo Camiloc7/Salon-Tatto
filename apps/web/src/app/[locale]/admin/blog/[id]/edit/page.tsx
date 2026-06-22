@@ -49,7 +49,7 @@ export default function EditBlogPostPage() {
 
   const { data: post, isLoading } = useQuery({
     queryKey: queryKeys.blog.detail(id),
-    queryFn: () => api.get<BlogPost>(`/blog/${id}`),
+    queryFn: () => api.get<BlogPost>(`/blog/id/${id}`),
   });
 
   const { data: categories } = useQuery({

@@ -26,6 +26,7 @@ import { JwtAuthGuard } from '../../../common/guards/jwt-auth.guard';
 import { RolesGuard } from '../../../common/guards/roles.guard';
 import { Roles } from '../../../common/decorators/roles.decorator';
 import { Public } from '../../../common/decorators/public.decorator';
+import { CurrentUser } from '../../../common/decorators/current-user.decorator';
 
 @ApiTags('Gallery')
 @Controller()
@@ -42,11 +43,11 @@ export class GalleryController {
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('admin')
+  @Roles('admin', 'artist')
   @Post('artists/:artistId/images')
   @UseInterceptors(FilesInterceptor('files'))
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Upload images for an artist (admin)' })
+  @ApiOperation({ summary: 'Upload images for an artist (admin or self)' })
   @ApiConsumes('multipart/form-data')
   @ApiBody({
     schema: {
@@ -65,44 +66,61 @@ export class GalleryController {
   async upload(
     @Param('artistId') artistId: string,
     @UploadedFiles() files: Express.Multer.File[],
+    @CurrentUser() user: any,
   ) {
-    return this.galleryService.upload(artistId, files);
+    return this.galleryService.upload(artistId, files, user);
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('admin')
+  @Roles('admin', 'artist')
   @Delete('gallery/:imageId')
   @HttpCode(HttpStatus.OK)
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Delete an image (admin)' })
+  @ApiOperation({ summary: 'Delete an image (admin or self)' })
   @ApiResponse({ status: 200, description: 'Image deleted' })
   @ApiResponse({ status: 404, description: 'Image not found' })
-  async remove(@Param('imageId') imageId: string) {
-    return this.galleryService.remove(imageId);
+  async remove(@Param('imageId') imageId: string, @CurrentUser() user: any) {
+    return this.galleryService.remove(imageId, user);
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('admin')
+  @Roles('admin', 'artist')
   @Patch('gallery/:imageId/featured')
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Set image as featured (admin)' })
+  @ApiOperation({ summary: 'Set image as featured (admin or self)' })
   @ApiResponse({ status: 200, description: 'Featured image set' })
   @ApiResponse({ status: 404, description: 'Image not found' })
-  async setFeatured(@Param('imageId') imageId: string) {
-    return this.galleryService.setFeatured(imageId);
+  async setFeatured(@Param('imageId') imageId: string, @CurrentUser() user: any) {
+    return this.galleryService.setFeatured(imageId, user);
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('admin')
+  @Roles('admin', 'artist')
   @Patch('gallery/:imageId/reorder')
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Reorder image (admin)' })
+  @ApiOperation({ summary: 'Reorder image (admin or self)' })
   @ApiBody({ schema: { type: 'object', properties: { orderIndex: { type: 'number' } } } })
   @ApiResponse({ status: 200, description: 'Image reordered' })
   async reorder(
     @Param('imageId') imageId: string,
     @Body('orderIndex') orderIndex: number,
+    @CurrentUser() user: any,
   ) {
-    return this.galleryService.reorder(imageId, orderIndex);
+    return this.galleryService.reorder(imageId, orderIndex, user);
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin', 'artist')
+  @Patch('gallery/:imageId/category')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Set category for an image (admin or self)' })
+  @ApiBody({ schema: { type: 'object', properties: { categoryId: { type: 'string', nullable: true } } } })
+  @ApiResponse({ status: 200, description: 'Category updated' })
+  async setCategory(
+    @Param('imageId') imageId: string,
+    @Body('categoryId') categoryId: string | null,
+    @CurrentUser() user: any,
+  ) {
+    return this.galleryService.setCategory(imageId, categoryId, user);
   }
 }

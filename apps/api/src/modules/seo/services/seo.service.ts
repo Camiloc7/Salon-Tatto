@@ -41,18 +41,25 @@ export class SeoService {
   }
 
   async update(pageKey: string, dto: UpdateSeoPageDto) {
-    const page = await this.seoPageRepository.findOne({
+    let page = await this.seoPageRepository.findOne({
       where: { pageKey },
       relations: ['translations'],
     });
 
-    if (!page) {
-      throw new NotFoundException(`SEO page "${pageKey}" not found`);
-    }
-
     return this.dataSource.transaction(async (manager) => {
+      if (!page) {
+        page = manager.create(SeoPage, { pageKey });
+        page = await manager.save(page);
+      }
+
       if (dto.canonicalUrl !== undefined) {
         page.canonicalUrl = dto.canonicalUrl;
+      }
+      if (dto.noIndex !== undefined) {
+        page.noIndex = dto.noIndex;
+      }
+      if (dto.noFollow !== undefined) {
+        page.noFollow = dto.noFollow;
       }
 
       await manager.save(page);
@@ -91,6 +98,19 @@ export class SeoService {
         relations: ['translations', 'translations.language'],
       });
     });
+  }
+
+  async remove(pageKey: string) {
+    const page = await this.seoPageRepository.findOne({
+      where: { pageKey },
+    });
+
+    if (!page) {
+      throw new NotFoundException(`SEO page "${pageKey}" not found`);
+    }
+
+    await this.seoPageRepository.softDelete(page.id);
+    return { message: 'SEO page deleted successfully' };
   }
 
   private applyTranslation(page: SeoPage, locale?: string) {

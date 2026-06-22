@@ -1,8 +1,10 @@
 export interface SeoPage {
   id: string;
   pageKey: string;
-  canonicalUrl: string;
+  canonicalUrl: string | null;
   isActive: boolean;
+  noIndex?: boolean;
+  noFollow?: boolean;
   // Translation fields
   title?: string;
   description?: string;

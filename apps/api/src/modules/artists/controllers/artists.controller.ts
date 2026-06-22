@@ -59,6 +59,19 @@ export class ArtistsController {
     return this.artistsService.findBySlug(slug, locale);
   }
 
+  @Public()
+  @Get('id/:id')
+  @ApiOperation({ summary: 'Get artist by ID' })
+  @ApiQuery({ name: 'locale', enum: ['en', 'es'], required: false })
+  @ApiResponse({ status: 200, description: 'Artist found' })
+  @ApiResponse({ status: 404, description: 'Artist not found' })
+  async findById(
+    @Param('id') id: string,
+    @Query('locale') locale?: string,
+  ) {
+    return this.artistsService.findById(id, locale);
+  }
+
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('admin')
   @Post()

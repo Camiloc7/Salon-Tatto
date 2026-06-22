@@ -55,4 +55,12 @@ export class UpdateSeoPageDto {
   @ValidateNested({ each: true })
   @Type(() => SeoTranslationDto)
   translations?: SeoTranslationDto[];
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  noIndex?: boolean;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  noFollow?: boolean;
 }

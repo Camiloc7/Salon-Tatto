@@ -62,6 +62,19 @@ export class BlogController {
     return this.blogService.findBySlug(slug, locale);
   }
 
+  @Public()
+  @Get('id/:id')
+  @ApiOperation({ summary: 'Get blog post by ID' })
+  @ApiQuery({ name: 'locale', enum: ['en', 'es'], required: false })
+  @ApiResponse({ status: 200, description: 'Blog post found' })
+  @ApiResponse({ status: 404, description: 'Blog post not found' })
+  async findById(
+    @Param('id') id: string,
+    @Query('locale') locale?: string,
+  ) {
+    return this.blogService.findById(id, locale);
+  }
+
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('admin', 'editor')
   @Post()

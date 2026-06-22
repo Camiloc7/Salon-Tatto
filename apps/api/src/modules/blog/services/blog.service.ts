@@ -115,6 +115,34 @@ export class BlogService {
     return this.applyTranslation(post, locale);
   }
 
+  async findById(id: string, locale?: string) {
+    const qb = this.blogPostRepository
+      .createQueryBuilder('post')
+      .leftJoinAndSelect('post.translations', 'translation')
+      .leftJoinAndSelect('translation.language', 'language')
+      .leftJoinAndSelect('post.author', 'author')
+      .leftJoinAndSelect('post.categories', 'categories')
+      .leftJoinAndSelect('categories.translations', 'categoryTranslation')
+      .leftJoinAndSelect('categoryTranslation.language', 'catLang')
+      .leftJoinAndSelect('post.tags', 'tags')
+      .leftJoinAndSelect('tags.translations', 'tagTranslation')
+      .leftJoinAndSelect('tagTranslation.language', 'tagLang')
+      .where('post.id = :id', { id })
+      .andWhere('post.deletedAt IS NULL');
+
+    if (locale) {
+      qb.andWhere('language.code = :locale', { locale });
+    }
+
+    const post = await qb.getOne();
+
+    if (!post) {
+      throw new NotFoundException(`Blog post with id "${id}" not found`);
+    }
+
+    return this.applyTranslation(post, locale);
+  }
+
   async create(dto: CreateBlogPostDto, userId: string) {
     const existing = await this.blogPostRepository.findOne({
       where: { slug: dto.slug },

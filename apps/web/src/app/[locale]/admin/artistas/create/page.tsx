@@ -13,13 +13,23 @@ import { Button } from '@/components/ui/button';
 import { ImageUploader } from '@/components/shared/image-uploader';
 import { LocaleTabs } from '@/components/shared/locale-tabs';
 import { SeoPreviewCard } from '@/components/admin/seo-preview-fieldset';
-import { Loader2, ArrowLeft } from 'lucide-react';
+import { Loader2, ArrowLeft, Wand2 } from 'lucide-react';
+import { toast } from 'sonner';
 import Link from 'next/link';
 import type { LocaleCode } from '@salon-tatto/shared';
 
+function generateSlug(text: string) {
+  return text
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
 const translationSchema = z.object({
   languageCode: z.enum(['en', 'es']),
-  name: z.string().min(1, 'Name is required').max(200),
+  name: z.string().max(200).optional().or(z.literal('')),
   biography: z.string().max(5000).optional(),
   specialty: z.string().max(500).optional(),
   seoTitle: z.string().max(70).optional(),
@@ -27,7 +37,7 @@ const translationSchema = z.object({
 });
 
 const createArtistSchema = z.object({
-  slug: z.string().min(1).max(200).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'Invalid slug format'),
+  slug: z.string().min(1).max(200).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'El slug solo puede contener minúsculas, números y guiones (ej. marcos-chen)'),
   avatar: z.string().optional(),
   instagramUrl: z.string().optional(),
   orderIndex: z.coerce.number().int().min(0).default(0),
@@ -84,16 +94,21 @@ export default function CreateArtistPage() {
     mutationFn: (data: CreateArtistFormData) => api.post('/artists', data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.artists.all });
-      alert('Artist created successfully');
+      toast.success('Artist created successfully!');
       router.push('/admin/artistas');
     },
     onError: (err: Error) => {
-      alert(err.message || 'Failed to create artist');
+      toast.error(err.message || 'Failed to create artist');
     },
   });
 
   const onSubmit = (data: CreateArtistFormData) => {
-    createMutation.mutate(data);
+    const validTranslations = data.translations.filter(t => t.name && t.name.trim().length > 0);
+    if (validTranslations.length === 0) {
+      toast.error('You must provide the artist name in at least one language.');
+      return;
+    }
+    createMutation.mutate({ ...data, translations: validTranslations as any });
   };
 
   return (
@@ -115,9 +130,31 @@ export default function CreateArtistPage() {
 
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <label className="block text-sm font-medium mb-1">{t('form.slug')}</label>
+              <label className="block text-sm font-medium mb-1 flex items-center justify-between">
+                {t('form.slug')}
+                <Button 
+                  type="button" 
+                  variant="ghost" 
+                  size="sm" 
+                  className="h-6 px-2 text-xs"
+                  onClick={() => {
+                    const enName = watch('translations')?.find(t => t.languageCode === 'en')?.name;
+                    const esName = watch('translations')?.find(t => t.languageCode === 'es')?.name;
+                    const nameToUse = enName || esName || '';
+                    if (nameToUse) {
+                      setValue('slug', generateSlug(nameToUse), { shouldValidate: true, shouldDirty: true });
+                    }
+                  }}
+                >
+                  <Wand2 className="h-3 w-3 mr-1" /> Auto
+                </Button>
+              </label>
               <input
-                {...register('slug')}
+                {...register('slug', {
+                  onChange: (e) => {
+                    setValue('slug', e.target.value.toLowerCase().replace(/\s+/g, '-'), { shouldValidate: true });
+                  }
+                })}
                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
               />
               {errors.slug && <p className="mt-1 text-sm text-destructive">{errors.slug.message}</p>}
@@ -161,7 +198,12 @@ export default function CreateArtistPage() {
               <label className="block text-sm font-medium mb-1">{t('form.name')}</label>
               <input
                 value={currentTranslation?.name || ''}
-                onChange={(e) => updateTranslationField('name', e.target.value)}
+                onChange={(e) => {
+                  updateTranslationField('name', e.target.value);
+                  if (activeLocale === 'en' && !watch('slug') && e.target.value) {
+                    setValue('slug', generateSlug(e.target.value), { shouldValidate: true });
+                  }
+                }}
                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
               />
             </div>

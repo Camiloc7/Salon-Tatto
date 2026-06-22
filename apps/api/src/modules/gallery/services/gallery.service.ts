@@ -30,16 +30,21 @@ export class GalleryService {
     return this.imageRepository.find({
       where: { artistId },
       order: { orderIndex: 'ASC', createdAt: 'DESC' },
+      relations: ['category', 'category.translations'],
     });
   }
 
-  async upload(artistId: string, files: Express.Multer.File[]) {
+  async upload(artistId: string, files: Express.Multer.File[], user?: any) {
     const artist = await this.artistRepository.findOne({
       where: { id: artistId },
     });
 
     if (!artist) {
       throw new NotFoundException(`Artist with id "${artistId}" not found`);
+    }
+
+    if (user?.role === 'artist' && artist.userId !== user.id) {
+      throw new BadRequestException('You can only upload images to your own gallery');
     }
 
     if (!files || files.length === 0) {
@@ -85,20 +90,30 @@ export class GalleryService {
     return uploadedImages;
   }
 
-  async reorder(imageId: string, orderIndex: number) {
-    const image = await this.imageRepository.findOne({ where: { id: imageId } });
+  async reorder(imageId: string, orderIndex: number, user?: any) {
+    const image = await this.imageRepository.findOne({ 
+      where: { id: imageId },
+      relations: ['artist'],
+    });
     if (!image) throw new NotFoundException(`Image not found`);
+    if (user?.role === 'artist' && image.artist?.userId !== user.id) {
+      throw new BadRequestException('You can only manage your own gallery');
+    }
     image.orderIndex = orderIndex;
     return this.imageRepository.save(image);
   }
 
-  async remove(imageId: string) {
+  async remove(imageId: string, user?: any) {
     const image = await this.imageRepository.findOne({
       where: { id: imageId },
+      relations: ['artist'],
     });
 
     if (!image) {
       throw new NotFoundException(`Image with id "${imageId}" not found`);
+    }
+    if (user?.role === 'artist' && image.artist?.userId !== user.id) {
+      throw new BadRequestException('You can only manage your own gallery');
     }
 
     try {
@@ -112,13 +127,17 @@ export class GalleryService {
     return { message: 'Image deleted successfully' };
   }
 
-  async setFeatured(imageId: string) {
+  async setFeatured(imageId: string, user?: any) {
     const image = await this.imageRepository.findOne({
       where: { id: imageId },
+      relations: ['artist'],
     });
 
     if (!image) {
       throw new NotFoundException(`Image with id "${imageId}" not found`);
+    }
+    if (user?.role === 'artist' && image.artist?.userId !== user.id) {
+      throw new BadRequestException('You can only manage your own gallery');
     }
 
     await this.imageRepository.update(
@@ -128,5 +147,46 @@ export class GalleryService {
 
     image.isFeatured = true;
     return this.imageRepository.save(image);
+  }
+
+  async reorder(imageId: string, orderIndex: number, user?: any) {
+    const image = await this.imageRepository.findOne({
+      where: { id: imageId },
+      relations: ['artist'],
+    });
+
+    if (!image) {
+      throw new NotFoundException(`Image with id "${imageId}" not found`);
+    }
+    if (user?.role === 'artist' && image.artist?.userId !== user.id) {
+      throw new BadRequestException('You can only manage your own gallery');
+    }
+
+    image.orderIndex = orderIndex;
+    await this.imageRepository.save(image);
+
+    return { message: 'Gallery reordered successfully' };
+  }
+
+  async setCategory(imageId: string, categoryId: string | null, user?: any) {
+    const image = await this.imageRepository.findOne({
+      where: { id: imageId },
+      relations: ['artist'],
+    });
+
+    if (!image) {
+      throw new NotFoundException(`Image with id "${imageId}" not found`);
+    }
+    if (user?.role === 'artist' && image.artist?.userId !== user.id) {
+      throw new BadRequestException('You can only manage your own gallery');
+    }
+
+    image.categoryId = categoryId;
+    await this.imageRepository.save(image);
+
+    return this.imageRepository.findOne({
+      where: { id: imageId },
+      relations: ['category', 'category.translations'],
+    });
   }
 }

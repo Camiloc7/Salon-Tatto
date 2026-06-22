@@ -14,13 +14,23 @@ import { ImageUploader } from '@/components/shared/image-uploader';
 import { LocaleTabs } from '@/components/shared/locale-tabs';
 import { SeoPreviewCard } from '@/components/admin/seo-preview-fieldset';
 import { GalleryManager } from '@/components/admin/artists/gallery-manager';
-import { Loader2, ArrowLeft } from 'lucide-react';
+import { Loader2, ArrowLeft, Wand2 } from 'lucide-react';
+import { toast } from 'sonner';
 import Link from 'next/link';
 import type { Artist, LocaleCode } from '@salon-tatto/shared';
 
+function generateSlug(text: string) {
+  return text
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
 const translationSchema = z.object({
   languageCode: z.enum(['en', 'es']),
-  name: z.string().min(1).max(200),
+  name: z.string().max(200).optional().or(z.literal('')),
   biography: z.string().max(5000).optional(),
   specialty: z.string().max(500).optional(),
   seoTitle: z.string().max(70).optional(),
@@ -28,7 +38,7 @@ const translationSchema = z.object({
 });
 
 const updateArtistSchema = z.object({
-  slug: z.string().min(1).max(200).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+  slug: z.string().min(1).max(200).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'El slug solo puede contener minúsculas, números y guiones (ej. marcos-chen)'),
   avatar: z.string().optional(),
   instagramUrl: z.string().optional(),
   orderIndex: z.coerce.number().int().min(0).default(0),
@@ -49,8 +59,21 @@ export default function EditArtistPage() {
 
   const { data: artist, isLoading } = useQuery({
     queryKey: queryKeys.artists.detail(id),
-    queryFn: () => api.get<Artist>(`/artists/${id}`),
+    queryFn: () => api.get<any>(`/artists/id/${id}?locale=all`),
   });
+
+  const getTranslation = (code: string) => {
+    if (!artist || !artist.translations) return { languageCode: code as any, name: '', biography: '', specialty: '', seoTitle: '', seoDescription: '' };
+    const t = artist.translations.find((tr: any) => tr.language?.code === code || tr.languageCode === code);
+    return {
+      languageCode: code as any,
+      name: t?.name || '',
+      biography: t?.biography || '',
+      specialty: t?.specialty || '',
+      seoTitle: t?.seoTitle || '',
+      seoDescription: t?.seoDescription || '',
+    };
+  };
 
   const {
     register,
@@ -67,8 +90,8 @@ export default function EditArtistPage() {
           instagramUrl: artist.instagramUrl || '',
           orderIndex: artist.orderIndex,
           translations: [
-            { languageCode: 'en' as const, name: '', biography: '', specialty: '', seoTitle: '', seoDescription: '' },
-            { languageCode: 'es' as const, name: '', biography: '', specialty: '', seoTitle: '', seoDescription: '' },
+            getTranslation('en'),
+            getTranslation('es'),
           ],
         }
       : undefined,
@@ -86,20 +109,25 @@ export default function EditArtistPage() {
   };
 
   const updateMutation = useMutation({
-    mutationFn: (data: UpdateArtistFormData) => api.patch(`/artists/${id}`, data),
+    mutationFn: (data: UpdateArtistFormData) => api.put(`/artists/${id}`, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.artists.all });
       queryClient.invalidateQueries({ queryKey: queryKeys.artists.detail(id) });
-      alert('Artist updated successfully');
+      toast.success('Artist updated successfully!');
       router.push('/admin/artistas');
     },
     onError: (err: Error) => {
-      alert(err.message || 'Failed to update artist');
+      toast.error(err.message || 'Failed to update artist');
     },
   });
 
   const onSubmit = (data: UpdateArtistFormData) => {
-    updateMutation.mutate(data);
+    const validTranslations = data.translations.filter(t => t.name && t.name.trim().length > 0);
+    if (validTranslations.length === 0) {
+      toast.error('You must provide the artist name in at least one language.');
+      return;
+    }
+    updateMutation.mutate({ ...data, translations: validTranslations as any });
   };
 
   if (isLoading) {
@@ -133,9 +161,31 @@ export default function EditArtistPage() {
 
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <label className="block text-sm font-medium mb-1">{t('form.slug')}</label>
+              <label className="block text-sm font-medium mb-1 flex items-center justify-between">
+                {t('form.slug')}
+                <Button 
+                  type="button" 
+                  variant="ghost" 
+                  size="sm" 
+                  className="h-6 px-2 text-xs"
+                  onClick={() => {
+                    const enName = watch('translations')?.find(t => t.languageCode === 'en')?.name;
+                    const esName = watch('translations')?.find(t => t.languageCode === 'es')?.name;
+                    const nameToUse = enName || esName || '';
+                    if (nameToUse) {
+                      setValue('slug', generateSlug(nameToUse), { shouldValidate: true, shouldDirty: true });
+                    }
+                  }}
+                >
+                  <Wand2 className="h-3 w-3 mr-1" /> Auto
+                </Button>
+              </label>
               <input
-                {...register('slug')}
+                {...register('slug', {
+                  onChange: (e) => {
+                    setValue('slug', e.target.value.toLowerCase().replace(/\s+/g, '-'), { shouldValidate: true, shouldDirty: true });
+                  }
+                })}
                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
               />
               {errors.slug && <p className="mt-1 text-sm text-destructive">{errors.slug.message}</p>}

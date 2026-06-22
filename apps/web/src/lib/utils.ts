@@ -18,8 +18,9 @@ export function getOptimizedImageUrl(cloudinaryId: string, options?: {
   height?: number;
   fit?: 'fill' | 'limit' | 'crop';
 }): string {
-  const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
-  if (!cloudName) return cloudinaryId;
+  if (!cloudinaryId) return '';
+  if (cloudinaryId.startsWith('http')) return cloudinaryId;
+  const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || 'dlimmlxeh';
 
   const transformations = [
     options?.width && `w_${options.width}`,
@@ -35,6 +36,6 @@ export function getOptimizedImageUrl(cloudinaryId: string, options?: {
 export function getImageUrl(url: string): string {
   if (!url) return '';
   if (url.startsWith('http')) return url;
-  const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+  const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || 'dlimmlxeh';
   return `https://res.cloudinary.com/${cloudName}/image/upload/f_auto,q_auto/${url}`;
 }

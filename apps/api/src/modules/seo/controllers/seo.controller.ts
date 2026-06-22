@@ -9,6 +9,7 @@ import {
   UseGuards,
   HttpCode,
   HttpStatus,
+  Delete,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -62,6 +63,18 @@ export class SeoController {
     @Body() dto: UpdateSeoPageDto,
   ) {
     return this.seoService.update(pageKey, dto);
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin')
+  @Delete('pages/:pageKey')
+  @HttpCode(HttpStatus.OK)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Delete a custom SEO page (admin)' })
+  @ApiResponse({ status: 200, description: 'SEO page deleted' })
+  @ApiResponse({ status: 404, description: 'SEO page not found' })
+  async remove(@Param('pageKey') pageKey: string) {
+    return this.seoService.remove(pageKey);
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)

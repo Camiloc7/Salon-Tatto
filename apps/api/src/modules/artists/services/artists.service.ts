@@ -89,6 +89,34 @@ export class ArtistsService {
     return this.applyTranslation(artist, locale);
   }
 
+  async findById(id: string, locale?: string) {
+    const qb = this.artistRepository
+      .createQueryBuilder('artist')
+      .leftJoinAndSelect('artist.translations', 'translation')
+      .leftJoinAndSelect('translation.language', 'language')
+      .leftJoinAndSelect('artist.images', 'images')
+      .where('artist.id = :id', { id })
+      .andWhere('artist.deletedAt IS NULL');
+
+    if (locale && locale !== 'all') {
+      qb.andWhere('language.code = :locale', { locale });
+    }
+
+    const artist = await qb.getOne();
+
+    if (!artist) {
+      throw new NotFoundException(`Artist with id "${id}" not found`);
+    }
+
+    imagesOrdering(artist.images);
+
+    if (locale === 'all') {
+      return artist;
+    }
+
+    return this.applyTranslation(artist, locale);
+  }
+
   async create(dto: CreateArtistDto) {
     const existing = await this.artistRepository.findOne({
       where: { slug: dto.slug },
@@ -169,7 +197,7 @@ export class ArtistsService {
       throw new NotFoundException(`Artist with id "${id}" not found`);
     }
 
-    if (user?.role?.name === 'artist' && artist.userId !== user.id) {
+    if (user?.role === 'artist' && artist.userId !== user.id) {
       throw new BadRequestException('You do not have permission to update this artist profile');
     }
 
