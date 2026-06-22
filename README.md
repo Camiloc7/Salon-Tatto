@@ -1,6 +1,6 @@
-# NYC Tattoo Studio - Fine Line & Custom 🖋️
+# La Rola Tattoo NYC - Fine Line & Custom 🖋️
 
-Plataforma de exhibición y gestión de primer nivel para **NYC Tattoo Studio**. Construida como un proyecto monorepo utilizando **Turborepo**, esta aplicación ofrece una experiencia de usuario pública multi-idioma (Inglés y Español) bajo una estética ultra-minimalista, limpia y enfocada en el arte (Fine Line). Incluye, además, un panel de administración dinámico para gestionar todo el contenido del negocio.
+Plataforma de exhibición y gestión de primer nivel para **La Rola Tattoo NYC**. Construida como un proyecto monorepo utilizando **Turborepo**, esta aplicación ofrece una experiencia de usuario pública multi-idioma (Inglés y Español) bajo una estética ultra-minimalista, limpia y enfocada en el arte (Fine Line). Incluye, además, un panel de administración dinámico para gestionar todo el contenido del negocio.
 
 ---
 
@@ -59,7 +59,7 @@ npm install
 ```
 
 ### 3. Población de Base de Datos (Seeders)
-Este proyecto cuenta con potentes *seeders* que inyectarán datos de prueba, idiomas (en, es), configuración global (NYC Tattoo Studio), el usuario administrador, tatuadores con fotos reales de Unsplash y posts del blog. **Ejecuta este comando siempre que levantes la BD por primera vez:**
+Este proyecto cuenta con potentes *seeders* que inyectarán datos de prueba, idiomas (en, es), configuración global (La Rola Tattoo NYC), el usuario administrador, tatuadores con fotos reales de Unsplash y posts del blog. **Ejecuta este comando siempre que levantes la BD por primera vez:**
 ```bash
 npm run seed --workspace=@salon-tatto/api
 ```

@@ -5,7 +5,7 @@ export async function seedSettings(dataSource: DataSource): Promise<void> {
   const settingRepository = dataSource.getRepository(Setting);
 
   const settings = [
-    { key: 'studioName', value: 'NYC Tattoo Studio', type: 'string', group: 'general' },
+    { key: 'studioName', value: 'La Rola Tattoo NYC', type: 'string', group: 'general' },
     { key: 'address', value: '', type: 'string', group: 'contact' },
     { key: 'phone', value: '+12125550199', type: 'string', group: 'contact' },
     { key: 'whatsapp', value: '+12125550199', type: 'string', group: 'contact' },

@@ -51,7 +51,7 @@ export function AdminSidebar() {
         </div>
         {!collapsed && (
           <span className="font-semibold text-lg whitespace-nowrap overflow-hidden">
-            {t('sidebar.dashboard') ? 'NYC Tattoo Studio' : 'Admin'}
+            {t('sidebar.dashboard') ? 'La Rola Tattoo' : 'Admin'}
           </span>
         )}
       </div>

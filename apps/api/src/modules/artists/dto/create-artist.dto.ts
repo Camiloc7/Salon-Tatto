@@ -38,7 +38,7 @@ export class CreateArtistTranslationDto {
   @MaxLength(500)
   specialty?: string;
 
-  @ApiPropertyOptional({ example: 'Jane Doe | Salon Tatto' })
+  @ApiPropertyOptional({ example: 'Jane Doe | La Rola Tattoo NYC' })
   @IsOptional()
   @IsString()
   @MaxLength(70)

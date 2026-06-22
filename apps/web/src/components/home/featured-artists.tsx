@@ -12,7 +12,8 @@ import { getImageUrl } from '@/lib/utils';
 import { ArrowRight } from 'lucide-react';
 
 export function FeaturedArtists() {
-  const t = useTranslations();
+  const t = useTranslations('home');
+  const tCommon = useTranslations();
   const locale = useLocale();
 
   const { data: artists, isLoading } = useQuery({
@@ -42,7 +43,7 @@ export function FeaturedArtists() {
           </div>
           <Link href={`/${locale}/artistas`} className="hidden md:block">
             <Button variant="ghost" className="text-zinc-400 hover:text-white uppercase tracking-widest text-xs font-semibold rounded-none group">
-              {t('actions.viewAll')} <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
+              {tCommon('actions.viewAll')} <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
             </Button>
           </Link>
         </div>
@@ -102,7 +103,7 @@ export function FeaturedArtists() {
         <div className="mt-12 text-center md:hidden">
           <Link href={`/${locale}/artistas`}>
             <Button variant="outline" className="w-full text-zinc-300 border-zinc-800 hover:bg-zinc-900 hover:text-white uppercase tracking-widest text-xs py-6 rounded-none">
-              {t('actions.viewAll')}
+              {tCommon('actions.viewAll')}
             </Button>
           </Link>
         </div>

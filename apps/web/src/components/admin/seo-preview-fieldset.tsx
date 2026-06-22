@@ -99,7 +99,7 @@ export function SeoPreviewCard({
                 ST
               </div>
               <div className="flex flex-col">
-                <span className="text-sm text-[#202124] dark:text-[#dadce0] font-medium leading-none">Salon Tatto</span>
+                <span className="text-sm text-[#202124] dark:text-[#dadce0] font-medium leading-none">La Rola Tattoo NYC</span>
                 <span className="text-[12px] text-[#4d5156] dark:text-[#bdc1c6] leading-none mt-1">https://tusitio.com/es/pagina</span>
               </div>
             </div>

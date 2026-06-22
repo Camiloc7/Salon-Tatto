@@ -28,7 +28,7 @@ async function bootstrap() {
   );
 
   const swaggerConfig = new DocumentBuilder()
-    .setTitle('Salon Tatto API')
+    .setTitle('La Rola Tattoo NYC API')
     .setDescription('Tattoo studio platform API')
     .setVersion('1.0')
     .addBearerAuth()

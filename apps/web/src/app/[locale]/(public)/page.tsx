@@ -8,6 +8,7 @@ import { FAQ } from '@/components/home/faq';
 import { StructuredData } from '@/components/shared/structured-data';
 import type { StudioSettings, SeoPage } from '@salon-tatto/shared';
 import { getOptimizedImageUrl } from '@/lib/utils';
+import { getGooglePlaceReviews } from '@/lib/google-places';
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -56,6 +57,8 @@ export default async function HomePage({ params }: Props) {
     });
   } catch {}
 
+  const placeDetails = await getGooglePlaceReviews();
+
   return (
     <>
       <StructuredData
@@ -70,7 +73,7 @@ export default async function HomePage({ params }: Props) {
       />
       <Hero settings={settings} />
       <FeaturedArtists />
-      <Testimonials />
+      <Testimonials initialReviews={placeDetails?.reviews || []} />
       <FAQ />
     </>
   );

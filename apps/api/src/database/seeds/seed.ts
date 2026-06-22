@@ -6,6 +6,7 @@ import { seedAdmin } from './admin.seed';
 import { seedSettings } from './settings.seed';
 import { seedSeo } from './seo.seed';
 import { seedArtists } from './artists.seed';
+import { seedCategories } from './categories.seed';
 import { seedBlog } from './blog.seed';
 
 async function runSeeds() {
@@ -19,6 +20,7 @@ async function runSeeds() {
   await seedSettings(dataSource);
   await seedSeo(dataSource);
   await seedArtists(dataSource);
+  await seedCategories(dataSource);
   await seedBlog(dataSource);
 
   console.log('\nAll seeds completed successfully!');

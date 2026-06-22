@@ -2,7 +2,7 @@
   "name": "salon-tatto",
   "version": "1.0.0",
   "private": true,
-  "description": "Tattoo studio platform — monorepo",
+  "description": "La Rola Tattoo NYC platform — monorepo",
   "workspaces": [
     "packages/*",
     "apps/*"

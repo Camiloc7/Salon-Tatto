@@ -6,6 +6,7 @@ import { StructuredData } from '@/components/shared/structured-data';
 import { getOptimizedImageUrl } from '@/lib/utils';
 import type { Artist, SeoPage } from '@salon-tatto/shared';
 import Link from 'next/link';
+import { InkBackground } from '@/components/artists/ink-background';
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -68,8 +69,10 @@ export default async function ArtistsPage({ params, searchParams }: Props) {
     : artists;
 
   return (
-    <div className="container py-20">
-      <div className="text-center">
+    <div className="relative min-h-screen py-20 overflow-hidden">
+      <InkBackground />
+      <div className="container relative z-10">
+        <div className="text-center">
         <h1 className="text-4xl font-bold tracking-tight">{t('title')}</h1>
         <p className="mt-4 text-lg text-muted-foreground">
           {t('description')}
@@ -109,9 +112,15 @@ export default async function ArtistsPage({ params, searchParams }: Props) {
           {t('noArtists')}
         </div>
       ) : (
-        <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className={`mt-16 ${
+          filteredArtists.length <= 2 
+            ? 'flex flex-wrap justify-center gap-12' 
+            : 'grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
+        }`}>
           {filteredArtists.map((artist) => (
-            <ArtistCard key={artist.id} artist={artist} locale={locale} />
+            <div key={artist.id} className={filteredArtists.length <= 2 ? 'w-[280px]' : ''}>
+              <ArtistCard artist={artist} locale={locale} />
+            </div>
           ))}
         </div>
       )}
@@ -128,6 +137,7 @@ export default async function ArtistsPage({ params, searchParams }: Props) {
           }}
         />
       ))}
+      </div>
     </div>
   );
 }

@@ -38,7 +38,7 @@ const faqs = [
 ];
 
 export function FAQ() {
-  const t = useTranslations();
+  const t = useTranslations('home');
 
   return (
     <section className="py-20">

@@ -331,7 +331,7 @@ export default function SeoPage() {
                         <div className="flex items-center gap-2">
                           <div className="w-7 h-7 bg-muted rounded-full overflow-hidden flex items-center justify-center text-[10px] font-bold text-muted-foreground">LOGO</div>
                           <div>
-                            <div className="text-[12px] text-[#202124] leading-tight font-medium">Salon Tatto</div>
+                            <div className="text-[12px] text-[#202124] leading-tight font-medium">La Rola Tattoo NYC</div>
                             <div className="text-[11px] text-[#4d5156] leading-tight">https://salon-tatto.com › {pageKey === 'home' ? '' : pageKey}</div>
                           </div>
                         </div>

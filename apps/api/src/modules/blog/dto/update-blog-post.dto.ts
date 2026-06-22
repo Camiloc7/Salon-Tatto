@@ -38,7 +38,7 @@ class UpdateBlogPostTranslationDto {
   @IsString()
   content?: string;
 
-  @ApiPropertyOptional({ example: 'SEO Title | Salon Tatto' })
+  @ApiPropertyOptional({ example: 'SEO Title | La Rola Tattoo NYC' })
   @IsOptional()
   @IsString()
   @MaxLength(70)

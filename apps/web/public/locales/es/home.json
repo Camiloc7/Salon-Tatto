@@ -1,13 +1,16 @@
 {
   "hero": {
-    "title": "NYC Tattoo Studio",
-    "subtitle": "Tatuajes fine line, ornamentales y personalizados. Estudio privado en Midtown Manhattan. Solo con cita previa.",
-    "cta": "Conoce a nuestros artistas",
-    "secondaryCta": "Ver nuestro trabajo"
+    "title": "La Rola Tattoo NYC",
+    "subtitle": "Tatuajes de línea fina, ornamentales y personalizados. Estudio privado en Midtown Manhattan. Solo con cita previa.",
+    "cta": "Agendar una Cita",
+    "viewWork": "Ver Nuestro Trabajo"
   },
   "studio": {
-    "title": "Bienvenido a NYC Tattoo Studio",
-    "description": "Somos un estudio profesional de tatuajes dedicado a crear arte único y personalizado. Nuestro equipo de talentosos artistas se especializa en diversos estilos para hacer realidad tu visión."
+    "title": "La Rola Tattoo NYC",
+    "description": "La Rola Tattoo NYC es un estudio privado de tatuajes ubicado en el centro de Manhattan, creado por la tatuadora colombiana Nathalia Cantillo.",
+    "p1": "Originaria de Bogotá, Colombia, Nathalia se mudó a la ciudad de Nueva York con el objetivo de construir una nueva vida a través del arte. Lo que comenzó como un sueño personal se convirtió en un viaje profesional que la llevó a la creación de un estudio privado dedicado a brindar una experiencia de tatuaje más personal, cómoda y significativa.",
+    "p2": "Hoy en día, La Rola Tattoo NYC se especializa en tatuajes de línea fina, diseños ornamentales, tatuajes UV y trabajos de tatuaje personalizados tanto para locales como para visitantes. Cada tatuaje se crea con atención al detalle, creatividad y respeto por la historia que hay detrás.",
+    "p3": "Ya sea que estés celebrando un hito, honrando un recuerdo o llevándote a casa un pedazo de Nueva York, el estudio se construyó sobre la creencia de que los grandes tatuajes deben ser personales, intencionales y hechos para durar."
   },
   "featuredArtists": {
     "title": "Nuestros Artistas",
