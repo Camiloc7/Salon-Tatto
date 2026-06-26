@@ -64,7 +64,7 @@ export async function Footer() {
         <div className="mb-12">
           <Link href="/" className="inline-block mb-8">
             <h2 className="text-3xl font-serif tracking-widest text-white uppercase font-light">
-              {settings?.name || t('site.name')}
+              {settings?.studioName || t('site.name')}
             </h2>
           </Link>
           <ul className="flex flex-wrap justify-center gap-x-10 gap-y-4">
@@ -94,7 +94,7 @@ export async function Footer() {
 
         {/* Bottom: Copyright */}
         <div className="w-full border-t border-zinc-900 pt-8 text-[10px] uppercase tracking-widest text-zinc-700">
-          &copy; {new Date().getFullYear()} {settings?.name || t('site.name')}. {t('footer.rights')}.
+          &copy; {new Date().getFullYear()} {settings?.studioName || t('site.name')}. {t('footer.rights')}.
         </div>
       </div>
     </footer>

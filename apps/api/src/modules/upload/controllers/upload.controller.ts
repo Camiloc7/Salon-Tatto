@@ -32,13 +32,13 @@ const imageFileFilter = (
   file: Express.Multer.File,
   callback: (error: Error | null, acceptFile: boolean) => void,
 ) => {
-  const allowedMimes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+  const allowedMimes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'video/mp4', 'video/webm', 'video/quicktime'];
   if (allowedMimes.includes(file.mimetype)) {
     callback(null, true);
   } else {
     callback(
       new BadRequestException(
-        `Invalid file type: ${file.mimetype}. Only JPEG, PNG, WebP, and GIF images are allowed.`,
+        `Invalid file type: ${file.mimetype}. Only Images and Videos are allowed.`,
       ),
       false,
     );

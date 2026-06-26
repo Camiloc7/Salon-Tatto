@@ -111,6 +111,20 @@ export class GalleryController {
 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('admin', 'artist')
+  @Patch('gallery/bulk-reorder')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Bulk reorder images (admin or self)' })
+  @ApiBody({ schema: { type: 'object', properties: { updates: { type: 'array', items: { type: 'object', properties: { id: { type: 'string' }, orderIndex: { type: 'number' } } } } } } })
+  @ApiResponse({ status: 200, description: 'Images reordered' })
+  async bulkReorder(
+    @Body('updates') updates: { id: string; orderIndex: number }[],
+    @CurrentUser() user: any,
+  ) {
+    return this.galleryService.bulkReorder(updates, user);
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin', 'artist')
   @Patch('gallery/:imageId/category')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Set category for an image (admin or self)' })

@@ -112,13 +112,13 @@ export default async function ArtistsPage({ params, searchParams }: Props) {
           {t('noArtists')}
         </div>
       ) : (
-        <div className={`mt-16 ${
+        <div className={
           filteredArtists.length <= 2 
-            ? 'flex flex-wrap justify-center gap-12' 
-            : 'grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
-        }`}>
+            ? 'mt-16 flex flex-wrap justify-center gap-8 md:gap-12' 
+            : 'mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
+        }>
           {filteredArtists.map((artist) => (
-            <div key={artist.id} className={filteredArtists.length <= 2 ? 'w-[280px]' : ''}>
+            <div key={artist.id} className={filteredArtists.length <= 2 ? 'w-full max-w-[350px]' : 'w-full'}>
               <ArtistCard artist={artist} locale={locale} />
             </div>
           ))}

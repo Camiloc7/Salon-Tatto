@@ -62,6 +62,7 @@ export class GalleryService {
 
       const result = await cloudinary.uploader.upload(dataUri, {
         folder: `salon-tatto/artists/${artistId}`,
+        resource_type: 'auto',
         transformation: [
           {
             width: 1200,
@@ -101,6 +102,29 @@ export class GalleryService {
     }
     image.orderIndex = orderIndex;
     return this.imageRepository.save(image);
+  }
+
+  async bulkReorder(updates: { id: string; orderIndex: number }[], user?: any) {
+    if (!updates || updates.length === 0) return { message: 'No updates provided' };
+
+    return this.imageRepository.manager.transaction(async (manager) => {
+      for (const update of updates) {
+        const image = await manager.findOne(ArtistImage, {
+          where: { id: update.id },
+          relations: ['artist'],
+        });
+
+        if (!image) continue;
+
+        if (user?.role === 'artist' && image.artist?.userId !== user.id) {
+          throw new BadRequestException('You can only manage your own gallery');
+        }
+
+        image.orderIndex = update.orderIndex;
+        await manager.save(image);
+      }
+      return { message: 'Bulk reorder successful' };
+    });
   }
 
   async remove(imageId: string, user?: any) {

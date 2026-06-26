@@ -8,6 +8,8 @@ export type LightboxImage = {
   url: string;
   alt?: string;
   artistName?: string;
+  categoryName?: string;
+  format?: string;
 };
 
 type GalleryLightboxProps = {
@@ -156,14 +158,23 @@ export function GalleryLightbox({ images, initialIndex, onClose }: GalleryLightb
                 className="relative cursor-auto"
                 onClick={(e) => e.stopPropagation()}
               >
-                <ImageOptimized
-                  src={currentImage.url}
-                  alt={currentImage.alt || 'Gallery image'}
-                  width={1200}
-                  height={1200}
-                  className="max-h-[85vh] max-w-full object-contain select-none"
-                  priority
-                />
+                {currentImage.url.match(/\.(mp4|webm|mov)$/i) || (currentImage.format && ['mp4', 'webm', 'mov'].includes(currentImage.format)) ? (
+                  <video
+                    src={currentImage.url}
+                    controls
+                    autoPlay
+                    className="max-h-[85vh] max-w-full object-contain select-none rounded-lg"
+                  />
+                ) : (
+                  <ImageOptimized
+                    src={currentImage.url}
+                    alt={currentImage.alt || 'Gallery image'}
+                    width={1200}
+                    height={1200}
+                    className="max-h-[85vh] max-w-full object-contain select-none"
+                    priority
+                  />
+                )}
                 {currentImage.artistName && (
                   <div className="absolute bottom-6 md:bottom-[-20px] left-0 right-0 text-center">
                     <span className="bg-black/50 backdrop-blur-md px-4 py-2 rounded-full text-white text-xs tracking-widest uppercase shadow-lg">

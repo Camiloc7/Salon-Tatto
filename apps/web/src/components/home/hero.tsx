@@ -12,15 +12,39 @@ export function Hero({ settings }: { settings: StudioSettings | null }) {
   const tCommon = useTranslations();
   const locale = useLocale();
 
-  const title = settings?.name || t('hero.title');
+  const title = settings?.studioName || t('hero.title');
   const phoneDigits = settings?.phone ? settings.phone.replace(/\D/g, '') : '1234567890';
   const whatsappLink = `https://wa.me/${phoneDigits}`;
 
+  const isVideo = settings?.heroMediaUrl?.match(/\.(mp4|webm|mov)$/i);
+
   return (
     <section className="relative min-h-[100dvh] w-full bg-black overflow-hidden flex flex-col items-center justify-center">
-      {/* Sleek, minimal background: subtle dark gradient instead of noisy orbs */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-zinc-900/50 via-black to-black z-0" />
-      <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20 mix-blend-overlay z-0" />
+      {settings?.heroMediaUrl ? (
+        <>
+          {isVideo ? (
+            <video
+              src={settings.heroMediaUrl}
+              className="absolute inset-0 w-full h-full object-cover z-0 opacity-40 mix-blend-screen"
+              autoPlay
+              loop
+              muted
+              playsInline
+            />
+          ) : (
+            <img 
+              src={settings.heroMediaUrl} 
+              alt="Hero Background" 
+              className="absolute inset-0 w-full h-full object-cover z-0 opacity-40 mix-blend-screen"
+            />
+          )}
+        </>
+      ) : (
+        <>
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-zinc-900/50 via-black to-black z-0" />
+          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20 mix-blend-overlay z-0" />
+        </>
+      )}
 
       {/* Main Content Container */}
       <motion.div 

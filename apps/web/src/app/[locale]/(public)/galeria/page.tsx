@@ -47,6 +47,7 @@ type ImageEntry = {
   alt: string;
   artistName?: string;
   artistSlug?: string;
+  categoryName?: string;
 };
 
 export default async function GalleryPage({ params }: Props) {
@@ -70,6 +71,7 @@ export default async function GalleryPage({ params }: Props) {
             alt: img.alt || artist.name || '',
             artistName: artist.name,
             artistSlug: artist.slug,
+            categoryName: (img as any).category?.name,
           });
         });
       }

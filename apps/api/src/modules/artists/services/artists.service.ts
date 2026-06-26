@@ -30,6 +30,9 @@ export class ArtistsService {
       .leftJoinAndSelect('artist.translations', 'translation')
       .leftJoinAndSelect('translation.language', 'language')
       .leftJoinAndSelect('artist.images', 'images')
+      .leftJoinAndSelect('images.category', 'imageCategory')
+      .leftJoinAndSelect('imageCategory.translations', 'imageCategoryTranslation')
+      .leftJoinAndSelect('imageCategoryTranslation.language', 'imageCategoryLanguage')
       .where('artist.deletedAt IS NULL');
 
     if (isActive !== undefined) {
@@ -71,6 +74,9 @@ export class ArtistsService {
       .leftJoinAndSelect('artist.translations', 'translation')
       .leftJoinAndSelect('translation.language', 'language')
       .leftJoinAndSelect('artist.images', 'images')
+      .leftJoinAndSelect('images.category', 'imageCategory')
+      .leftJoinAndSelect('imageCategory.translations', 'imageCategoryTranslation')
+      .leftJoinAndSelect('imageCategoryTranslation.language', 'imageCategoryLanguage')
       .where('artist.slug = :slug', { slug })
       .andWhere('artist.deletedAt IS NULL');
 
@@ -95,6 +101,9 @@ export class ArtistsService {
       .leftJoinAndSelect('artist.translations', 'translation')
       .leftJoinAndSelect('translation.language', 'language')
       .leftJoinAndSelect('artist.images', 'images')
+      .leftJoinAndSelect('images.category', 'imageCategory')
+      .leftJoinAndSelect('imageCategory.translations', 'imageCategoryTranslation')
+      .leftJoinAndSelect('imageCategoryTranslation.language', 'imageCategoryLanguage')
       .where('artist.id = :id', { id })
       .andWhere('artist.deletedAt IS NULL');
 
@@ -306,6 +315,22 @@ export class ArtistsService {
     }
 
     const { translations, ...artistData } = artist;
+
+    if (artistData.images) {
+      artistData.images = artistData.images.map((img: any) => {
+        if (img.category && img.category.translations) {
+          let catTrans = img.category.translations.find((t: any) => t.language?.code === locale);
+          if (!catTrans && img.category.translations.length > 0) {
+            catTrans = img.category.translations[0];
+          }
+          if (catTrans) {
+            img.category.name = catTrans.name;
+          }
+          delete img.category.translations;
+        }
+        return img;
+      });
+    }
 
     return {
       ...artistData,

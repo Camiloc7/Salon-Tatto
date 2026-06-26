@@ -6,8 +6,10 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '@/lib/api-client';
 import { queryKeys } from '@/lib/query-keys';
 import { Button } from '@/components/ui/button';
-import { Loader2, Save } from 'lucide-react';
+import { Loader2, Save, UploadCloud } from 'lucide-react';
 import type { StudioSettings } from '@salon-tatto/shared';
+import { useDropzone } from 'react-dropzone';
+import { toast } from 'sonner';
 
 const DAYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'] as const;
 
@@ -29,6 +31,7 @@ type SettingsForm = {
   fridayHours: string;
   saturdayHours: string;
   sundayHours: string;
+  heroMediaUrl: string;
 };
 
 const emptyForm: SettingsForm = {
@@ -49,6 +52,7 @@ const emptyForm: SettingsForm = {
   fridayHours: '',
   saturdayHours: '',
   sundayHours: '',
+  heroMediaUrl: '',
 };
 
 export default function SettingsPage() {
@@ -81,6 +85,7 @@ export default function SettingsPage() {
         fridayHours: settings.fridayHours || '',
         saturdayHours: settings.saturdayHours || '',
         sundayHours: settings.sundayHours || '',
+        heroMediaUrl: settings.heroMediaUrl || '',
       });
     }
   }, [settings]);
@@ -103,6 +108,34 @@ export default function SettingsPage() {
   const handleSave = () => {
     saveMutation.mutate(form);
   };
+
+  const uploadMutation = useMutation({
+    mutationFn: async (file: File) => {
+      const formData = new FormData();
+      formData.append('file', file);
+      return api.post<{ url: string }>('/upload/image', formData);
+    },
+    onSuccess: (data) => {
+      updateField('heroMediaUrl', data.url);
+      toast.success(t('saved')); // Or a specific success message
+    },
+    onError: () => {
+      toast.error('Failed to upload file');
+    }
+  });
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop: (acceptedFiles) => {
+      if (acceptedFiles.length > 0) {
+        uploadMutation.mutate(acceptedFiles[0]);
+      }
+    },
+    accept: {
+      'image/*': [],
+      'video/*': [],
+    },
+    maxFiles: 1,
+  });
 
   if (isLoading) {
     return (
@@ -137,6 +170,36 @@ export default function SettingsPage() {
               onChange={(e) => updateField('studioName', e.target.value)}
               className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">Hero Background (Image or Video URL)</label>
+            <div className="flex gap-2">
+              <input
+                value={form.heroMediaUrl}
+                onChange={(e) => updateField('heroMediaUrl', e.target.value)}
+                placeholder="https://..."
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 flex-1"
+              />
+            </div>
+            <div 
+              {...getRootProps()} 
+              className={`mt-2 border-2 border-dashed rounded-xl p-4 text-center cursor-pointer transition-colors ${
+                isDragActive ? 'border-primary bg-primary/5' : 'border-muted hover:border-primary/50'
+              }`}
+            >
+              <input {...getInputProps()} />
+              {uploadMutation.isPending ? (
+                <div className="flex flex-col items-center gap-1 text-muted-foreground">
+                  <Loader2 className="h-6 w-6 animate-spin" />
+                  <span className="text-sm">Uploading...</span>
+                </div>
+              ) : (
+                <div className="flex flex-col items-center gap-1 text-muted-foreground">
+                  <UploadCloud className="h-6 w-6 mb-1" />
+                  <span className="text-sm">Drag & drop or click to upload media</span>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 

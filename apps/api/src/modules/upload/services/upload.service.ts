@@ -22,6 +22,7 @@ export class UploadService {
         dataUri,
         {
           folder: 'salon-tatto/uploads',
+          resource_type: 'auto',
           transformation: [
             { quality: 'auto', fetch_format: 'auto' },
           ],

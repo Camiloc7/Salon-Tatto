@@ -70,7 +70,7 @@ export function Testimonials({ initialReviews = [] }: TestimonialsProps) {
                 {/* Optional profile photo if coming from google */}
                 {('profile_photo_url' in item && item.profile_photo_url) ? (
                   <img 
-                    src={item.profile_photo_url} 
+                    src={item.profile_photo_url as string} 
                     alt={item.author_name}
                     className="w-10 h-10 rounded-full"
                     referrerPolicy="no-referrer"
@@ -84,7 +84,7 @@ export function Testimonials({ initialReviews = [] }: TestimonialsProps) {
                 <div>
                   <p className="font-semibold">{item.author_name}</p>
                   <p className="text-xs text-muted-foreground">
-                    {('relative_time_description' in item) ? item.relative_time_description : 'Verified Client'}
+                    {('relative_time_description' in item) ? item.relative_time_description as string : 'Verified Client'}
                   </p>
                 </div>
               </div>

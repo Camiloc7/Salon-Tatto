@@ -35,7 +35,7 @@ export function BlogCard({ post, locale, featured = false }: BlogCardProps) {
           fill
           priority={featured}
           sizes={featured ? "(max-width: 768px) 100vw, 66vw" : "(max-width: 768px) 100vw, 33vw"}
-          className="object-cover transition-transform duration-[2000ms] ease-out group-hover:scale-105 opacity-80 group-hover:opacity-100"
+          className="object-cover transition-transform duration-2000 ease-out group-hover:scale-105 opacity-80 group-hover:opacity-100"
         />
         {/* Dark Gradient Overlay for text readability */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent transition-opacity duration-700" />

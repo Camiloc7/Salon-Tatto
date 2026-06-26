@@ -26,12 +26,20 @@ export function GalleryGrid({ images }: GalleryGridProps) {
               alt={image.alt || ''}
               className="w-full"
               disableInternalModal
+              format={image.format}
               onClick={() => setSelectedIndex(index)}
             />
             {image.artistName && (
-              <p className="mt-1 text-xs text-muted-foreground text-center">
-                {t('byArtist')} {image.artistName}
-              </p>
+              <div className="mt-2 flex flex-col items-center">
+                {image.categoryName && (
+                  <span className="text-[10px] uppercase tracking-widest text-primary/80 font-mono mb-1">
+                    {image.categoryName}
+                  </span>
+                )}
+                <p className="text-xs text-muted-foreground text-center">
+                  {t('byArtist')} {image.artistName}
+                </p>
+              </div>
             )}
           </div>
         ))}

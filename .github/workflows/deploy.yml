@@ -1,0 +1,40 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches:
+      - main # O cambia a la rama que uses para producción
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT }} # Generalmente 22
+          script: |
+            # Navegar a la carpeta del proyecto
+            cd /ruta/a/tu/proyecto/en/el/vps/Salon-Tatto
+            
+            # Obtener últimos cambios
+            git pull origin main
+            
+            # Instalar dependencias
+            npm install
+            
+            # Construir el proyecto (Turborepo cacheará lo que no haya cambiado)
+            npm run build
+            
+            # Reiniciar PM2 sin tiempo de inactividad
+            pm2 reload ecosystem.config.js --env production
+            
+            # Asegurarse de que pm2 se guarde
+            pm2 save

@@ -21,6 +21,7 @@ export function ArtistGallery({ images }: ArtistGalleryProps) {
     id: img.id,
     url: img.url || img.cloudinaryId,
     alt: img.alt || '',
+    format: img.format,
   }));
 
   return (
@@ -34,6 +35,9 @@ export function ArtistGallery({ images }: ArtistGalleryProps) {
           const isLarge = index % 5 === 0;
           const isLandscape = index % 5 === 2;
           
+          const isVideo = image.format === 'mp4' || image.format === 'webm' || image.format === 'mov' || (image.url || image.cloudinaryId).match(/\.(mp4|webm|mov)$/i);
+          const isHoveredLocal = hoveredId === image.id;
+
           return (
             <motion.div
               key={image.id}
@@ -41,7 +45,7 @@ export function ArtistGallery({ images }: ArtistGalleryProps) {
                 'relative overflow-hidden cursor-pointer group rounded-sm bg-neutral-950',
                 isLarge ? 'col-span-2 row-span-2' : isLandscape ? 'col-span-2 row-span-1' : 'col-span-1 row-span-1',
                 // Dimming effect if another item is hovered
-                hoveredId && hoveredId !== image.id ? 'opacity-30 grayscale' : 'opacity-100 grayscale-0',
+                hoveredId && !isHoveredLocal ? 'opacity-30 grayscale' : 'opacity-100 grayscale-0',
                 'transition-all duration-700 ease-out'
               )}
               onMouseEnter={() => setHoveredId(image.id)}
@@ -52,18 +56,41 @@ export function ArtistGallery({ images }: ArtistGalleryProps) {
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.8, delay: (index % 5) * 0.1, ease: [0.16, 1, 0.3, 1] }}
             >
-              <ImageOptimized
-                src={image.url || image.cloudinaryId}
-                alt={image.alt || ''}
-                fill
-                className="object-cover transition-transform duration-[2000ms] ease-out group-hover:scale-[1.03]"
-                sizes={isLarge ? '(max-width: 768px) 100vw, 50vw' : '(max-width: 768px) 50vw, 25vw'}
-              />
+              {isVideo ? (
+                <video
+                  src={image.url || image.cloudinaryId}
+                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-2000 ease-out group-hover:scale-[1.03]"
+                  muted
+                  loop
+                  playsInline
+                  ref={(el) => {
+                    if (el) {
+                      if (isHoveredLocal) el.play().catch(() => {});
+                      else el.pause();
+                    }
+                  }}
+                />
+              ) : (
+                <ImageOptimized
+                  src={image.url || image.cloudinaryId}
+                  alt={image.alt || ''}
+                  fill
+                  className="object-cover transition-transform duration-2000 ease-out group-hover:scale-[1.03]"
+                  sizes={isLarge ? '(max-width: 768px) 100vw, 50vw' : '(max-width: 768px) 50vw, 25vw'}
+                />
+              )}
               
-              <div className="absolute inset-0 bg-black/0 transition-colors duration-700 group-hover:bg-black/30 flex items-center justify-center pointer-events-none">
-                <span className="translate-y-4 opacity-0 transition-all duration-700 ease-out group-hover:translate-y-0 group-hover:opacity-100 text-white font-serif uppercase tracking-[0.3em] text-xs md:text-sm">
-                  Ver detalle
-                </span>
+              <div className="absolute inset-0 bg-black/0 transition-colors duration-700 group-hover:bg-black/40 flex items-center justify-center pointer-events-none">
+                <div className="flex flex-col items-center translate-y-4 opacity-0 transition-all duration-700 ease-out group-hover:translate-y-0 group-hover:opacity-100">
+                  {(image as any).category?.name && (
+                    <span className="text-white/90 font-mono text-[10px] sm:text-xs uppercase tracking-widest mb-2 border border-white/30 px-3 py-1 rounded-full backdrop-blur-sm">
+                      {(image as any).category.name}
+                    </span>
+                  )}
+                  <span className="text-white font-serif uppercase tracking-[0.3em] text-xs md:text-sm">
+                    Ver detalle
+                  </span>
+                </div>
               </div>
             </motion.div>
           );

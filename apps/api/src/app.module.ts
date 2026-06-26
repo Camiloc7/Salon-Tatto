@@ -16,6 +16,7 @@ import { LanguagesModule } from './modules/languages/languages.module';
 import { UploadModule } from './modules/upload/upload.module';
 import { HealthModule } from './modules/health/health.module';
 import { TranslationModule } from './modules/translation/translation.module';
+import { PromotionsModule } from './modules/promotions/promotions.module';
 
 @Module({
   imports: [
@@ -51,6 +52,7 @@ import { TranslationModule } from './modules/translation/translation.module';
     SettingsModule,
     UploadModule,
     TranslationModule,
+    PromotionsModule,
   ],
   providers: [
     {

@@ -5,11 +5,12 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useDropzone } from 'react-dropzone';
 import { api } from '@/lib/api-client';
 import { Button } from '@/components/ui/button';
-import { Loader2, Star, Trash2, ArrowUp, ArrowDown, UploadCloud, X, Link as LinkIcon } from 'lucide-react';
+import { Loader2, Star, Trash2, UploadCloud, X, Link as LinkIcon, GripVertical } from 'lucide-react';
 import { toast } from 'sonner';
 import { queryKeys } from '@/lib/query-keys';
 import type { Category } from '@salon-tatto/shared';
 import Link from 'next/link';
+import { Reorder } from 'framer-motion';
 
 type ArtistImage = {
   id: string;
@@ -18,6 +19,7 @@ type ArtistImage = {
   orderIndex: number;
   categoryId: string | null;
   category?: { name?: string };
+  format?: string;
 };
 
 type PendingFile = {
@@ -34,6 +36,7 @@ export function GalleryManager({ artistId }: GalleryManagerProps) {
   const queryClient = useQueryClient();
   const [uploading, setUploading] = useState(false);
   const [pendingFiles, setPendingFiles] = useState<PendingFile[]>([]);
+  const [localImages, setLocalImages] = useState<ArtistImage[]>([]);
 
   const { data: artist } = useQuery({
     queryKey: queryKeys.artists.detail(artistId),
@@ -44,6 +47,12 @@ export function GalleryManager({ artistId }: GalleryManagerProps) {
     queryKey: ['gallery', artistId],
     queryFn: () => api.get<ArtistImage[]>(`/artists/${artistId}/images`),
   });
+
+  useEffect(() => {
+    if (images) {
+      setLocalImages([...images].sort((a, b) => a.orderIndex - b.orderIndex));
+    }
+  }, [images]);
 
   const { data: categories } = useQuery({
     queryKey: queryKeys.blog.categories,
@@ -61,7 +70,10 @@ export function GalleryManager({ artistId }: GalleryManagerProps) {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: { 'image/*': [] },
+    accept: { 
+      'image/*': [],
+      'video/*': [],
+    },
   });
 
   useEffect(() => {
@@ -87,7 +99,7 @@ export function GalleryManager({ artistId }: GalleryManagerProps) {
       for (const item of pendingFiles) {
         const formData = new FormData();
         formData.append('files', item.file);
-        const uploadedImages = await api.post(`/artists/${artistId}/images`, formData);
+        const uploadedImages = await api.post<ArtistImage[]>(`/artists/${artistId}/images`, formData);
         const newImage = uploadedImages[0];
         
         if (item.categoryId && newImage) {
@@ -122,15 +134,21 @@ export function GalleryManager({ artistId }: GalleryManagerProps) {
     onError: () => toast.error('Failed to set featured image'),
   });
 
-  const reorderMutation = useMutation({
-    mutationFn: ({ imageId, orderIndex }: { imageId: string; orderIndex: number }) => 
-      api.patch(`/gallery/${imageId}/reorder`, { orderIndex }),
+  const bulkReorderMutation = useMutation({
+    mutationFn: (updates: { id: string; orderIndex: number }[]) => 
+      api.patch(`/gallery/bulk-reorder`, { updates }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['gallery', artistId] });
       toast.success('Gallery reordered');
     },
     onError: () => toast.error('Failed to reorder gallery'),
   });
+
+  const handleReorder = (newOrder: ArtistImage[]) => {
+    setLocalImages(newOrder);
+    const updates = newOrder.map((img, idx) => ({ id: img.id, orderIndex: idx }));
+    bulkReorderMutation.mutate(updates);
+  };
 
   const setCategoryMutation = useMutation({
     mutationFn: ({ imageId, categoryId }: { imageId: string; categoryId: string | null }) => 
@@ -143,8 +161,6 @@ export function GalleryManager({ artistId }: GalleryManagerProps) {
   });
 
   if (isLoading) return <Loader2 className="h-6 w-6 animate-spin" />;
-
-  const sortedImages = [...(images || [])].sort((a, b) => a.orderIndex - b.orderIndex);
 
   return (
     <div className="space-y-8">
@@ -184,7 +200,11 @@ export function GalleryManager({ artistId }: GalleryManagerProps) {
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
             {pendingFiles.map((item, index) => (
               <div key={index} className="relative group rounded-lg overflow-hidden border bg-background flex flex-col">
-                <img src={item.preview} alt="preview" className="w-full h-32 object-cover" />
+                {item.file.type.startsWith('video/') ? (
+                  <video src={item.preview} className="w-full h-32 object-cover" autoPlay loop muted />
+                ) : (
+                  <img src={item.preview} alt="preview" className="w-full h-32 object-cover" />
+                )}
                 <Button 
                   size="icon" 
                   variant="destructive" 
@@ -211,12 +231,25 @@ export function GalleryManager({ artistId }: GalleryManagerProps) {
         </div>
       )}
 
-      {sortedImages.length > 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {sortedImages.map((image, index) => (
-            <div key={image.id} className="relative group rounded-xl overflow-hidden border shadow-sm flex flex-col">
+      {localImages.length > 0 && (
+        <Reorder.Group 
+          axis="y" 
+          values={localImages} 
+          onReorder={handleReorder}
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+        >
+          {localImages.map((image, index) => (
+            <Reorder.Item 
+              key={image.id} 
+              value={image}
+              className="relative group rounded-xl overflow-hidden border shadow-sm flex flex-col bg-card"
+            >
               <div className="relative">
-                <img src={image.url} alt="" className="w-full h-56 object-cover" />
+                {image.format === 'mp4' || image.format === 'mov' || image.format === 'webm' ? (
+                  <video src={image.url} className="w-full h-56 object-cover" autoPlay loop muted />
+                ) : (
+                  <img src={image.url} alt="" className="w-full h-56 object-cover" />
+                )}
                 
                 <div className="absolute top-2 left-2 flex gap-1">
                   {image.isFeatured && (
@@ -225,12 +258,20 @@ export function GalleryManager({ artistId }: GalleryManagerProps) {
                     </div>
                   )}
                   <div className="bg-black/70 text-white px-2 rounded-md text-xs flex items-center">
-                    #{image.orderIndex}
+                    #{index}
                   </div>
                 </div>
 
                 <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2">
                   <div className="flex gap-2">
+                    <Button
+                      size="icon"
+                      variant="secondary"
+                      className="h-8 w-8 cursor-grab active:cursor-grabbing"
+                      title="Drag to reorder"
+                    >
+                      <GripVertical className="h-4 w-4" />
+                    </Button>
                     <Button
                       size="icon"
                       variant="secondary"
@@ -251,25 +292,6 @@ export function GalleryManager({ artistId }: GalleryManagerProps) {
                       <Trash2 className="h-4 w-4" />
                     </Button>
                   </div>
-                  <div className="flex gap-2">
-                    <Button
-                      size="icon"
-                      variant="outline"
-                      className="h-8 w-8 text-black"
-                      disabled={index === 0}
-                      onClick={() => reorderMutation.mutate({ imageId: image.id, orderIndex: image.orderIndex - 1 })}
-                    >
-                      <ArrowUp className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      size="icon"
-                      variant="outline"
-                      className="h-8 w-8 text-black"
-                      onClick={() => reorderMutation.mutate({ imageId: image.id, orderIndex: image.orderIndex + 1 })}
-                    >
-                      <ArrowDown className="h-4 w-4" />
-                    </Button>
-                  </div>
                 </div>
               </div>
               
@@ -286,9 +308,9 @@ export function GalleryManager({ artistId }: GalleryManagerProps) {
                   ))}
                 </select>
               </div>
-            </div>
+            </Reorder.Item>
           ))}
-        </div>
+        </Reorder.Group>
       )}
     </div>
   );

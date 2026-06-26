@@ -11,10 +11,14 @@ type ImageCardProps = {
   className?: string;
   disableInternalModal?: boolean;
   onClick?: () => void;
+  format?: string;
 };
 
-export function ImageCard({ src, alt, className, disableInternalModal, onClick }: ImageCardProps) {
+export function ImageCard({ src, alt, className, disableInternalModal, onClick, format }: ImageCardProps) {
   const [open, setOpen] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const isVideo = src.match(/\.(mp4|webm|mov)$/i) || (format && ['mp4', 'webm', 'mov'].includes(format));
 
   const handleClick = () => {
     if (onClick) onClick();
@@ -25,15 +29,38 @@ export function ImageCard({ src, alt, className, disableInternalModal, onClick }
     <>
       <button
         onClick={handleClick}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
         className={cn('group relative overflow-hidden rounded-sm', className)}
       >
-        <ImageOptimized
-          src={src}
-          alt={alt}
-          width={600}
-          height={800}
-          className="h-full w-full object-cover transition-transform duration-[1500ms] ease-out group-hover:scale-[1.03]"
-        />
+        {isVideo ? (
+          <video
+            src={src}
+            className="h-full w-full object-cover transition-transform duration-1500 ease-out group-hover:scale-[1.03]"
+            muted
+            loop
+            playsInline
+            // Play only when hovered
+            ref={(el) => {
+              if (el) {
+                if (isHovered) {
+                  el.play().catch(() => {});
+                } else {
+                  el.pause();
+                  // el.currentTime = 0; // optional: reset to start
+                }
+              }
+            }}
+          />
+        ) : (
+          <ImageOptimized
+            src={src}
+            alt={alt}
+            width={600}
+            height={800}
+            className="h-full w-full object-cover transition-transform duration-1500 ease-out group-hover:scale-[1.03]"
+          />
+        )}
         <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/0 transition-colors duration-700 ease-in-out group-hover:bg-black/50">
           <span className="translate-y-4 opacity-0 transition-all duration-700 ease-out group-hover:translate-y-0 group-hover:opacity-100 text-white font-serif uppercase tracking-[0.2em] text-sm">
             Ver detalle
@@ -52,14 +79,23 @@ export function ImageCard({ src, alt, className, disableInternalModal, onClick }
           >
             <X className="h-6 w-6" />
           </button>
-          <ImageOptimized
-            src={src}
-            alt={alt}
-            width={1200}
-            height={900}
-            className="max-h-[85vh] max-w-full rounded-lg object-contain"
-            priority
-          />
+          {isVideo ? (
+            <video
+              src={src}
+              controls
+              autoPlay
+              className="max-h-[85vh] max-w-full rounded-lg object-contain"
+            />
+          ) : (
+            <ImageOptimized
+              src={src}
+              alt={alt}
+              width={1200}
+              height={900}
+              className="max-h-[85vh] max-w-full rounded-lg object-contain"
+              priority
+            />
+          )}
         </div>
       )}
     </>

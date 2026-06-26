@@ -42,7 +42,7 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function StudioPage({ params }: Props) {
   const { locale } = await params;
-  const t = await getTranslations({ locale });
+  const t = await getTranslations({ locale, namespace: 'home' });
 
   return (
     <div className="container py-20">
