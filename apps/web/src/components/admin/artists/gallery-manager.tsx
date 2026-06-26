@@ -144,10 +144,18 @@ export function GalleryManager({ artistId }: GalleryManagerProps) {
     onError: () => toast.error('Failed to reorder gallery'),
   });
 
+  const saveOrder = () => {
+    if (!images) return;
+    const sortedOriginal = [...images].sort((a, b) => a.orderIndex - b.orderIndex);
+    const hasChanged = localImages.some((img, idx) => img.id !== sortedOriginal[idx]?.id);
+    if (!hasChanged) return;
+    
+    const updates = localImages.map((img, idx) => ({ id: img.id, orderIndex: idx }));
+    bulkReorderMutation.mutate(updates);
+  };
+
   const handleReorder = (newOrder: ArtistImage[]) => {
     setLocalImages(newOrder);
-    const updates = newOrder.map((img, idx) => ({ id: img.id, orderIndex: idx }));
-    bulkReorderMutation.mutate(updates);
   };
 
   const setCategoryMutation = useMutation({
@@ -242,7 +250,7 @@ export function GalleryManager({ artistId }: GalleryManagerProps) {
             <Reorder.Item 
               key={image.id} 
               value={image}
-              className="relative group rounded-xl overflow-hidden border shadow-sm flex flex-col bg-card"
+              className="relative group rounded-xl overflow-hidden border shadow-sm flex flex-col bg-card" onDragEnd={saveOrder} onDragEnd={saveOrder}
             >
               <div className="relative">
                 {image.format === 'mp4' || image.format === 'mov' || image.format === 'webm' ? (
@@ -315,3 +323,4 @@ export function GalleryManager({ artistId }: GalleryManagerProps) {
     </div>
   );
 }
+

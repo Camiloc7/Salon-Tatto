@@ -28,7 +28,7 @@ import { TagsService } from './services/tags.service';
       Language,
     ]),
   ],
-  controllers: [BlogController, CategoriesController, TagsController],
+  controllers: [CategoriesController, TagsController, BlogController],
   providers: [BlogService, CategoriesService, TagsService],
   exports: [BlogService],
 })

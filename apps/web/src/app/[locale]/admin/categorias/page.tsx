@@ -40,7 +40,7 @@ export default function AdminCategoriesPage() {
   const [isFormOpen, setIsFormOpen] = useState(false);
 
   const { data: categories, isLoading } = useQuery({
-    queryKey: queryKeys.blog.categories,
+    queryKey: queryKeys.blog.categories('all'),
     queryFn: () => api.get<Category[]>('/blog/categories?locale=all'),
   });
 
@@ -89,7 +89,7 @@ export default function AdminCategoriesPage() {
   const createMutation = useMutation({
     mutationFn: (data: CategoryFormData) => api.post('/blog/categories', data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.blog.categories });
+      queryClient.invalidateQueries({ queryKey: queryKeys.blog.categories('all') });
       toast.success('Category created successfully');
       setIsFormOpen(false);
     },
@@ -99,7 +99,7 @@ export default function AdminCategoriesPage() {
   const updateMutation = useMutation({
     mutationFn: (data: CategoryFormData) => api.put(`/blog/categories/${editingId}`, data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.blog.categories });
+      queryClient.invalidateQueries({ queryKey: queryKeys.blog.categories('all') });
       toast.success('Category updated successfully');
       setIsFormOpen(false);
     },
@@ -109,7 +109,7 @@ export default function AdminCategoriesPage() {
   const deleteMutation = useMutation({
     mutationFn: (id: string) => api.delete(`/blog/categories/${id}`),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.blog.categories });
+      queryClient.invalidateQueries({ queryKey: queryKeys.blog.categories('all') });
       toast.success('Category deleted successfully');
     },
     onError: (err: Error) => toast.error(err.message || 'Failed to delete category'),
@@ -162,7 +162,7 @@ export default function AdminCategoriesPage() {
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div className="grid gap-4 md:grid-cols-2">
               <div>
-                <label className="block text-sm font-medium mb-1">Nombre (English)</label>
+                <label className="block text-base font-medium mb-1">Nombre (English)</label>
                 <input
                   {...register('translations.0.name')}
                   onChange={(e) => {
@@ -171,12 +171,12 @@ export default function AdminCategoriesPage() {
                       setValue('slug', generateSlug(e.target.value), { shouldValidate: true });
                     }
                   }}
-                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base"
                   placeholder="e.g. Fine Line"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Nombre (Español)</label>
+                <label className="block text-base font-medium mb-1">Nombre (Español)</label>
                 <input
                   {...register('translations.1.name')}
                   onChange={(e) => {
@@ -185,15 +185,15 @@ export default function AdminCategoriesPage() {
                       setValue('slug', generateSlug(e.target.value), { shouldValidate: true });
                     }
                   }}
-                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base"
                   placeholder="ej. Línea Fina"
                 />
               </div>
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium mb-1">URL Slug</label>
+                <label className="block text-base font-medium mb-1">URL Slug</label>
                 <input
                   {...register('slug')}
-                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base"
                   placeholder="fine-line"
                 />
                 {errors.slug && <p className="mt-1 text-sm text-destructive">{errors.slug.message as string}</p>}

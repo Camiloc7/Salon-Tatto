@@ -16,6 +16,7 @@ export interface Artist {
   seoTitle?: string;
   seoDescription?: string;
   images?: ArtistImage[];
+  translations?: ArtistTranslation[];
 }
 
 export interface ArtistTranslation {

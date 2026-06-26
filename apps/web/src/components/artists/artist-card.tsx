@@ -10,10 +10,7 @@ type ArtistCardProps = {
 };
 
 export function ArtistCard({ artist, locale }: ArtistCardProps) {
-  const featuredImage = artist.images?.find((img) => img.isFeatured);
-  const coverUrl = featuredImage 
-    ? getImageUrl(featuredImage.url || featuredImage.cloudinaryId) 
-    : getImageUrl(artist.avatar);
+  const coverUrl = getImageUrl(artist.avatar);
 
   return (
     <motion.div

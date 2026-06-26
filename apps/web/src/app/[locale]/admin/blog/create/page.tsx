@@ -12,6 +12,7 @@ import { queryKeys } from '@/lib/query-keys';
 import { Button } from '@/components/ui/button';
 import { ImageUploader } from '@/components/shared/image-uploader';
 import { LocaleTabs } from '@/components/shared/locale-tabs';
+import { RichTextEditor } from '@/components/shared/rich-text-editor';
 import { SeoPreviewCard } from '@/components/admin/seo-preview-fieldset';
 import { Loader2, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
@@ -45,7 +46,7 @@ export default function CreateBlogPostPage() {
   const [activeLocale, setActiveLocale] = useState<LocaleCode>('en');
 
   const { data: categories } = useQuery({
-    queryKey: queryKeys.blog.categories,
+    queryKey: queryKeys.blog.categories(),
     queryFn: () => api.get<Category[]>('/blog/categories'),
   });
 
@@ -127,7 +128,7 @@ export default function CreateBlogPostPage() {
   };
 
   return (
-    <div className="space-y-6 max-w-3xl">
+    <div className="space-y-6 w-full">
       <div className="flex flex-col sm:flex-row sm:items-center gap-4">
         <div className="flex items-center gap-4">
           <Link href="/admin/blog">
@@ -141,23 +142,23 @@ export default function CreateBlogPostPage() {
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
         <div className="rounded-lg border p-6 space-y-4">
-          <h2 className="font-semibold">General</h2>
+          <h2 className="text-lg font-semibold">General</h2>
 
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <label className="block text-sm font-medium mb-1">{t('form.slug')}</label>
+              <label className="block text-base font-medium mb-1">{t('form.slug')}</label>
               <input
                 {...register('slug')}
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               />
               {errors.slug && <p className="mt-1 text-sm text-destructive">{errors.slug.message}</p>}
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-1">Status</label>
+              <label className="block text-base font-medium mb-1">Status</label>
               <select
                 {...register('status')}
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               >
                 <option value="draft">{t('draft')}</option>
                 <option value="published">{t('published')}</option>
@@ -166,7 +167,7 @@ export default function CreateBlogPostPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">{t('form.featuredImage')}</label>
+            <label className="block text-base font-medium mb-1">{t('form.featuredImage')}</label>
             <ImageUploader
               value={watch('featuredImage') || ''}
               onChange={(url) => setValue('featuredImage', url, { shouldDirty: true })}
@@ -174,7 +175,7 @@ export default function CreateBlogPostPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">{t('form.category')}</label>
+            <label className="block text-base font-medium mb-1">{t('form.category')}</label>
             <div className="flex flex-wrap gap-2">
               {categories?.map((cat) => (
                 <button
@@ -194,7 +195,7 @@ export default function CreateBlogPostPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">{t('form.tags')}</label>
+            <label className="block text-base font-medium mb-1">{t('form.tags')}</label>
             <div className="flex flex-wrap gap-2">
               {tags?.map((tag) => (
                 <button
@@ -215,42 +216,40 @@ export default function CreateBlogPostPage() {
         </div>
 
         <div className="rounded-lg border p-6 space-y-4">
-          <h2 className="font-semibold">Translations</h2>
+          <h2 className="text-lg font-semibold">Translations</h2>
 
           <LocaleTabs activeLocale={activeLocale} onLocaleChange={setActiveLocale} />
 
           <div className="space-y-4 pt-4">
             <div>
-              <label className="block text-sm font-medium mb-1">{t('form.title')}</label>
+              <label className="block text-base font-medium mb-1">{t('form.title')}</label>
               <input
                 value={currentTranslation?.title || ''}
                 onChange={(e) => updateTranslationField('title', e.target.value)}
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-1">{t('form.excerpt')}</label>
+              <label className="block text-base font-medium mb-1">{t('form.excerpt')}</label>
               <textarea
                 rows={2}
                 value={currentTranslation?.excerpt || ''}
                 onChange={(e) => updateTranslationField('excerpt', e.target.value)}
-                className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-1">{t('form.content')}</label>
-              <textarea
-                rows={10}
-                value={currentTranslation?.content || ''}
-                onChange={(e) => updateTranslationField('content', e.target.value)}
-                className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 font-mono"
+              <label className="block text-base font-medium mb-1">{t('form.content')}</label>
+              <RichTextEditor
+                content={currentTranslation?.content || ''}
+                onChange={(html) => updateTranslationField('content', html)}
               />
             </div>
 
             <div className="pt-4 border-t mt-4">
-              <h3 className="font-medium mb-4">Optimización SEO</h3>
+              <h3 className="text-lg font-semibold mb-4">Optimización SEO</h3>
               <SeoPreviewCard
                 title={currentTranslation?.seoTitle || ''}
                 description={currentTranslation?.seoDescription || ''}

@@ -13,6 +13,8 @@ import {
   Menu,
   X,
   Tags,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
@@ -90,17 +92,6 @@ export function AdminSidebar() {
 
       <div className="border-t p-3 space-y-2">
         <button
-          onClick={() => setCollapsed(!collapsed)}
-          className={cn(
-            "hidden md:flex w-full items-center rounded-lg py-2 text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground",
-            collapsed ? "justify-center px-2" : "gap-3 px-3"
-          )}
-          title={collapsed ? "Expand" : "Collapse"}
-        >
-          <Menu className={cn("shrink-0", collapsed ? "h-5 w-5" : "h-4 w-4")} />
-          {!collapsed && <span className="text-sm font-medium whitespace-nowrap overflow-hidden">Colapsar Menú</span>}
-        </button>
-        <button
           onClick={logout}
           className={cn(
             "flex w-full items-center rounded-lg py-2 text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground",
@@ -140,6 +131,14 @@ export function AdminSidebar() {
         )}
       >
         {sidebarContent}
+        
+        <button
+          onClick={() => setCollapsed(!collapsed)}
+          className="hidden md:flex absolute -right-3 top-6 h-6 w-6 items-center justify-center rounded-full border bg-background shadow-sm text-muted-foreground hover:text-foreground hover:bg-accent z-50 transition-colors"
+          title={collapsed ? "Expandir" : "Colapsar"}
+        >
+          {collapsed ? <ChevronRight className="h-3 w-3" /> : <ChevronLeft className="h-3 w-3" />}
+        </button>
       </aside>
     </>
   );

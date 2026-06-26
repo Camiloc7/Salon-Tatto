@@ -91,17 +91,17 @@ export default function BlogListPage() {
             <table className="w-full">
               <thead>
                 <tr className="border-b bg-muted/50">
-                  <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Title</th>
-                  <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Status</th>
-                  <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Author</th>
-                  <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Date</th>
-                  <th className="px-4 py-3 text-right text-sm font-medium text-muted-foreground">Actions</th>
+                  <th className="px-4 py-3 text-left text-base font-medium text-muted-foreground">Title</th>
+                  <th className="px-4 py-3 text-left text-base font-medium text-muted-foreground">Status</th>
+                  <th className="px-4 py-3 text-left text-base font-medium text-muted-foreground">Author</th>
+                  <th className="px-4 py-3 text-left text-base font-medium text-muted-foreground">Date</th>
+                  <th className="px-4 py-3 text-right text-base font-medium text-muted-foreground">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {data.data.map((post) => (
                   <tr key={post.id} className="border-b last:border-0">
-                    <td className="px-4 py-3 text-sm font-medium">{post.title || post.slug}</td>
+                    <td className="px-4 py-3 text-base font-medium">{post.title || post.slug}</td>
                     <td className="px-4 py-3">
                       <span
                         className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${

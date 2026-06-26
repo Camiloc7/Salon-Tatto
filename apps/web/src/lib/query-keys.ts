@@ -8,7 +8,7 @@ export const queryKeys = {
     all: ['blog'] as const,
     list: (params?: Record<string, unknown>) => ['blog', 'list', params] as const,
     detail: (slug: string, locale?: string) => ['blog', slug, locale] as const,
-    categories: ['blog', 'categories'] as const,
+    categories: (locale?: string) => ['blog', 'categories', locale] as const,
     tags: ['blog', 'tags'] as const,
   },
   gallery: {

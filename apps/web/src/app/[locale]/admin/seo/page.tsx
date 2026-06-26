@@ -227,7 +227,7 @@ export default function SeoPage() {
   const ALL_PAGES = [...DEFAULT_PAGES, ...customPagesFromDb, ...localCustomPages];
 
   return (
-    <div className="space-y-8 max-w-4xl pb-20">
+    <div className="space-y-8 w-full pb-20">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="space-y-1.5">
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">{t('title')}</h1>
@@ -284,13 +284,13 @@ export default function SeoPage() {
                       <h4 className="font-medium text-sm text-primary uppercase tracking-wider">Technical SEO</h4>
                       
                       <div>
-                        <label className="block text-sm font-medium mb-1">
+                        <label className="block text-base font-medium mb-1">
                           {t('form.canonical')}
                         </label>
                         <input
                           value={form.canonicalUrl}
                           onChange={(e) => updateField(pageKey, 'canonicalUrl', e.target.value)}
-                          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                           placeholder="https://example.com/page"
                         />
                         <p className="text-xs text-muted-foreground mt-1">Leave blank to use default URL.</p>
@@ -305,7 +305,7 @@ export default function SeoPage() {
                             onChange={(e) => updateField(pageKey, 'noIndex', e.target.checked)}
                           />
                           <div className="flex flex-col">
-                            <span className="text-sm font-medium">No-Index</span>
+                            <span className="text-base font-medium">No-Index</span>
                             <span className="text-xs text-muted-foreground">Prevent search engines from indexing this page.</span>
                           </div>
                         </label>
@@ -318,7 +318,7 @@ export default function SeoPage() {
                             onChange={(e) => updateField(pageKey, 'noFollow', e.target.checked)}
                           />
                           <div className="flex flex-col">
-                            <span className="text-sm font-medium">No-Follow</span>
+                            <span className="text-base font-medium">No-Follow</span>
                             <span className="text-xs text-muted-foreground">Prevent search engines from following links on this page.</span>
                           </div>
                         </label>
@@ -359,7 +359,7 @@ export default function SeoPage() {
 
                     <div className="space-y-4">
                       <div>
-                        <label className="block text-sm font-medium mb-1">
+                        <label className="block text-base font-medium mb-1">
                           {t('form.title')} <span className="text-xs text-muted-foreground font-normal">(50-60 characters ideal)</span>
                         </label>
                         <input
@@ -367,12 +367,12 @@ export default function SeoPage() {
                           onChange={(e) =>
                             updateTranslationField(pageKey, activeLocale, 'title', e.target.value)
                           }
-                          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                         />
                       </div>
 
                       <div>
-                        <label className="block text-sm font-medium mb-1">
+                        <label className="block text-base font-medium mb-1">
                           {t('form.description')} <span className="text-xs text-muted-foreground font-normal">(150-160 characters ideal)</span>
                         </label>
                         <textarea
@@ -381,7 +381,7 @@ export default function SeoPage() {
                           onChange={(e) =>
                             updateTranslationField(pageKey, activeLocale, 'description', e.target.value)
                           }
-                          className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                          className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-base focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                         />
                       </div>
 
@@ -410,7 +410,7 @@ export default function SeoPage() {
                               onChange={(e) =>
                                 updateTranslationField(pageKey, activeLocale, 'ogDescription', e.target.value)
                               }
-                              className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                              className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-base focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                             />
                           </div>
                           <div>
@@ -438,7 +438,7 @@ export default function SeoPage() {
                               onChange={(e) =>
                                 updateTranslationField(pageKey, activeLocale, 'keywords', e.target.value)
                               }
-                              className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                              className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-base focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                               placeholder="tattoo, realism, artist, studio..."
                             />
                           </div>
@@ -483,12 +483,12 @@ export default function SeoPage() {
         {isAddingNew ? (
           <div className="bg-card border rounded-xl p-6 space-y-4 animate-in fade-in zoom-in-95">
             <div>
-              <label className="block text-sm font-medium mb-1">New Page Route Key</label>
+              <label className="block text-base font-medium mb-1">New Page Route Key</label>
               <div className="flex gap-2">
                 <input
                   value={newPageKey}
                   onChange={(e) => setNewPageKey(e.target.value)}
-                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                   placeholder="e.g. services/piercing"
                   autoFocus
                 />

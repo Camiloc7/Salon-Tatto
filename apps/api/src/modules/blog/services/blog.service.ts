@@ -40,7 +40,7 @@ export class BlogService {
       qb.andWhere('post.status = :status', { status });
     }
 
-    if (locale) {
+    if (locale && locale !== 'all') {
       qb.andWhere('language.code = :locale', { locale });
     }
 
@@ -102,7 +102,7 @@ export class BlogService {
       .where('post.slug = :slug', { slug })
       .andWhere('post.deletedAt IS NULL');
 
-    if (locale) {
+    if (locale && locale !== 'all') {
       qb.andWhere('language.code = :locale', { locale });
     }
 
@@ -130,7 +130,7 @@ export class BlogService {
       .where('post.id = :id', { id })
       .andWhere('post.deletedAt IS NULL');
 
-    if (locale) {
+    if (locale && locale !== 'all') {
       qb.andWhere('language.code = :locale', { locale });
     }
 
@@ -359,7 +359,7 @@ export class BlogService {
   }
 
   private applyTranslation(post: BlogPost, locale?: string) {
-    if (!post.translations || post.translations.length === 0) {
+    if (!post.translations || post.translations.length === 0 || locale === 'all') {
       return post;
     }
 

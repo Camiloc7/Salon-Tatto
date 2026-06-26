@@ -50,19 +50,6 @@ export class BlogController {
   }
 
   @Public()
-  @Get(':slug')
-  @ApiOperation({ summary: 'Get blog post by slug' })
-  @ApiQuery({ name: 'locale', enum: ['en', 'es'], required: false })
-  @ApiResponse({ status: 200, description: 'Blog post found' })
-  @ApiResponse({ status: 404, description: 'Blog post not found' })
-  async findBySlug(
-    @Param('slug') slug: string,
-    @Query('locale') locale?: string,
-  ) {
-    return this.blogService.findBySlug(slug, locale);
-  }
-
-  @Public()
   @Get('id/:id')
   @ApiOperation({ summary: 'Get blog post by ID' })
   @ApiQuery({ name: 'locale', enum: ['en', 'es'], required: false })
@@ -73,6 +60,19 @@ export class BlogController {
     @Query('locale') locale?: string,
   ) {
     return this.blogService.findById(id, locale);
+  }
+
+  @Public()
+  @Get(':slug')
+  @ApiOperation({ summary: 'Get blog post by slug' })
+  @ApiQuery({ name: 'locale', enum: ['en', 'es'], required: false })
+  @ApiResponse({ status: 200, description: 'Blog post found' })
+  @ApiResponse({ status: 404, description: 'Blog post not found' })
+  async findBySlug(
+    @Param('slug') slug: string,
+    @Query('locale') locale?: string,
+  ) {
+    return this.blogService.findBySlug(slug, locale);
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)

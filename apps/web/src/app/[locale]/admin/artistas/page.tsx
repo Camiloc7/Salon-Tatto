@@ -85,10 +85,10 @@ export default function ArtistListPage() {
             <table className="w-full">
               <thead>
                 <tr className="border-b bg-muted/50">
-                  <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Name</th>
-                  <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Specialty</th>
-                  <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Status</th>
-                  <th className="px-4 py-3 text-right text-sm font-medium text-muted-foreground">Actions</th>
+                  <th className="px-4 py-3 text-left text-base font-medium text-muted-foreground">Name</th>
+                  <th className="px-4 py-3 text-left text-base font-medium text-muted-foreground">Specialty</th>
+                  <th className="px-4 py-3 text-left text-base font-medium text-muted-foreground">Status</th>
+                  <th className="px-4 py-3 text-right text-base font-medium text-muted-foreground">Actions</th>
                 </tr>
               </thead>
               <tbody>

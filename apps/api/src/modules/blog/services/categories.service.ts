@@ -26,7 +26,7 @@ export class CategoriesService {
       .leftJoinAndSelect('translation.language', 'language')
       .where('category.deletedAt IS NULL');
 
-    if (locale) {
+    if (locale && locale !== 'all') {
       qb.andWhere('language.code = :locale', { locale });
     }
 

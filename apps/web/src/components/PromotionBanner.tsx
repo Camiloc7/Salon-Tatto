@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { api } from '@/lib/api-client';
 
 type Promotion = {
@@ -14,8 +15,14 @@ type Promotion = {
 
 export default function PromotionBanner() {
   const [promotion, setPromotion] = useState<Promotion | null>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
+    // Do not fetch or display promotions on admin panel
+    if (pathname && pathname.includes('/admin')) {
+      return;
+    }
+
     async function fetchActivePromotion() {
       try {
         const data = await api.get<Promotion>('/promotions/active');

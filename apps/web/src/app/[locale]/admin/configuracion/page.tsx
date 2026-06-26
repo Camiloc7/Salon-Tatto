@@ -146,8 +146,8 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="space-y-6 max-w-3xl">
-      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+    <div className="space-y-6 w-full">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div className="space-y-1.5">
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">{t('title')}</h1>
           <p className="text-muted-foreground text-sm max-w-2xl">
@@ -164,21 +164,21 @@ export default function SettingsPage() {
         <div className="rounded-lg border p-6 space-y-4">
           <h2 className="font-semibold text-lg">{t('general')}</h2>
           <div>
-            <label className="block text-sm font-medium mb-1">Studio Name</label>
+            <label className="block text-base font-medium mb-1">Studio Name</label>
             <input
               value={form.studioName}
               onChange={(e) => updateField('studioName', e.target.value)}
-              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Hero Background (Image or Video URL)</label>
+            <label className="block text-base font-medium mb-1">Hero Background (Image or Video URL)</label>
             <div className="flex gap-2">
               <input
                 value={form.heroMediaUrl}
                 onChange={(e) => updateField('heroMediaUrl', e.target.value)}
                 placeholder="https://..."
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 flex-1"
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 flex-1"
               />
             </div>
             <div 
@@ -207,35 +207,35 @@ export default function SettingsPage() {
           <h2 className="font-semibold text-lg">{t('contact')}</h2>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <label className="block text-sm font-medium mb-1">Address</label>
+              <label className="block text-base font-medium mb-1">Address</label>
               <input
                 value={form.address}
                 onChange={(e) => updateField('address', e.target.value)}
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1">Phone</label>
+              <label className="block text-base font-medium mb-1">Phone</label>
               <input
                 value={form.phone}
                 onChange={(e) => updateField('phone', e.target.value)}
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1">WhatsApp</label>
+              <label className="block text-base font-medium mb-1">WhatsApp</label>
               <input
                 value={form.whatsapp}
                 onChange={(e) => updateField('whatsapp', e.target.value)}
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1">Email</label>
+              <label className="block text-base font-medium mb-1">Email</label>
               <input
                 value={form.email}
                 onChange={(e) => updateField('email', e.target.value)}
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               />
             </div>
           </div>
@@ -245,30 +245,30 @@ export default function SettingsPage() {
           <h2 className="font-semibold text-lg">{t('social')}</h2>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <label className="block text-sm font-medium mb-1">Instagram</label>
+              <label className="block text-base font-medium mb-1">Instagram</label>
               <input
                 value={form.instagram}
                 onChange={(e) => updateField('instagram', e.target.value)}
                 placeholder="https://instagram.com/..."
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1">Facebook</label>
+              <label className="block text-base font-medium mb-1">Facebook</label>
               <input
                 value={form.facebook}
                 onChange={(e) => updateField('facebook', e.target.value)}
                 placeholder="https://facebook.com/..."
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1">TikTok</label>
+              <label className="block text-base font-medium mb-1">TikTok</label>
               <input
                 value={form.tiktok}
                 onChange={(e) => updateField('tiktok', e.target.value)}
                 placeholder="https://tiktok.com/..."
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               />
             </div>
           </div>
@@ -278,19 +278,19 @@ export default function SettingsPage() {
           <h2 className="font-semibold text-lg">{t('location')}</h2>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <label className="block text-sm font-medium mb-1">Latitude</label>
+              <label className="block text-base font-medium mb-1">Latitude</label>
               <input
                 value={form.googleMapsLat}
                 onChange={(e) => updateField('googleMapsLat', e.target.value)}
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1">Longitude</label>
+              <label className="block text-base font-medium mb-1">Longitude</label>
               <input
                 value={form.googleMapsLng}
                 onChange={(e) => updateField('googleMapsLng', e.target.value)}
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               />
             </div>
           </div>
@@ -301,12 +301,12 @@ export default function SettingsPage() {
           <div className="grid gap-4 sm:grid-cols-2">
             {DAYS.map((day) => (
               <div key={day}>
-                <label className="block text-sm font-medium mb-1 capitalize">{day}</label>
+                <label className="block text-base font-medium mb-1 capitalize">{day}</label>
                 <input
                   value={form[`${day}Hours` as keyof SettingsForm] as string}
                   onChange={(e) => updateField(`${day}Hours` as keyof SettingsForm, e.target.value)}
                   placeholder="e.g. 10:00 - 19:00"
-                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                 />
               </div>
             ))}
