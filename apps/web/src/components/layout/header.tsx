@@ -33,10 +33,10 @@ export function Header() {
       <div className="container flex h-16 items-center justify-between">
         <Link
           href={`/${locale}`}
-          className="flex items-center gap-2 text-xl font-bold tracking-tight"
+          className="flex items-center gap-2 text-xl font-bold tracking-tight shrink-0"
         >
-          <Image src="/Logo.webp" alt="Logo" width={40} height={40} unoptimized={true} style={{ width: 'auto', height: '40px' }} />
-          {t('site.name')}
+          <img src="/Logo.webp" alt="Logo" className="h-10 w-auto max-w-[120px] object-contain" />
+          <span className="hidden sm:inline-block truncate">{t('site.name')}</span>
         </Link>
 
         <nav className="hidden md:flex items-center gap-6">
