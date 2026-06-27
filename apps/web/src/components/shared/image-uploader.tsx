@@ -29,12 +29,14 @@ export function ImageUploader({ value, onChange, className }: ImageUploaderProps
 
       let apiUrl = process.env.NEXT_PUBLIC_API_URL;
       if (!apiUrl) {
-        if (typeof window !== 'undefined' && window.location.hostname.includes('duckdns.org')) {
-          apiUrl = 'https://api.larolatatto.duckdns.org/api';
-        } else if (process.env.NODE_ENV === 'production') {
-          apiUrl = 'https://api.larolatatto.duckdns.org/api';
+        if (typeof window !== 'undefined') {
+          if (window.location.hostname.includes('duckdns.org')) {
+            apiUrl = 'https://api.larolatatto.duckdns.org/api';
+          } else {
+            apiUrl = 'http://localhost:4000/api';
+          }
         } else {
-          apiUrl = 'http://localhost:4000/api';
+          apiUrl = process.env.INTERNAL_API_URL || 'http://localhost:4000/api';
         }
       }
       const token = localStorage.getItem('auth_token');

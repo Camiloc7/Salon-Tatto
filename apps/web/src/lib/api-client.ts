@@ -12,14 +12,17 @@ type ApiResponse<T> = {
 };
 
 const getApiUrl = () => {
-  if (process.env.NEXT_PUBLIC_API_URL) return process.env.NEXT_PUBLIC_API_URL;
-  if (typeof window !== 'undefined' && window.location.hostname.includes('duckdns.org')) {
-    return 'https://api.larolatatto.duckdns.org/api';
+  if (typeof window !== 'undefined') {
+    // Client Side Request (Browser)
+    if (window.location.hostname.includes('duckdns.org')) {
+      return 'https://api.larolatatto.duckdns.org/api';
+    }
+    return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
   }
-  if (process.env.NODE_ENV === 'production') {
-    return 'https://api.larolatatto.duckdns.org/api';
-  }
-  return 'http://localhost:4000/api';
+  
+  // Server Side Request (Next.js SSR in PM2)
+  // Always use local loopback to avoid SSL certificates or Hairpin NAT timeouts.
+  return process.env.INTERNAL_API_URL || 'http://localhost:4000/api';
 };
 
 const API_URL = getApiUrl();
