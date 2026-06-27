@@ -27,7 +27,7 @@ pgadmin_data/
 # VPS Temp/Untracked files
 253
 backup.sql
-nest/
-next/
-salon-tatto@1.0.0/
-turbo/
+nest
+next
+salon-tatto@1.0.0
+turbo
