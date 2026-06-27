@@ -31,8 +31,8 @@ jobs:
         run: |
           # Eliminar node_modules para transferir más rápido (se reinstalan nativamente en el VPS)
           rm -rf node_modules apps/web/node_modules apps/api/node_modules packages/*/node_modules
-          # Comprimir código y build
-          tar -czf release.tar.gz .
+          # Comprimir código y build ignorando el archivo de salida
+          tar --exclude=release.tar.gz -czf release.tar.gz .
 
       - name: Copy artifact to VPS
         uses: appleboy/scp-action@v0.1.7
