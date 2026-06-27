@@ -24,6 +24,9 @@ jobs:
             # Navegar a la carpeta del proyecto
             cd /home/camilo/Salon-Tatto
             
+            # Descartar cualquier cambio sucio en los archivos (como package-lock.json modificado)
+            git restore .
+            
             # Obtener últimos cambios
             git pull origin main
             
