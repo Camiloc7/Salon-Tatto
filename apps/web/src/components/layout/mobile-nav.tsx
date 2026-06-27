@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useTranslations, useLocale } from 'next-intl';
 import * as Dialog from '@radix-ui/react-dialog';
@@ -35,7 +36,8 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
         <Dialog.Overlay className="fixed inset-0 z-50 bg-black/50 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
         <Dialog.Content className="fixed inset-y-0 right-0 z-50 w-full max-w-sm bg-background p-6 shadow-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right">
           <div className="flex items-center justify-between">
-            <Dialog.Title className="text-lg font-semibold">
+            <Dialog.Title className="text-lg font-semibold flex items-center gap-2">
+              <Image src="/Logo.webp" alt="Logo" width={32} height={32} className="w-auto h-8 object-contain" />
               {t('site.name')}
             </Dialog.Title>
             <Dialog.Close asChild>

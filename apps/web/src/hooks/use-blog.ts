@@ -22,7 +22,7 @@ export function useBlogPost(slug: string, locale?: string) {
 
 export function useCategories() {
   return useQuery({
-    queryKey: queryKeys.blog.categories,
+    queryKey: queryKeys.blog.categories(),
     queryFn: () => api.get<Category[]>('/blog/categories'),
   });
 }

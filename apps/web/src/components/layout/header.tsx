@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useTranslations, useLocale } from 'next-intl';
 import { Menu, X } from 'lucide-react';
@@ -34,6 +35,7 @@ export function Header() {
           href={`/${locale}`}
           className="flex items-center gap-2 text-xl font-bold tracking-tight"
         >
+          <Image src="/Logo.webp" alt="Logo" width={40} height={40} className="w-auto h-10 object-contain" />
           {t('site.name')}
         </Link>
 

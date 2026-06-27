@@ -55,7 +55,7 @@ export function GalleryManager({ artistId }: GalleryManagerProps) {
   }, [images]);
 
   const { data: categories } = useQuery({
-    queryKey: queryKeys.blog.categories,
+    queryKey: queryKeys.blog.categories(),
     queryFn: () => api.get<any[]>('/blog/categories').then((res) => res),
   });
 
