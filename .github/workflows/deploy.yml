@@ -22,7 +22,7 @@ jobs:
           port: ${{ secrets.VPS_PORT }} # Generalmente 22
           script: |
             # Navegar a la carpeta del proyecto
-            cd /ruta/a/tu/proyecto/en/el/vps/Salon-Tatto
+            cd /home/camilo/Salon-Tatto
             
             # Obtener últimos cambios
             git pull origin main
