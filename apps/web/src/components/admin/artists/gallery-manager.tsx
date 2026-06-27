@@ -250,7 +250,7 @@ export function GalleryManager({ artistId }: GalleryManagerProps) {
             <Reorder.Item 
               key={image.id} 
               value={image}
-              className="relative group rounded-xl overflow-hidden border shadow-sm flex flex-col bg-card" onDragEnd={saveOrder} onDragEnd={saveOrder}
+              className="relative group rounded-xl overflow-hidden border shadow-sm flex flex-col bg-card" onDragEnd={saveOrder}
             >
               <div className="relative">
                 {image.format === 'mp4' || image.format === 'mov' || image.format === 'webm' ? (
