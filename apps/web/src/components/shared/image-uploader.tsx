@@ -27,7 +27,16 @@ export function ImageUploader({ value, onChange, className }: ImageUploaderProps
       const formData = new FormData();
       formData.append('file', file);
 
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
+      let apiUrl = process.env.NEXT_PUBLIC_API_URL;
+      if (!apiUrl) {
+        if (typeof window !== 'undefined' && window.location.hostname.includes('duckdns.org')) {
+          apiUrl = 'https://api.larolatatto.duckdns.org/api';
+        } else if (process.env.NODE_ENV === 'production') {
+          apiUrl = 'https://api.larolatatto.duckdns.org/api';
+        } else {
+          apiUrl = 'http://localhost:4000/api';
+        }
+      }
       const token = localStorage.getItem('auth_token');
 
       const res = await fetch(`${apiUrl}/upload/image`, {

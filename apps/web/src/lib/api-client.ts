@@ -11,7 +11,18 @@ type ApiResponse<T> = {
   message?: string;
 };
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
+const getApiUrl = () => {
+  if (process.env.NEXT_PUBLIC_API_URL) return process.env.NEXT_PUBLIC_API_URL;
+  if (typeof window !== 'undefined' && window.location.hostname.includes('duckdns.org')) {
+    return 'https://api.larolatatto.duckdns.org/api';
+  }
+  if (process.env.NODE_ENV === 'production') {
+    return 'https://api.larolatatto.duckdns.org/api';
+  }
+  return 'http://localhost:4000/api';
+};
+
+const API_URL = getApiUrl();
 
 async function request<T>(
   method: string,
