@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { locales } from '@/i18n';
 import { api } from '@/lib/api-client';
 import { ImageOptimized } from '@/components/shared/image-optimized';
@@ -35,6 +35,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props) {
   const { locale, slug } = await params;
+  setRequestLocale(locale);
   let artist: Artist | null = null;
   try {
     artist = await api.get<Artist>(`/artists/${slug}`, {
@@ -66,6 +67,7 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function ArtistProfilePage({ params }: Props) {
   const { locale, slug } = await params;
+  setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: 'artists' });
   const tNav = await getTranslations({ locale, namespace: 'nav' });
 

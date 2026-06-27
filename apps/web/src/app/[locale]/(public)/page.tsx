@@ -1,4 +1,4 @@
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { locales } from '@/i18n';
 import { api } from '@/lib/api-client';
 import { Hero } from '@/components/home/hero';
@@ -20,6 +20,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props) {
   const { locale } = await params;
+  setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: 'home' });
   let seo: SeoPage | null = null;
   try {
@@ -48,6 +49,7 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function HomePage({ params }: Props) {
   const { locale } = await params;
+  setRequestLocale(locale);
   const t = await getTranslations({ locale });
 
   let settings: StudioSettings | null = null;
