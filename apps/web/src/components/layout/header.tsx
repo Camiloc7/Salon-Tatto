@@ -35,7 +35,7 @@ export function Header() {
           href={`/${locale}`}
           className="flex items-center gap-2 text-xl font-bold tracking-tight"
         >
-          <Image src="/Logo.webp" alt="Logo" width={40} height={40} className="w-auto h-10 object-contain" />
+          <Image src="/Logo.webp" alt="Logo" width={40} height={40} unoptimized={true} className="w-auto h-10 object-contain" />
           {t('site.name')}
         </Link>
 
