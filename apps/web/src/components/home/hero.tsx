@@ -59,7 +59,7 @@ export function Hero({ settings }: { settings: StudioSettings | null }) {
         
         <div className="w-24 h-[1px] bg-amber-500/50 my-6 mx-auto" />
         
-        <p className="text-lg md:text-xl text-zinc-400 font-light max-w-2xl tracking-wide leading-relaxed">
+        <p className="text-lg md:text-xl text-zinc-400 font-light max-w-2xl tracking-wide leading-relaxed whitespace-pre-line">
           {t('hero.subtitle')}
         </p>
         
