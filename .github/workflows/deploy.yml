@@ -1,4 +1,4 @@
-name: Deploy to VPS
+name: Deploy to VPS (Zero Downtime)
 
 on:
   push:
@@ -6,38 +6,104 @@ on:
       - main # O cambia a la rama que uses para producción
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Deploy via SSH
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project (Turborepo)
+        run: npm run build
+        env:
+          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
+
+      - name: Prepare Artifact
+        run: |
+          # Eliminar node_modules para transferir más rápido (se reinstalan nativamente en el VPS)
+          rm -rf node_modules apps/web/node_modules apps/api/node_modules packages/*/node_modules
+          # Comprimir código y build
+          tar -czf release.tar.gz .
+
+      - name: Copy artifact to VPS
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT }}
+          source: "release.tar.gz"
+          target: "/home/camilo/"
+
+      - name: Deploy and Healthcheck via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USERNAME }}
           key: ${{ secrets.VPS_SSH_KEY }}
-          port: ${{ secrets.VPS_PORT }} # Generalmente 22
+          port: ${{ secrets.VPS_PORT }}
           script: |
-            # Navegar a la carpeta del proyecto
-            cd /home/camilo/Salon-Tatto
+            TIMESTAMP=$(date +%s)
+            DEPLOY_DIR="/home/camilo/Salon-Tatto-${TIMESTAMP}"
+            CURRENT_DIR="/home/camilo/Salon-Tatto"
+            BACKUP_DIR="/home/camilo/Salon-Tatto-Backup"
+
+            echo "=== 1. PREPARANDO NUEVO ENTORNO ==="
+            mkdir -p $DEPLOY_DIR
+            tar -xzf /home/camilo/release.tar.gz -C $DEPLOY_DIR
+            rm /home/camilo/release.tar.gz
             
-            # Descartar cualquier cambio sucio en los archivos (como package-lock.json modificado)
-            git restore .
+            cd $DEPLOY_DIR
             
-            # Obtener últimos cambios
-            git pull origin main
+            echo "=== 2. INSTALANDO DEPENDENCIAS (PROD) ==="
+            npm ci
             
-            # Instalar dependencias
-            npm install
+            echo "=== 3. ENLAZANDO VARIABLES DE ENTORNO ==="
+            # Copiar el .env desde el directorio de producción
+            cp $CURRENT_DIR/.env $DEPLOY_DIR/.env
             
-            # Construir el proyecto (Turborepo cacheará lo que no haya cambiado)
-            npm run build
+            echo "=== 4. EJECUTANDO SWAP DE CARPETAS (Zero Downtime) ==="
+            cd /home/camilo
+            rm -rf $BACKUP_DIR
+            # Renombrar actual a backup y nueva a actual de forma rápida
+            mv $CURRENT_DIR $BACKUP_DIR
+            mv $DEPLOY_DIR $CURRENT_DIR
             
-            # Reiniciar PM2 sin tiempo de inactividad
+            echo "=== 5. REINICIANDO PM2 ==="
+            cd $CURRENT_DIR
             pm2 reload ecosystem.config.js --env production
             
-            # Asegurarse de que pm2 se guarde
-            pm2 save
+            echo "=== 6. VERIFICANDO HEALTHCHECK ==="
+            # Esperar unos segundos para que NestJS levante
+            sleep 15
+            
+            # Chequear endpoint
+            HEALTH_STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:4000/api/health || echo "FAILED")
+            
+            if [ "$HEALTH_STATUS" = "200" ]; then
+              echo "✅ Despliegue exitoso. La API está saludable (Status: $HEALTH_STATUS)."
+              pm2 save
+            else
+              echo "❌ ERROR FATAL: El Healthcheck falló (Status: $HEALTH_STATUS)."
+              echo "⚠️ INICIANDO ROLLBACK AUTOMÁTICO..."
+              
+              cd /home/camilo
+              # Restaurar backup
+              rm -rf $CURRENT_DIR
+              mv $BACKUP_DIR $CURRENT_DIR
+              
+              cd $CURRENT_DIR
+              pm2 reload ecosystem.config.js --env production
+              
+              echo "⛔ Rollback completado. El servidor viejo ha sido restaurado."
+              exit 1
+            fi
