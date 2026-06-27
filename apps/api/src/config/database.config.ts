@@ -12,7 +12,7 @@ export const databaseConfig = (configService: ConfigService): TypeOrmModuleOptio
   entities: [join(__dirname, '..', '**', '*.entity{.ts,.js}')],
   synchronize: configService.get<string>('NODE_ENV') !== 'production',
   logging: configService.get<string>('NODE_ENV') === 'development',
-  ssl: configService.get<string>('NODE_ENV') === 'production' ? { rejectUnauthorized: false } : false,
+  ssl: false,
   extra: {
     max: 20,
     idleTimeoutMillis: 30000,
