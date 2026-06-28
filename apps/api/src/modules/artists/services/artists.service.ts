@@ -158,7 +158,7 @@ export class ArtistsService {
             dto.translations.push(enTrans!);
           }
           
-          const fieldsToTranslate: string[] = [];
+          const fieldsToTranslate: any[] = [];
           const fieldsToCheck = ['name', 'biography', 'specialty', 'seoTitle', 'seoDescription'] as const;
           
           for (const field of fieldsToCheck) {
@@ -248,7 +248,7 @@ export class ArtistsService {
             dto.translations.push(enTrans!);
           }
           
-          const fieldsToTranslate: string[] = [];
+          const fieldsToTranslate: any[] = [];
           const fieldsToCheck = ['name', 'biography', 'specialty', 'seoTitle', 'seoDescription'] as const;
           
           for (const field of fieldsToCheck) {
