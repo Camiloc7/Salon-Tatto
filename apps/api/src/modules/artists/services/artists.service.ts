@@ -149,20 +149,31 @@ export class ArtistsService {
       const savedArtist = await manager.save(artist);
 
       if (dto.translations) {
-        const hasEs = dto.translations.some(t => t.languageCode === 'es');
-        const hasEn = dto.translations.some(t => t.languageCode === 'en');
+        const esTrans = dto.translations.find(t => t.languageCode === 'es');
+        let enTrans = dto.translations.find(t => t.languageCode === 'en');
         
-        if (hasEs && !hasEn) {
-          const esTrans = dto.translations.find(t => t.languageCode === 'es');
-          if (esTrans) {
-            const translated = await this.translationService.translateObject(esTrans, [
-              'name', 'biography', 'specialty', 'seoTitle', 'seoDescription'
-            ]);
-            dto.translations.push({
-              ...esTrans,
-              ...translated,
-              languageCode: 'en',
-            });
+        if (esTrans) {
+          if (!enTrans) {
+            enTrans = { languageCode: 'en' } as any;
+            dto.translations.push(enTrans);
+          }
+          
+          const fieldsToTranslate = [];
+          const fieldsToCheck = ['name', 'biography', 'specialty', 'seoTitle', 'seoDescription'];
+          
+          for (const field of fieldsToCheck) {
+            if (esTrans[field] && (!enTrans[field] || enTrans[field].trim() === '')) {
+              fieldsToTranslate.push(field);
+            }
+          }
+          
+          if (fieldsToTranslate.length > 0) {
+            const translated = await this.translationService.translateObject(esTrans, fieldsToTranslate);
+            for (const field of fieldsToTranslate) {
+              if (translated[field]) {
+                enTrans[field] = translated[field];
+              }
+            }
           }
         }
 
@@ -226,20 +237,31 @@ export class ArtistsService {
       await manager.save(artist);
 
       if (dto.translations) {
-        const hasEs = dto.translations.some(t => t.languageCode === 'es');
-        const hasEn = dto.translations.some(t => t.languageCode === 'en');
+        const esTrans = dto.translations.find(t => t.languageCode === 'es');
+        let enTrans = dto.translations.find(t => t.languageCode === 'en');
         
-        if (hasEs && !hasEn) {
-          const esTrans = dto.translations.find(t => t.languageCode === 'es');
-          if (esTrans) {
-            const translated = await this.translationService.translateObject(esTrans, [
-              'name', 'biography', 'specialty', 'seoTitle', 'seoDescription'
-            ]);
-            dto.translations.push({
-              ...esTrans,
-              ...translated,
-              languageCode: 'en',
-            });
+        if (esTrans) {
+          if (!enTrans) {
+            enTrans = { languageCode: 'en' } as any;
+            dto.translations.push(enTrans);
+          }
+          
+          const fieldsToTranslate = [];
+          const fieldsToCheck = ['name', 'biography', 'specialty', 'seoTitle', 'seoDescription'];
+          
+          for (const field of fieldsToCheck) {
+            if (esTrans[field] && (!enTrans[field] || enTrans[field].trim() === '')) {
+              fieldsToTranslate.push(field);
+            }
+          }
+          
+          if (fieldsToTranslate.length > 0) {
+            const translated = await this.translationService.translateObject(esTrans, fieldsToTranslate);
+            for (const field of fieldsToTranslate) {
+              if (translated[field]) {
+                enTrans[field] = translated[field];
+              }
+            }
           }
         }
 
