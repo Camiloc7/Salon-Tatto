@@ -149,31 +149,51 @@ export class ArtistsService {
       const savedArtist = await manager.save(artist);
 
       if (dto.translations) {
-        const esTrans = dto.translations.find(t => t.languageCode === 'es');
+        let esTrans = dto.translations.find(t => t.languageCode === 'es');
         let enTrans = dto.translations.find(t => t.languageCode === 'en');
         
-        if (esTrans) {
+        if (esTrans || enTrans) {
+          if (!esTrans) {
+            esTrans = { languageCode: 'es' } as any;
+            dto.translations.push(esTrans!);
+          }
           if (!enTrans) {
             enTrans = { languageCode: 'en' } as any;
             dto.translations.push(enTrans!);
           }
           
-          const fieldsToTranslate: any[] = [];
+          const fieldsToTranslateToEn: any[] = [];
+          const fieldsToTranslateToEs: any[] = [];
           const fieldsToCheck = ['name', 'biography', 'specialty', 'seoTitle', 'seoDescription'] as const;
           
           for (const field of fieldsToCheck) {
             const esValue = (esTrans as any)[field];
             const enValue = (enTrans as any)[field];
-            if (esValue && (!enValue || (typeof enValue === 'string' && enValue.trim() === ''))) {
-              fieldsToTranslate.push(field);
+            
+            const hasEs = esValue && (typeof esValue !== 'string' || esValue.trim() !== '');
+            const hasEn = enValue && (typeof enValue !== 'string' || enValue.trim() !== '');
+
+            if (hasEs && !hasEn) {
+              fieldsToTranslateToEn.push(field);
+            } else if (hasEn && !hasEs) {
+              fieldsToTranslateToEs.push(field);
             }
           }
           
-          if (fieldsToTranslate.length > 0) {
-            const translated = await this.translationService.translateObject(esTrans, fieldsToTranslate);
-            for (const field of fieldsToTranslate) {
+          if (fieldsToTranslateToEn.length > 0) {
+            const translated = await this.translationService.translateObject(esTrans as any, fieldsToTranslateToEn, 'es', 'en');
+            for (const field of fieldsToTranslateToEn) {
               if ((translated as any)[field]) {
                 (enTrans as any)[field] = (translated as any)[field];
+              }
+            }
+          }
+
+          if (fieldsToTranslateToEs.length > 0) {
+            const translated = await this.translationService.translateObject(enTrans as any, fieldsToTranslateToEs, 'en', 'es');
+            for (const field of fieldsToTranslateToEs) {
+              if ((translated as any)[field]) {
+                (esTrans as any)[field] = (translated as any)[field];
               }
             }
           }
@@ -239,31 +259,51 @@ export class ArtistsService {
       await manager.save(artist);
 
       if (dto.translations) {
-        const esTrans = dto.translations.find(t => t.languageCode === 'es');
+        let esTrans = dto.translations.find(t => t.languageCode === 'es');
         let enTrans = dto.translations.find(t => t.languageCode === 'en');
         
-        if (esTrans) {
+        if (esTrans || enTrans) {
+          if (!esTrans) {
+            esTrans = { languageCode: 'es' } as any;
+            dto.translations.push(esTrans!);
+          }
           if (!enTrans) {
             enTrans = { languageCode: 'en' } as any;
             dto.translations.push(enTrans!);
           }
           
-          const fieldsToTranslate: any[] = [];
+          const fieldsToTranslateToEn: any[] = [];
+          const fieldsToTranslateToEs: any[] = [];
           const fieldsToCheck = ['name', 'biography', 'specialty', 'seoTitle', 'seoDescription'] as const;
           
           for (const field of fieldsToCheck) {
             const esValue = (esTrans as any)[field];
             const enValue = (enTrans as any)[field];
-            if (esValue && (!enValue || (typeof enValue === 'string' && enValue.trim() === ''))) {
-              fieldsToTranslate.push(field);
+            
+            const hasEs = esValue && (typeof esValue !== 'string' || esValue.trim() !== '');
+            const hasEn = enValue && (typeof enValue !== 'string' || enValue.trim() !== '');
+
+            if (hasEs && !hasEn) {
+              fieldsToTranslateToEn.push(field);
+            } else if (hasEn && !hasEs) {
+              fieldsToTranslateToEs.push(field);
             }
           }
           
-          if (fieldsToTranslate.length > 0) {
-            const translated = await this.translationService.translateObject(esTrans, fieldsToTranslate);
-            for (const field of fieldsToTranslate) {
+          if (fieldsToTranslateToEn.length > 0) {
+            const translated = await this.translationService.translateObject(esTrans as any, fieldsToTranslateToEn, 'es', 'en');
+            for (const field of fieldsToTranslateToEn) {
               if ((translated as any)[field]) {
                 (enTrans as any)[field] = (translated as any)[field];
+              }
+            }
+          }
+
+          if (fieldsToTranslateToEs.length > 0) {
+            const translated = await this.translationService.translateObject(enTrans as any, fieldsToTranslateToEs, 'en', 'es');
+            for (const field of fieldsToTranslateToEs) {
+              if ((translated as any)[field]) {
+                (esTrans as any)[field] = (translated as any)[field];
               }
             }
           }
