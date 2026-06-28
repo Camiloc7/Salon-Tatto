@@ -47,7 +47,7 @@ export function ArtistHero({ artist, tInstagram, tContact, whatsappNumber }: Art
         </p>
         
         {artist.biography && (
-          <p className="text-muted-foreground leading-relaxed text-lg mb-8 max-w-xl">
+          <p className="text-muted-foreground leading-relaxed text-lg mb-8 max-w-xl whitespace-pre-wrap">
             {artist.biography}
           </p>
         )}
