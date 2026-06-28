@@ -20,10 +20,13 @@ export class AuthService {
       'JWT_REFRESH_SECRET',
       'refresh-secret-key',
     );
-    this.refreshExpiresIn = this.configService.get<string>(
+    const refreshExpiresInVal = this.configService.get<string | number>(
       'JWT_REFRESH_EXPIRES_IN',
       '7d',
     );
+    this.refreshExpiresIn = typeof refreshExpiresInVal === 'string' && !isNaN(Number(refreshExpiresInVal))
+      ? (Number(refreshExpiresInVal) as any)
+      : refreshExpiresInVal;
   }
 
   async login(loginDto: LoginDto): Promise<AuthResponseDto> {
