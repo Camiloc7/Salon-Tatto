@@ -87,7 +87,7 @@ export default function SeoPage() {
   });
 
   const getSeoForPage = (pageKey: string) => {
-    return seoPages?.find((p) => p.pageKey === pageKey);
+    return (Array.isArray(seoPages) ? seoPages : [])?.find((p) => p.pageKey === pageKey);
   };
 
   const getTranslationData = (seo: any, locale: string): TranslationField => {
@@ -188,8 +188,7 @@ export default function SeoPage() {
     if (!newPageKey.trim()) return;
     const key = newPageKey.trim().toLowerCase().replace(/[^a-z0-9\-\/]/g, '');
     
-    // Check if it already exists to avoid overriding immediately
-    if (seoPages?.some(p => p.pageKey === key) || DEFAULT_PAGES.includes(key)) {
+    if ((Array.isArray(seoPages) ? seoPages : [])?.some(p => p.pageKey === key) || DEFAULT_PAGES.includes(key)) {
       toast.error('This page key already exists');
       return;
     }
@@ -222,7 +221,8 @@ export default function SeoPage() {
   }
 
   // Combine default pages with custom pages from DB and locally added pages
-  const customPagesFromDb = seoPages?.map(p => p.pageKey).filter(k => !DEFAULT_PAGES.includes(k)) || [];
+  const validSeoPages = Array.isArray(seoPages) ? seoPages : [];
+  const customPagesFromDb = validSeoPages.map(p => p?.pageKey).filter(k => k && !DEFAULT_PAGES.includes(k)) || [];
   const localCustomPages = Object.keys(forms).filter(k => !DEFAULT_PAGES.includes(k) && !customPagesFromDb.includes(k));
   const ALL_PAGES = [...DEFAULT_PAGES, ...customPagesFromDb, ...localCustomPages];
 
