@@ -26,4 +26,7 @@ export const queryKeys = {
   auth: {
     me: ['auth', 'me'] as const,
   },
+  analytics: {
+    traffic: ['analytics', 'traffic'] as const,
+  },
 };

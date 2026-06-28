@@ -8,15 +8,6 @@ import { queryKeys } from '@/lib/query-keys';
 import { Users, FileText, LayoutGrid, TrendingUp } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 
-const mockTrafficData = [
-  { name: 'Jan', visits: 4000, unique: 2400 },
-  { name: 'Feb', visits: 3000, unique: 1398 },
-  { name: 'Mar', visits: 5200, unique: 3800 },
-  { name: 'Apr', visits: 4780, unique: 3908 },
-  { name: 'May', visits: 6890, unique: 4800 },
-  { name: 'Jun', visits: 8390, unique: 5800 },
-];
-
 const COLORS = ['#e11d48', '#2563eb', '#16a34a', '#d97706'];
 
 export default function AdminDashboard() {
@@ -36,6 +27,11 @@ export default function AdminDashboard() {
   const { data: categoriesData } = useQuery({
     queryKey: ['categories-list'],
     queryFn: () => api.get<any[]>('/categories'),
+  });
+
+  const { data: trafficData } = useQuery({
+    queryKey: queryKeys.analytics.traffic,
+    queryFn: () => api.get<{ name: string; visits: number; unique: number }[]>('/analytics/traffic'),
   });
 
   const stats = [
@@ -92,16 +88,13 @@ export default function AdminDashboard() {
         <div className="lg:col-span-2 rounded-2xl border bg-card p-6 shadow-sm">
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h3 className="text-xl font-semibold">Website Traffic (Preview)</h3>
-              <p className="text-sm text-muted-foreground">Mock data demonstrating the dashboard capabilities.</p>
-            </div>
-            <div className="text-xs bg-primary/10 text-primary px-3 py-1 rounded-full font-semibold uppercase tracking-wider hidden sm:block">
-              Requires Google Analytics
+              <h3 className="text-xl font-semibold">Website Traffic</h3>
+              <p className="text-sm text-muted-foreground">Live data from Google Analytics (Last 28 Days)</p>
             </div>
           </div>
           <div className="h-[350px] w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={mockTrafficData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+              <AreaChart data={trafficData || []} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                 <defs>
                   <linearGradient id="colorVisits" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor="#e11d48" stopOpacity={0.3}/>
