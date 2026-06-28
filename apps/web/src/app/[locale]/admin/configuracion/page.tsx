@@ -66,7 +66,7 @@ export default function SettingsPage() {
 
   const { data: settings, isLoading } = useQuery({
     queryKey: queryKeys.settings.all,
-    queryFn: () => api.get<StudioSettings>('/settings/studio'),
+    queryFn: () => api.get<StudioSettings>('/settings'),
   });
 
   useEffect(() => {
@@ -97,13 +97,13 @@ export default function SettingsPage() {
   }, [settings]);
 
   const saveMutation = useMutation({
-    mutationFn: (data: SettingsForm) => api.put('/settings/studio', data),
+    mutationFn: (data: SettingsForm) => api.put('/settings', { settings: data }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.settings.all });
-      alert(t('saved'));
+      toast.success(t('saved'));
     },
     onError: (err: Error) => {
-      alert(err.message || 'Failed to save settings');
+      toast.error(err.message || 'Failed to save settings');
     },
   });
 

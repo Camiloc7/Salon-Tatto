@@ -16,7 +16,7 @@ const footerNav = [
 
 async function getSettings(): Promise<StudioSettings | null> {
   try {
-    return await api.get<StudioSettings>('/settings/studio', {
+    return await api.get<StudioSettings>('/settings', {
       next: { revalidate: 300 },
     });
   } catch {

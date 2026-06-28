@@ -17,6 +17,7 @@ import { SeoPreviewCard } from '@/components/admin/seo-preview-fieldset';
 import { Loader2, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import type { BlogPost, Category, Tag, LocaleCode } from '@salon-tatto/shared';
+import { toast } from 'sonner';
 
 const translationSchema = z.object({
   languageCode: z.enum(['en', 'es']),
@@ -138,18 +139,18 @@ export default function EditBlogPostPage() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.blog.all });
       queryClient.invalidateQueries({ queryKey: queryKeys.blog.detail(id) });
-      alert('Post updated successfully');
+      toast.success('Post updated successfully');
       router.push('/admin/blog');
     },
     onError: (err: Error) => {
-      alert(err.message || 'Failed to update post');
+      toast.error(err.message || 'Failed to update post');
     },
   });
 
   const onSubmit = (data: UpdatePostFormData) => {
     const validTranslations = data.translations.filter(t => t.title && t.title.trim().length > 0);
     if (validTranslations.length === 0) {
-      alert('You must provide the post title in at least one language.');
+      toast.error('You must provide the post title in at least one language.');
       return;
     }
     updateMutation.mutate({ ...data, translations: validTranslations as any });

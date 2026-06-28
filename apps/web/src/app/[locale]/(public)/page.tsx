@@ -54,7 +54,7 @@ export default async function HomePage({ params }: Props) {
 
   let settings: StudioSettings | null = null;
   try {
-    settings = await api.get<StudioSettings>('/settings/studio', {
+    settings = await api.get<StudioSettings>('/settings', {
       next: { revalidate: 300 },
     });
   } catch {}

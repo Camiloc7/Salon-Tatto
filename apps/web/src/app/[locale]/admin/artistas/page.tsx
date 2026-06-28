@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Pagination } from '@/components/shared/pagination';
 import { Plus, Edit, Trash2, Power, PowerOff, Loader2 } from 'lucide-react';
 import type { Artist, PaginatedResponse } from '@salon-tatto/shared';
+import { toast } from 'sonner';
 
 import { useParams } from 'next/navigation';
 
@@ -40,7 +41,7 @@ export default function ArtistListPage() {
     mutationFn: (id: string) => api.delete(`/artists/${id}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.artists.all });
-      alert('Artist deleted');
+      toast.success('Artist deleted');
     },
   });
 

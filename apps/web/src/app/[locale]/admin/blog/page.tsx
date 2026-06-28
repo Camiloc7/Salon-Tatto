@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Pagination } from '@/components/shared/pagination';
 import { Plus, Edit, Trash2, Eye, EyeOff, Loader2 } from 'lucide-react';
 import type { BlogPost, PaginatedResponse } from '@salon-tatto/shared';
+import { toast } from 'sonner';
 
 import { useParams } from 'next/navigation';
 
@@ -41,7 +42,7 @@ export default function BlogListPage() {
     mutationFn: (id: string) => api.delete(`/blog/${id}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.blog.all });
-      alert('Post deleted');
+      toast.success('Post deleted');
     },
   });
 

@@ -11,7 +11,7 @@ export function WhatsAppButton() {
 
   useEffect(() => {
     api
-      .get<StudioSettings>('/settings/studio')
+      .get<StudioSettings>('/settings')
       .then((settings) => {
         if (settings.whatsapp) setWhatsapp(settings.whatsapp);
       })
