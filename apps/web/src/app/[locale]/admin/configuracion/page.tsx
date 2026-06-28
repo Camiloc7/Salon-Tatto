@@ -10,6 +10,8 @@ import { Loader2, Save, UploadCloud } from 'lucide-react';
 import type { StudioSettings } from '@salon-tatto/shared';
 import { useDropzone } from 'react-dropzone';
 import { toast } from 'sonner';
+import { SettingsPreviewCard } from '@/components/admin/seo-preview-fieldset';
+import { clearSiteCache } from '@/app/actions';
 
 const DAYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'] as const;
 
@@ -98,9 +100,10 @@ export default function SettingsPage() {
 
   const saveMutation = useMutation({
     mutationFn: (data: SettingsForm) => api.put('/settings', { settings: data }),
-    onSuccess: () => {
+    onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.settings.all });
       toast.success(t('saved'));
+      await clearSiteCache();
     },
     onError: (err: Error) => {
       toast.error(err.message || 'Failed to save settings');
