@@ -10,7 +10,7 @@ import { Loader2, Save, UploadCloud } from 'lucide-react';
 import type { StudioSettings } from '@salon-tatto/shared';
 import { useDropzone } from 'react-dropzone';
 import { toast } from 'sonner';
-import { SettingsPreviewCard } from '@/components/admin/seo-preview-fieldset';
+import { SeoPreviewCard } from '@/components/admin/seo-preview-fieldset';
 import { clearSiteCache } from '@/app/actions';
 
 const DAYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'] as const;
