@@ -88,12 +88,26 @@ export class ArtistsController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('admin', 'artist')
   @Put(':id')
-  @Patch(':id')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Update an artist (admin or self)' })
   @ApiResponse({ status: 200, description: 'Artist updated' })
   @ApiResponse({ status: 404, description: 'Artist not found' })
   async update(
+    @Param('id') id: string, 
+    @Body() dto: UpdateArtistDto,
+    @CurrentUser() user: any
+  ) {
+    return this.artistsService.update(id, dto, user);
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin', 'artist')
+  @Patch(':id')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Update an artist partially (admin or self)' })
+  @ApiResponse({ status: 200, description: 'Artist updated' })
+  @ApiResponse({ status: 404, description: 'Artist not found' })
+  async updatePatch(
     @Param('id') id: string, 
     @Body() dto: UpdateArtistDto,
     @CurrentUser() user: any

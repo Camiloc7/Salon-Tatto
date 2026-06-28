@@ -107,8 +107,8 @@ export default function EditArtistPage() {
       queryClient.invalidateQueries({ queryKey: queryKeys.artists.detail(id) });
       toast.success('Artist updated successfully!');
     },
-    onError: (err: Error) => {
-      toast.error(err.message || 'Failed to update artist');
+    onError: () => {
+      toast.error('Hubo un error al actualizar el artista. Por favor, inténtalo de nuevo más tarde.');
     },
   });
 
