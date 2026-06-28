@@ -22,6 +22,8 @@ export async function seedSettings(dataSource: DataSource): Promise<void> {
     { key: 'fridayHours', value: '', type: 'string', group: 'hours' },
     { key: 'saturdayHours', value: '', type: 'string', group: 'hours' },
     { key: 'sundayHours', value: '', type: 'string', group: 'hours' },
+    { key: 'licenseNumber', value: '#50107542', type: 'string', group: 'credentials' },
+    { key: 'licenseDates', value: '01/07/2025 - 12/31/2026', type: 'string', group: 'credentials' },
   ];
 
   for (const setting of settings) {

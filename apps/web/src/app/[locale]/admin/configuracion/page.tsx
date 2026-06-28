@@ -32,6 +32,8 @@ type SettingsForm = {
   saturdayHours: string;
   sundayHours: string;
   heroMediaUrl: string;
+  licenseNumber: string;
+  licenseDates: string;
 };
 
 const emptyForm: SettingsForm = {
@@ -53,6 +55,8 @@ const emptyForm: SettingsForm = {
   saturdayHours: '',
   sundayHours: '',
   heroMediaUrl: '',
+  licenseNumber: '',
+  licenseDates: '',
 };
 
 export default function SettingsPage() {
@@ -86,6 +90,8 @@ export default function SettingsPage() {
         saturdayHours: settings.saturdayHours || '',
         sundayHours: settings.sundayHours || '',
         heroMediaUrl: settings.heroMediaUrl || '',
+        licenseNumber: settings.licenseNumber || '',
+        licenseDates: settings.licenseDates || '',
       });
     }
   }, [settings]);
@@ -290,6 +296,30 @@ export default function SettingsPage() {
               <input
                 value={form.googleMapsLng}
                 onChange={(e) => updateField('googleMapsLng', e.target.value)}
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="rounded-lg border p-6 space-y-4">
+          <h2 className="font-semibold text-lg">Professional Credentials</h2>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label className="block text-base font-medium mb-1">License Number</label>
+              <input
+                value={form.licenseNumber}
+                onChange={(e) => updateField('licenseNumber', e.target.value)}
+                placeholder="e.g. #50107542"
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              />
+            </div>
+            <div>
+              <label className="block text-base font-medium mb-1">License Valid Dates</label>
+              <input
+                value={form.licenseDates}
+                onChange={(e) => updateField('licenseDates', e.target.value)}
+                placeholder="e.g. 01/07/2025 - 12/31/2026"
                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               />
             </div>
