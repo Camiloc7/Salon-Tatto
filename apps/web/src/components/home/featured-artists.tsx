@@ -77,7 +77,7 @@ export function FeaturedArtists() {
                         <img 
                           src={displayImage} 
                           alt={`${artist.name} profile`} 
-                          className="absolute inset-0 w-full h-full object-cover grayscale opacity-80 transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105 group-hover:opacity-100"
+                          className="absolute inset-0 w-full h-full object-cover object-top grayscale opacity-80 transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105 group-hover:opacity-100"
                         />
                       ) : (
                         <div className="absolute inset-0 bg-zinc-800" />
