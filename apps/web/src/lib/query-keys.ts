@@ -13,6 +13,7 @@ export const queryKeys = {
   },
   gallery: {
     byArtist: (artistId: string) => ['gallery', artistId] as const,
+    totalCount: ['gallery', 'totalCount'] as const,
   },
   settings: {
     all: ['settings'] as const,
@@ -29,4 +30,8 @@ export const queryKeys = {
   analytics: {
     traffic: ['analytics', 'traffic'] as const,
   },
+  messages: {
+    all: ['messages'] as const,
+    pendingCount: ['messages', 'pendingCount'] as const,
+  }
 };

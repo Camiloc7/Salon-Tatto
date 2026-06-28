@@ -25,6 +25,7 @@
     "title": "Send us a message",
     "name": "Name",
     "email": "Email",
+    "phone": "Phone (Optional)",
     "message": "Message",
     "submit": "Send message",
     "success": "Message sent successfully",

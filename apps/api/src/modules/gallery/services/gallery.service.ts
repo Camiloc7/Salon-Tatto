@@ -34,6 +34,11 @@ export class GalleryService {
     });
   }
 
+  async getTotalCount() {
+    const count = await this.imageRepository.count();
+    return { count };
+  }
+
   async upload(artistId: string, files: Express.Multer.File[], user?: any) {
     const artist = await this.artistRepository.findOne({
       where: { id: artistId },

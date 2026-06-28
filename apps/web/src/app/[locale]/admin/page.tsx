@@ -34,11 +34,21 @@ export default function AdminDashboard() {
     queryFn: () => api.get<{ name: string; visits: number; unique: number }[]>('/analytics/traffic'),
   });
 
+  const { data: galleryTotalData } = useQuery({
+    queryKey: queryKeys.gallery.totalCount,
+    queryFn: () => api.get<{ count: number }>('/gallery/count'),
+  });
+
+  const { data: messagesPendingData } = useQuery({
+    queryKey: queryKeys.messages.pendingCount,
+    queryFn: () => api.get<{ count: number }>('/messages/count/pending'),
+  });
+
   const stats = [
     { label: t('totalArtists'), value: artistsData?.meta.total ?? 0, icon: Users, subtext: t('subtext.artists'), color: 'text-blue-500' },
     { label: t('totalPosts'), value: blogData?.meta.total ?? 0, icon: FileText, subtext: t('subtext.posts'), color: 'text-green-500' },
-    { label: t('totalWorks'), value: 84, icon: ImageIcon, subtext: t('subtext.works'), color: 'text-orange-500' },
-    { label: t('messages'), value: 3, icon: Mail, subtext: t('subtext.messages'), color: 'text-purple-500' },
+    { label: t('totalWorks'), value: galleryTotalData?.count ?? 0, icon: ImageIcon, subtext: t('subtext.works'), color: 'text-orange-500' },
+    { label: t('messages'), value: messagesPendingData?.count ?? 0, icon: Mail, subtext: t('subtext.messages'), color: 'text-purple-500' },
   ];
 
   const pieData = [

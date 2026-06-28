@@ -1,6 +1,7 @@
 import { getTranslations } from 'next-intl/server';
 import { api } from '@/lib/api-client';
 import { LocationMap } from '@/components/contact/location-map';
+import { ContactForm } from '@/components/contact/contact-form';
 import { MapPin, Phone, Mail, Instagram, Facebook, Clock, Navigation } from 'lucide-react';
 import type { StudioSettings, SeoPage } from '@salon-tatto/shared';
 import { getOptimizedImageUrl } from '@/lib/utils';
@@ -182,11 +183,16 @@ export default async function ContactPage({ params }: Props) {
             </div>
           </div>
 
-          {/* Map */}
-          <div className="h-[500px] lg:h-[700px] w-full relative">
-            <div className="absolute inset-0 bg-accent/20 rounded-2xl -m-4 md:-m-6 blur-2xl -z-10" />
-            <LocationMap lat={lat} lng={lng} />
+          {/* Contact Form */}
+          <div className="w-full sticky top-32">
+            <ContactForm />
           </div>
+        </div>
+
+        {/* Map */}
+        <div className="h-[500px] w-full relative mt-16">
+          <div className="absolute inset-0 bg-accent/20 rounded-2xl -m-4 md:-m-6 blur-2xl -z-10" />
+          <LocationMap lat={lat} lng={lng} />
         </div>
       </div>
     </div>

@@ -33,6 +33,16 @@ import { CurrentUser } from '../../../common/decorators/current-user.decorator';
 export class GalleryController {
   constructor(private readonly galleryService: GalleryService) {}
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin', 'artist')
+  @Get('gallery/count')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get total number of images' })
+  @ApiResponse({ status: 200, description: 'Images count' })
+  async getTotalCount() {
+    return this.galleryService.getTotalCount();
+  }
+
   @Public()
   @Get('artists/:artistId/images')
   @ApiOperation({ summary: 'Get all images for an artist' })

@@ -25,6 +25,7 @@
     "title": "Envíanos un mensaje",
     "name": "Nombre",
     "email": "Correo electrónico",
+    "phone": "Teléfono (Opcional)",
     "message": "Mensaje",
     "submit": "Enviar mensaje",
     "success": "Mensaje enviado correctamente",
