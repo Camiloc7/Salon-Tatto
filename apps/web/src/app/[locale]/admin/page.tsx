@@ -5,7 +5,7 @@ import { useAuth } from '@/providers/auth-provider';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '@/lib/api-client';
 import { queryKeys } from '@/lib/query-keys';
-import { Users, FileText, LayoutGrid, TrendingUp } from 'lucide-react';
+import { Users, FileText, LayoutGrid, Image as ImageIcon, Mail } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 
 const COLORS = ['#e11d48', '#2563eb', '#16a34a', '#d97706'];
@@ -35,9 +35,10 @@ export default function AdminDashboard() {
   });
 
   const stats = [
-    { label: t('totalArtists'), value: artistsData?.meta.total ?? 0, icon: Users, trend: '+12%', color: 'text-blue-500' },
-    { label: t('totalPosts'), value: blogData?.meta.total ?? 0, icon: FileText, trend: '+5%', color: 'text-green-500' },
-    { label: 'Total Categories', value: categoriesData?.length ?? 0, icon: LayoutGrid, trend: '+0%', color: 'text-orange-500' },
+    { label: t('totalArtists'), value: artistsData?.meta.total ?? 0, icon: Users, subtext: t('subtext.artists'), color: 'text-blue-500' },
+    { label: t('totalPosts'), value: blogData?.meta.total ?? 0, icon: FileText, subtext: t('subtext.posts'), color: 'text-green-500' },
+    { label: t('totalWorks'), value: 84, icon: ImageIcon, subtext: t('subtext.works'), color: 'text-orange-500' },
+    { label: t('messages'), value: 3, icon: Mail, subtext: t('subtext.messages'), color: 'text-purple-500' },
   ];
 
   const pieData = [
@@ -49,8 +50,9 @@ export default function AdminDashboard() {
   return (
     <div className="space-y-8 pb-10">
       <div className="flex flex-col gap-2">
+        <p className="text-sm font-medium text-muted-foreground uppercase tracking-widest">{t('welcome')}</p>
         <h1 className="text-4xl font-extrabold tracking-tight bg-gradient-to-r from-primary to-primary/50 bg-clip-text text-transparent w-fit">
-          {t('welcome')}, {user?.name ?? 'Admin'}
+          Panel de administración
         </h1>
         <p className="text-muted-foreground text-lg">{t('title')}</p>
       </div>
@@ -69,14 +71,13 @@ export default function AdminDashboard() {
                   <div className={`flex h-14 w-14 items-center justify-center rounded-xl bg-muted ${stat.color}`}>
                     <Icon className="h-7 w-7" />
                   </div>
-                  <div>
+                  <div className="flex flex-col">
                     <p className="text-sm font-medium text-muted-foreground">{stat.label}</p>
-                    <p className="text-3xl font-bold">{stat.value}</p>
+                    <div className="flex items-baseline gap-1.5">
+                      <p className="text-3xl font-bold">{stat.value}</p>
+                      <p className="text-sm font-medium text-muted-foreground">{stat.subtext}</p>
+                    </div>
                   </div>
-                </div>
-                <div className="flex items-center gap-1 text-sm font-medium text-green-600 bg-green-600/10 px-2 py-1 rounded-full">
-                  <TrendingUp className="h-4 w-4" />
-                  {stat.trend}
                 </div>
               </div>
             </div>

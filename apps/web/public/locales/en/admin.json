@@ -7,11 +7,18 @@
     "error": "Invalid credentials"
   },
   "dashboard": {
-    "title": "Dashboard",
-    "welcome": "Welcome back",
-    "totalArtists": "Total Artists",
-    "totalPosts": "Blog Posts",
-    "totalImages": "Gallery Images"
+    "title": "Manage artists, posts, and website content.",
+    "welcome": "Studio",
+    "totalArtists": "Artists",
+    "totalPosts": "Publications",
+    "totalWorks": "Works",
+    "messages": "Messages",
+    "subtext": {
+      "artists": "registered",
+      "posts": "published",
+      "works": "tattoos",
+      "messages": "pending"
+    }
   },
   "sidebar": {
     "dashboard": "Dashboard",

@@ -7,11 +7,18 @@
     "error": "Credenciales inválidas"
   },
   "dashboard": {
-    "title": "Panel de Control",
-    "welcome": "Bienvenido de nuevo",
-    "totalArtists": "Total de Artistas",
-    "totalPosts": "Publicaciones del Blog",
-    "totalImages": "Imágenes de la Galería"
+    "title": "Gestiona artistas, publicaciones y el contenido de la web.",
+    "welcome": "Estudio",
+    "totalArtists": "Artistas",
+    "totalPosts": "Publicaciones",
+    "totalWorks": "Trabajos",
+    "messages": "Mensajes",
+    "subtext": {
+      "artists": "registrados",
+      "posts": "publicadas",
+      "works": "tatuajes",
+      "messages": "pendientes"
+    }
   },
   "sidebar": {
     "dashboard": "Panel",
