@@ -88,6 +88,7 @@ export class ArtistsController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('admin', 'artist')
   @Put(':id')
+  @Patch(':id')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Update an artist (admin or self)' })
   @ApiResponse({ status: 200, description: 'Artist updated' })

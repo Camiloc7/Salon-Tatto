@@ -53,6 +53,24 @@ export class UploadService {
   }
 
   async deleteFile(cloudinaryId: string): Promise<void> {
-    await this.cloudinary.uploader.destroy(cloudinaryId);
+    try {
+      await this.cloudinary.uploader.destroy(cloudinaryId);
+    } catch (e) {
+      // Ignore errors if file doesn't exist
+    }
+  }
+
+  async deleteFileByUrl(url: string): Promise<void> {
+    if (!url) return;
+    try {
+      // Extract public_id from Cloudinary URL
+      // Example: https://res.cloudinary.com/cloud/image/upload/v1234/folder/image.jpg
+      const match = url.match(/\/upload\/(?:v\d+\/)?([^\.]+)/);
+      if (match && match[1]) {
+        await this.deleteFile(match[1]);
+      }
+    } catch (e) {
+      // Ignore errors during deletion
+    }
   }
 }

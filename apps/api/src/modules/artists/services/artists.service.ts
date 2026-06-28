@@ -12,6 +12,7 @@ import { CreateArtistDto } from '../dto/create-artist.dto';
 import { UpdateArtistDto } from '../dto/update-artist.dto';
 import { QueryArtistDto } from '../dto/query-artist.dto';
 import { TranslationService } from '../../translation/translation.service';
+import { UploadService } from '../../upload/services/upload.service';
 
 @Injectable()
 export class ArtistsService {
@@ -20,6 +21,7 @@ export class ArtistsService {
     private readonly artistRepository: Repository<Artist>,
     private readonly dataSource: DataSource,
     private readonly translationService: TranslationService,
+    private readonly uploadService: UploadService,
   ) {}
 
   async findAll(query: QueryArtistDto) {
@@ -212,7 +214,12 @@ export class ArtistsService {
 
     return this.dataSource.transaction(async (manager) => {
       if (dto.slug !== undefined) artist.slug = dto.slug;
-      if (dto.avatar !== undefined) artist.avatar = dto.avatar;
+      if (dto.avatar !== undefined) {
+        if (artist.avatar && artist.avatar !== dto.avatar) {
+          await this.uploadService.deleteFileByUrl(artist.avatar);
+        }
+        artist.avatar = dto.avatar;
+      }
       if (dto.instagramUrl !== undefined) artist.instagramUrl = dto.instagramUrl;
       if (dto.orderIndex !== undefined) artist.orderIndex = dto.orderIndex;
 

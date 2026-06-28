@@ -31,7 +31,7 @@ export default function ArtistListPage() {
 
   const toggleMutation = useMutation({
     mutationFn: (artist: Artist) =>
-      api.patch(`/artists/${artist.id}`, { isActive: !artist.isActive }),
+      api.patch(`/artists/${artist.id}/toggle-active`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.artists.all });
     },

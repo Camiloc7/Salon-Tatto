@@ -6,11 +6,13 @@ import { Language } from '../languages/entities/language.entity';
 import { ArtistsController } from './controllers/artists.controller';
 import { ArtistsService } from './services/artists.service';
 import { GalleryModule } from '../gallery/gallery.module';
+import { UploadModule } from '../upload/upload.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Artist, ArtistTranslation, Language]),
     forwardRef(() => GalleryModule),
+    UploadModule,
   ],
   controllers: [ArtistsController],
   providers: [ArtistsService],
