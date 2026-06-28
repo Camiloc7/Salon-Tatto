@@ -28,4 +28,5 @@ export type StudioSettings = {
   heroMediaUrl?: string;
   licenseNumber?: string;
   licenseDates?: string;
+  sameDayReservation?: string;
 };

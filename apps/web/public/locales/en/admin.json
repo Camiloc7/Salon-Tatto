@@ -78,6 +78,7 @@
     "social": "Social Media",
     "location": "Location",
     "hours": "Business Hours",
+    "sameDayReservation": "Enable same-day reservation mode",
     "saved": "Settings saved successfully"
   }
 }

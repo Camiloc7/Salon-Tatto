@@ -36,6 +36,7 @@ type SettingsForm = {
   heroMediaUrl: string;
   licenseNumber: string;
   licenseDates: string;
+  sameDayReservation: string;
 };
 
 const emptyForm: SettingsForm = {
@@ -59,6 +60,7 @@ const emptyForm: SettingsForm = {
   heroMediaUrl: '',
   licenseNumber: '',
   licenseDates: '',
+  sameDayReservation: 'false',
 };
 
 export default function SettingsPage() {
@@ -94,6 +96,7 @@ export default function SettingsPage() {
         heroMediaUrl: settings.heroMediaUrl || '',
         licenseNumber: settings.licenseNumber || '',
         licenseDates: settings.licenseDates || '',
+        sameDayReservation: settings.sameDayReservation || 'false',
       });
     }
   }, [settings]);
@@ -331,19 +334,39 @@ export default function SettingsPage() {
 
         <div className="rounded-lg border p-6 space-y-4">
           <h2 className="font-semibold text-lg">{t('hours')}</h2>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {DAYS.map((day) => (
-              <div key={day}>
-                <label className="block text-base font-medium mb-1 capitalize">{day}</label>
-                <input
-                  value={form[`${day}Hours` as keyof SettingsForm] as string}
-                  onChange={(e) => updateField(`${day}Hours` as keyof SettingsForm, e.target.value)}
-                  placeholder="e.g. 10:00 - 19:00"
-                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                />
-              </div>
-            ))}
+
+          <div className="flex items-center space-x-2 pb-4 border-b mb-4">
+            <input 
+              type="checkbox" 
+              id="sameDayReservation" 
+              checked={form.sameDayReservation === 'true'}
+              onChange={(e) => updateField('sameDayReservation', e.target.checked ? 'true' : 'false')}
+              className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer"
+            />
+            <label htmlFor="sameDayReservation" className="text-sm font-medium leading-none cursor-pointer">
+              {t('sameDayReservation')}
+            </label>
           </div>
+
+          {(!form.sameDayReservation || form.sameDayReservation === 'false') ? (
+            <div className="grid gap-4 sm:grid-cols-2">
+              {DAYS.map((day) => (
+                <div key={day}>
+                  <label className="block text-base font-medium mb-1 capitalize">{day}</label>
+                  <input
+                    value={form[`${day}Hours` as keyof SettingsForm] as string}
+                    onChange={(e) => updateField(`${day}Hours` as keyof SettingsForm, e.target.value)}
+                    placeholder="e.g. 10:00 - 19:00"
+                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                  />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-sm text-muted-foreground p-4 bg-accent/50 rounded-md">
+              Se ocultarán los horarios y se mostrará un mensaje de disponibilidad de reservas.
+            </div>
+          )}
         </div>
       </div>
     </div>

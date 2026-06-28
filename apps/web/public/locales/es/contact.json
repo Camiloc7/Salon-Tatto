@@ -11,6 +11,7 @@
   "whatsapp": "WhatsApp",
   "socialMedia": "Redes Sociales",
   "hours": "Horarios",
+  "sameDayReservationText": "Disponible mismo día con reserva",
   "days": {
     "monday": "Lunes",
     "tuesday": "Martes",

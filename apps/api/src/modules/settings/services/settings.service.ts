@@ -34,10 +34,18 @@ export class SettingsService {
   async bulkUpdate(settings: Record<string, string>) {
     return this.dataSource.transaction(async (manager) => {
       for (const [key, value] of Object.entries(settings)) {
-        const existing = await manager.findOneBy(Setting, { key });
-        if (existing) {
-          existing.value = value;
-          await manager.save(existing);
+        let setting = await manager.findOneBy(Setting, { key });
+        if (setting) {
+          setting.value = value;
+          await manager.save(setting);
+        } else {
+          setting = manager.create(Setting, {
+            key,
+            value,
+            type: 'string', // Default to string for new bulk settings
+            group: 'general', // Default group
+          });
+          await manager.save(setting);
         }
       }
     });

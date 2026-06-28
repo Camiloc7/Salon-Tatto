@@ -151,28 +151,34 @@ export default async function ContactPage({ params }: Props) {
                 <Clock className="h-6 w-6" />
                 <h2 className="text-2xl font-semibold">{t('hours') || 'Horarios'}</h2>
               </div>
-              <div className="ml-9 grid grid-cols-2 gap-y-2 max-w-xs text-muted-foreground">
-                <span>{t('days.monday') || 'Lunes'}</span>
-                <span className="text-right">{settings?.mondayHours || 'Cerrado'}</span>
-                
-                <span>{t('days.tuesday') || 'Martes'}</span>
-                <span className="text-right">{settings?.tuesdayHours || '10:00 - 19:00'}</span>
-                
-                <span>{t('days.wednesday') || 'Miércoles'}</span>
-                <span className="text-right">{settings?.wednesdayHours || '10:00 - 19:00'}</span>
-                
-                <span>{t('days.thursday') || 'Jueves'}</span>
-                <span className="text-right">{settings?.thursdayHours || '10:00 - 19:00'}</span>
-                
-                <span>{t('days.friday') || 'Viernes'}</span>
-                <span className="text-right">{settings?.fridayHours || '10:00 - 20:00'}</span>
-                
-                <span>{t('days.saturday') || 'Sábado'}</span>
-                <span className="text-right">{settings?.saturdayHours || '10:00 - 20:00'}</span>
-                
-                <span>{t('days.sunday') || 'Domingo'}</span>
-                <span className="text-right">{settings?.sundayHours || 'Cerrado'}</span>
-              </div>
+              {settings?.sameDayReservation === 'true' ? (
+                <div className="ml-9 text-muted-foreground text-lg">
+                  <p>{t('sameDayReservationText')}</p>
+                </div>
+              ) : (
+                <div className="ml-9 grid grid-cols-2 gap-y-2 max-w-xs text-muted-foreground">
+                  <span>{t('days.monday') || 'Lunes'}</span>
+                  <span className="text-right">{settings?.mondayHours || 'Cerrado'}</span>
+                  
+                  <span>{t('days.tuesday') || 'Martes'}</span>
+                  <span className="text-right">{settings?.tuesdayHours || '10:00 - 19:00'}</span>
+                  
+                  <span>{t('days.wednesday') || 'Miércoles'}</span>
+                  <span className="text-right">{settings?.wednesdayHours || '10:00 - 19:00'}</span>
+                  
+                  <span>{t('days.thursday') || 'Jueves'}</span>
+                  <span className="text-right">{settings?.thursdayHours || '10:00 - 19:00'}</span>
+                  
+                  <span>{t('days.friday') || 'Viernes'}</span>
+                  <span className="text-right">{settings?.fridayHours || '10:00 - 20:00'}</span>
+                  
+                  <span>{t('days.saturday') || 'Sábado'}</span>
+                  <span className="text-right">{settings?.saturdayHours || '10:00 - 20:00'}</span>
+                  
+                  <span>{t('days.sunday') || 'Domingo'}</span>
+                  <span className="text-right">{settings?.sundayHours || 'Cerrado'}</span>
+                </div>
+              )}
             </div>
           </div>
 

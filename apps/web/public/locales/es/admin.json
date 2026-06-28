@@ -78,6 +78,7 @@
     "social": "Redes Sociales",
     "location": "Ubicación",
     "hours": "Horario de Atención",
+    "sameDayReservation": "Activar modo de reserva el mismo día",
     "saved": "Configuración guardada correctamente"
   }
 }
