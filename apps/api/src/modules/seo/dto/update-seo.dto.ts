@@ -34,7 +34,7 @@ export class SeoTranslationDto {
 
   @ApiPropertyOptional()
   @IsOptional()
-  @IsUrl()
+  @IsString()
   ogImage?: string;
 
   @ApiPropertyOptional({ maxLength: 300 })

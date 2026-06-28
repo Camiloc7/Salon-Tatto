@@ -163,20 +163,24 @@ export default function SeoPage() {
 
     const translationsArray = (['en', 'es'] as LocaleCode[])
       .filter((loc) => form.translations[loc])
-      .map((locale) => ({
-        languageCode: locale,
-        title: form.translations[locale].title || undefined,
-        description: form.translations[locale].description || undefined,
-        ogTitle: form.translations[locale].ogTitle || undefined,
-        ogDescription: form.translations[locale].ogDescription || undefined,
-        ogImage: form.translations[locale].ogImage || undefined,
-        keywords: form.translations[locale].keywords || undefined,
-      }));
+      .map((locale) => {
+        const trans = form.translations[locale];
+        return {
+          languageCode: locale,
+          title: trans?.title?.trim() || undefined,
+          description: trans?.description?.trim() || undefined,
+          ogTitle: trans?.ogTitle?.trim() || undefined,
+          ogDescription: trans?.ogDescription?.trim() || undefined,
+          ogImage: trans?.ogImage?.trim() || undefined,
+          keywords: trans?.keywords?.trim() || undefined,
+        };
+      });
 
+    const cleanCanonical = form.canonicalUrl?.trim();
     saveMutation.mutate({
       pageKey,
       data: {
-        canonicalUrl: form.canonicalUrl || undefined,
+        canonicalUrl: cleanCanonical || undefined,
         noIndex: form.noIndex,
         noFollow: form.noFollow,
         translations: translationsArray.length > 0 ? translationsArray : undefined,
