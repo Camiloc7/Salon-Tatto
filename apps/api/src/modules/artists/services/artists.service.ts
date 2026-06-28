@@ -155,14 +155,16 @@ export class ArtistsService {
         if (esTrans) {
           if (!enTrans) {
             enTrans = { languageCode: 'en' } as any;
-            dto.translations.push(enTrans);
+            dto.translations.push(enTrans!);
           }
           
-          const fieldsToTranslate = [];
-          const fieldsToCheck = ['name', 'biography', 'specialty', 'seoTitle', 'seoDescription'];
+          const fieldsToTranslate: string[] = [];
+          const fieldsToCheck = ['name', 'biography', 'specialty', 'seoTitle', 'seoDescription'] as const;
           
           for (const field of fieldsToCheck) {
-            if (esTrans[field] && (!enTrans[field] || enTrans[field].trim() === '')) {
+            const esValue = (esTrans as any)[field];
+            const enValue = (enTrans as any)[field];
+            if (esValue && (!enValue || (typeof enValue === 'string' && enValue.trim() === ''))) {
               fieldsToTranslate.push(field);
             }
           }
@@ -170,8 +172,8 @@ export class ArtistsService {
           if (fieldsToTranslate.length > 0) {
             const translated = await this.translationService.translateObject(esTrans, fieldsToTranslate);
             for (const field of fieldsToTranslate) {
-              if (translated[field]) {
-                enTrans[field] = translated[field];
+              if ((translated as any)[field]) {
+                (enTrans as any)[field] = (translated as any)[field];
               }
             }
           }
@@ -243,14 +245,16 @@ export class ArtistsService {
         if (esTrans) {
           if (!enTrans) {
             enTrans = { languageCode: 'en' } as any;
-            dto.translations.push(enTrans);
+            dto.translations.push(enTrans!);
           }
           
-          const fieldsToTranslate = [];
-          const fieldsToCheck = ['name', 'biography', 'specialty', 'seoTitle', 'seoDescription'];
+          const fieldsToTranslate: string[] = [];
+          const fieldsToCheck = ['name', 'biography', 'specialty', 'seoTitle', 'seoDescription'] as const;
           
           for (const field of fieldsToCheck) {
-            if (esTrans[field] && (!enTrans[field] || enTrans[field].trim() === '')) {
+            const esValue = (esTrans as any)[field];
+            const enValue = (enTrans as any)[field];
+            if (esValue && (!enValue || (typeof enValue === 'string' && enValue.trim() === ''))) {
               fieldsToTranslate.push(field);
             }
           }
@@ -258,8 +262,8 @@ export class ArtistsService {
           if (fieldsToTranslate.length > 0) {
             const translated = await this.translationService.translateObject(esTrans, fieldsToTranslate);
             for (const field of fieldsToTranslate) {
-              if (translated[field]) {
-                enTrans[field] = translated[field];
+              if ((translated as any)[field]) {
+                (enTrans as any)[field] = (translated as any)[field];
               }
             }
           }
