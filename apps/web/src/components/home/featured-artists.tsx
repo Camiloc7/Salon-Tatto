@@ -58,7 +58,9 @@ export function FeaturedArtists() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
             {artists?.map((artist, index) => {
-              const topImage = artist.images && artist.images.length > 0 ? getImageUrl(artist.images[0].url) : null;
+              const displayImage = artist.avatar 
+                ? getImageUrl(artist.avatar) 
+                : (artist.images && artist.images.length > 0 ? getImageUrl(artist.images[0].url) : null);
               
               return (
                 <motion.div
@@ -71,10 +73,10 @@ export function FeaturedArtists() {
                 >
                   <Link href={`/${locale}/artistas/${artist.slug}`} className="block">
                     <div className="relative h-[450px] overflow-hidden bg-zinc-900">
-                      {topImage ? (
+                      {displayImage ? (
                         <img 
-                          src={topImage} 
-                          alt={`${artist.name} tattoo work`} 
+                          src={displayImage} 
+                          alt={`${artist.name} profile`} 
                           className="absolute inset-0 w-full h-full object-cover grayscale opacity-80 transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105 group-hover:opacity-100"
                         />
                       ) : (
