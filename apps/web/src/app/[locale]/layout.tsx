@@ -9,6 +9,7 @@ import { locales } from '@/i18n';
 import { QueryProvider } from '@/providers/query-provider';
 import { AuthProvider } from '@/providers/auth-provider';
 import { Toaster } from 'sonner';
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 type Props = {
   children: ReactNode;
@@ -51,6 +52,7 @@ export default async function LocaleLayout({ children, params }: Props) {
             </HideOnAdmin>
           </div>
           <Toaster position="top-right" richColors />
+          <GoogleAnalytics gaId="G-10BGG11343" />
         </AuthProvider>
       </QueryProvider>
     </NextIntlClientProvider>
