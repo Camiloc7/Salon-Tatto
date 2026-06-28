@@ -15,12 +15,18 @@ import { JwtStrategy } from './strategies/jwt.strategy';
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        secret: configService.get<string>('JWT_SECRET', 'super-secret-key'),
-        signOptions: {
-          expiresIn: configService.get<number>('JWT_EXPIRES_IN', 900),
-        },
-      }),
+      useFactory: (configService: ConfigService) => {
+        const expiresInVal = configService.get<string | number>('JWT_EXPIRES_IN', '1d');
+        const expiresIn = typeof expiresInVal === 'string' && !isNaN(Number(expiresInVal))
+          ? Number(expiresInVal)
+          : expiresInVal;
+        return {
+          secret: configService.get<string>('JWT_SECRET', 'super-secret-key'),
+          signOptions: {
+            expiresIn,
+          },
+        };
+      },
     }),
     PassportModule.register({ defaultStrategy: 'jwt' }),
     forwardRef(() => UsersModule),
