@@ -56,7 +56,7 @@ export function FeaturedArtists() {
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10 group/grid">
             {artists?.map((artist, index) => {
               const displayImage = artist.avatar 
                 ? getImageUrl(artist.avatar) 
@@ -77,7 +77,7 @@ export function FeaturedArtists() {
                         <img 
                           src={displayImage} 
                           alt={`${artist.name} profile`} 
-                          className="absolute inset-0 w-full h-full object-cover object-top grayscale opacity-80 transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105 group-hover:opacity-100"
+                          className="absolute inset-0 w-full h-full object-cover object-top transition-all duration-700 group-hover/grid:grayscale group-hover/grid:opacity-60 group-hover:!grayscale-0 group-hover:!opacity-100 group-hover:scale-105"
                         />
                       ) : (
                         <div className="absolute inset-0 bg-zinc-800" />
