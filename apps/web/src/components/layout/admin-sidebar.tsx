@@ -12,6 +12,7 @@ import {
   LogOut,
   Menu,
   X,
+  Mail,
   Tags,
   ChevronLeft,
   ChevronRight,
@@ -27,6 +28,7 @@ const navItems = [
   { href: '/admin/blog', labelKey: 'sidebar.blog', icon: FileText },
   { href: '/admin/categorias', labelKey: 'sidebar.categories', icon: Tags },
   { href: '/admin/seo', labelKey: 'sidebar.seo', icon: Search },
+  { href: '/admin/mensajes', labelKey: 'sidebar.messages', icon: Mail },
   { href: '/admin/configuracion', labelKey: 'sidebar.settings', icon: Settings },
 ];
 

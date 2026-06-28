@@ -1,5 +1,7 @@
 'use client';
 
+import Link from 'next/link';
+
 import { useTranslations } from 'next-intl';
 import { useAuth } from '@/providers/auth-provider';
 import { useQuery } from '@tanstack/react-query';
@@ -45,10 +47,10 @@ export default function AdminDashboard() {
   });
 
   const stats = [
-    { label: t('totalArtists'), value: artistsData?.meta.total ?? 0, icon: Users, subtext: t('subtext.artists'), color: 'text-blue-500' },
-    { label: t('totalPosts'), value: blogData?.meta.total ?? 0, icon: FileText, subtext: t('subtext.posts'), color: 'text-green-500' },
-    { label: t('totalWorks'), value: galleryTotalData?.count ?? 0, icon: ImageIcon, subtext: t('subtext.works'), color: 'text-orange-500' },
-    { label: t('messages'), value: messagesPendingData?.count ?? 0, icon: Mail, subtext: t('subtext.messages'), color: 'text-purple-500' },
+    { label: t('totalArtists'), value: artistsData?.meta.total ?? 0, icon: Users, subtext: t('subtext.artists'), color: 'text-blue-500', href: '/admin/artistas' },
+    { label: t('totalPosts'), value: blogData?.meta.total ?? 0, icon: FileText, subtext: t('subtext.posts'), color: 'text-green-500', href: '/admin/blog' },
+    { label: t('totalWorks'), value: galleryTotalData?.count ?? 0, icon: ImageIcon, subtext: t('subtext.works'), color: 'text-orange-500', href: '/admin/artistas' },
+    { label: t('messages'), value: messagesPendingData?.count ?? 0, icon: Mail, subtext: t('subtext.messages'), color: 'text-purple-500', href: '/admin/mensajes' },
   ];
 
   const pieData = [
@@ -67,13 +69,12 @@ export default function AdminDashboard() {
         <p className="text-muted-foreground text-lg">{t('title')}</p>
       </div>
 
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat, i) => {
           const Icon = stat.icon;
-          return (
+          const CardContent = (
             <div
-              key={stat.label}
-              className="group relative overflow-hidden rounded-2xl border bg-card p-6 shadow-sm transition-all hover:shadow-md"
+              className={`group relative overflow-hidden rounded-2xl border bg-card p-6 shadow-sm transition-all hover:shadow-md h-full ${stat.href !== '#' ? 'cursor-pointer hover:border-primary/50' : ''}`}
             >
               <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
               <div className="relative flex items-center justify-between">
@@ -92,6 +93,16 @@ export default function AdminDashboard() {
               </div>
             </div>
           );
+
+          if (stat.href !== '#') {
+            return (
+              <Link href={stat.href} key={stat.label} className="block h-full">
+                {CardContent}
+              </Link>
+            );
+          }
+
+          return <div key={stat.label} className="block h-full">{CardContent}</div>;
         })}
       </div>
 

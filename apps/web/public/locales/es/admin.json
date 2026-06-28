@@ -26,6 +26,7 @@
     "blog": "Blog",
     "categories": "Categorías",
     "seo": "SEO",
+    "messages": "Mensajes",
     "settings": "Configuración"
   },
   "artists": {
@@ -87,5 +88,28 @@
     "hours": "Horario de Atención",
     "sameDayReservation": "Activar modo de reserva el mismo día",
     "saved": "Configuración guardada correctamente"
+  },
+  "messages": {
+    "title": "Bandeja de Mensajes",
+    "subtitle": "Revisa y administra los mensajes recibidos desde la web.",
+    "columns": {
+      "sender": "Remitente",
+      "email": "Correo",
+      "phone": "Teléfono",
+      "status": "Estado",
+      "date": "Fecha",
+      "actions": "Acciones"
+    },
+    "status": {
+      "pending": "Pendiente",
+      "read": "Leído"
+    },
+    "actions": {
+      "markRead": "Marcar como leído",
+      "delete": "Eliminar",
+      "view": "Ver mensaje"
+    },
+    "empty": "No hay mensajes",
+    "confirmDelete": "¿Estás seguro de que deseas eliminar este mensaje?"
   }
 }

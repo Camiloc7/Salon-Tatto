@@ -26,6 +26,7 @@
     "blog": "Blog",
     "categories": "Categories",
     "seo": "SEO",
+    "messages": "Messages",
     "settings": "Settings"
   },
   "artists": {
@@ -87,5 +88,28 @@
     "hours": "Business Hours",
     "sameDayReservation": "Enable same-day reservation mode",
     "saved": "Settings saved successfully"
+  },
+  "messages": {
+    "title": "Messages Inbox",
+    "subtitle": "Review and manage messages received from the website.",
+    "columns": {
+      "sender": "Sender",
+      "email": "Email",
+      "phone": "Phone",
+      "status": "Status",
+      "date": "Date",
+      "actions": "Actions"
+    },
+    "status": {
+      "pending": "Pending",
+      "read": "Read"
+    },
+    "actions": {
+      "markRead": "Mark as read",
+      "delete": "Delete",
+      "view": "View message"
+    },
+    "empty": "No messages found",
+    "confirmDelete": "Are you sure you want to delete this message?"
   }
 }
