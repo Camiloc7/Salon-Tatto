@@ -8,6 +8,7 @@ import { UsersModule } from '../users/users.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { jwtConfig } from '../../config/jwt.config';
 
 @Module({
   imports: [
@@ -15,18 +16,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => {
-        const expiresInVal = configService.get<string | number>('JWT_EXPIRES_IN', '1d');
-        const expiresIn = typeof expiresInVal === 'string' && !isNaN(Number(expiresInVal))
-          ? Number(expiresInVal)
-          : expiresInVal;
-        return {
-          secret: configService.get<string>('JWT_SECRET', 'super-secret-key'),
-          signOptions: {
-            expiresIn,
-          },
-        };
-      },
+      useFactory: jwtConfig,
     }),
     PassportModule.register({ defaultStrategy: 'jwt' }),
     forwardRef(() => UsersModule),
