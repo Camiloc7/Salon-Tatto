@@ -20,6 +20,12 @@ export function Hero({ settings }: { settings: StudioSettings | null }) {
 
   return (
     <section className="relative min-h-[100dvh] w-full bg-black overflow-hidden flex flex-col items-center justify-center">
+      {/* Preload critical assets for LCP */}
+      <link rel="preload" href="/logo.svg" as="image" fetchPriority="high" />
+      {!settings?.heroMediaUrl && (
+        <link rel="preload" href="/stardust.png" as="image" fetchPriority="high" />
+      )}
+
       {settings?.heroMediaUrl ? (
         <>
           {isVideo ? (
@@ -36,6 +42,7 @@ export function Hero({ settings }: { settings: StudioSettings | null }) {
               src={settings.heroMediaUrl}
               alt="Hero Background"
               className="absolute inset-0 w-full h-full object-cover z-0 opacity-40 mix-blend-screen"
+              fetchPriority="high"
             />
           )}
         </>
