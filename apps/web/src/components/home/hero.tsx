@@ -32,9 +32,9 @@ export function Hero({ settings }: { settings: StudioSettings | null }) {
               playsInline
             />
           ) : (
-            <img 
-              src={settings.heroMediaUrl} 
-              alt="Hero Background" 
+            <img
+              src={settings.heroMediaUrl}
+              alt="Hero Background"
               className="absolute inset-0 w-full h-full object-cover z-0 opacity-40 mix-blend-screen"
             />
           )}
@@ -47,23 +47,33 @@ export function Hero({ settings }: { settings: StudioSettings | null }) {
       )}
 
       {/* Main Content Container */}
-      <motion.div 
+      <motion.div
         className="relative z-10 w-full max-w-5xl px-6 flex flex-col items-center text-center mt-20"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, ease: 'easeOut' }}
       >
+        {/*
         <h1 className="text-5xl sm:text-7xl md:text-8xl font-serif tracking-widest text-white/90 drop-shadow-sm pb-4 uppercase leading-tight font-light">
           {title}
         </h1>
-        
+        */}
+
+        {/* LOGO CENTRADO (Blanco y Dorado) */}
+        <div className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-[400px] md:h-[400px] mx-auto mb-6 rounded-2xl overflow-hidden shadow-2xl">
+          {/* Fondo dorado que se verá a través de la silueta del logo */}
+          <div className="absolute inset-0 bg-primary" />
+          {/* Recuadro blanco con la máscara del logo */}
+          <div className="absolute inset-0 bg-black/95 backdrop-blur-sm [mask-image:url(/logo.svg)] [mask-size:contain] [mask-repeat:no-repeat] [mask-position:center]" />
+        </div>
+
         <div className="w-24 h-[1px] bg-amber-500/50 my-6 mx-auto" />
-        
+
         <p className="text-lg md:text-xl text-zinc-400 font-light max-w-2xl tracking-wide leading-relaxed whitespace-pre-line">
           {t('hero.subtitle')}
         </p>
-        
-        <motion.div 
+
+        <motion.div
           className="mt-12"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -77,7 +87,7 @@ export function Hero({ settings }: { settings: StudioSettings | null }) {
         </motion.div>
 
         {/* Minimalist Navigation Icons */}
-        <motion.div 
+        <motion.div
           className="mt-24 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-16 w-full max-w-3xl"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

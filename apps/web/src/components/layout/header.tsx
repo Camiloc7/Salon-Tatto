@@ -30,12 +30,16 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center justify-between">
+      <div className="container flex h-14 items-center justify-between">
+        {/* LOGO ORIGINAL EN SU LUGAR */}
         <Link
           href={`/${locale}`}
-          className="flex items-center gap-2 text-xl font-bold tracking-tight shrink-0"
+          className="flex items-center gap-3 text-xl font-bold tracking-tight shrink-0 hover:opacity-90 transition-opacity"
         >
-          <img src="/Logo.webp" alt="Logo" className="h-10 w-auto max-w-[120px] object-contain" />
+          <div className="relative h-12 w-12 sm:h-14 sm:w-14 rounded overflow-hidden bg-primary shadow-sm">
+            {/* El bg-background hace que el contenedor se camufle con el navbar, dejando la silueta dorada */}
+            <div className="absolute inset-0 bg-background [mask-image:url(/logo.svg)] [mask-size:contain] [mask-repeat:no-repeat] [mask-position:center]" />
+          </div>
           <span className="hidden sm:inline-block truncate">{t('site.name')}</span>
         </Link>
 

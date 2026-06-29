@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: Props) {
       params: { locale },
       next: { revalidate: 300 },
     });
-  } catch {}
+  } catch { }
 
   return {
     title: seo?.title || t('title'),
@@ -73,70 +73,68 @@ export default async function ArtistsPage({ params, searchParams }: Props) {
       <InkBackground />
       <div className="container relative z-10">
         <div className="text-center">
-        <h1 className="text-4xl font-bold tracking-tight">{t('title')}</h1>
-        <p className="mt-4 text-lg text-muted-foreground">
-          {t('description')}
-        </p>
-      </div>
+          <h1 className="text-4xl font-bold tracking-tight">{t('title')}</h1>
+          <p className="mt-4 text-lg text-muted-foreground">
+            {t('description')}
+          </p>
+        </div>
 
-      {specialties.length > 0 && (
-        <div className="mt-8 flex flex-wrap justify-center gap-2">
-          <Link
-            href={`/${locale}/artistas`}
-            className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-              !currentSpecialty
+        {specialties.length > 0 && (
+          <div className="mt-8 flex flex-wrap justify-center gap-2">
+            <Link
+              href={`/${locale}/artistas`}
+              className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${!currentSpecialty
                 ? 'bg-primary text-primary-foreground'
                 : 'bg-muted hover:bg-muted/80 text-muted-foreground'
-            }`}
-          >
-            {t('all')}
-          </Link>
-          {specialties.map((spec) => (
-            <Link
-              key={spec}
-              href={`/${locale}/artistas?specialty=${encodeURIComponent(spec)}`}
-              className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-                currentSpecialty === spec
+                }`}
+            >
+              {t('all')}
+            </Link>
+            {specialties.map((spec) => (
+              <Link
+                key={spec}
+                href={`/${locale}/artistas?specialty=${encodeURIComponent(spec)}`}
+                className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${currentSpecialty === spec
                   ? 'bg-primary text-primary-foreground'
                   : 'bg-muted hover:bg-muted/80 text-muted-foreground'
-              }`}
-            >
-              {spec}
-            </Link>
-          ))}
-        </div>
-      )}
+                  }`}
+              >
+                {spec}
+              </Link>
+            ))}
+          </div>
+        )}
 
-      {filteredArtists.length === 0 ? (
-        <div className="mt-12 text-center text-muted-foreground">
-          {t('noArtists')}
-        </div>
-      ) : (
-        <div className={
-          filteredArtists.length <= 2 
-            ? 'mt-16 flex flex-wrap justify-center gap-8 md:gap-12' 
-            : 'mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
-        }>
-          {filteredArtists.map((artist) => (
-            <div key={artist.id} className={filteredArtists.length <= 2 ? 'w-full max-w-[350px]' : 'w-full'}>
-              <ArtistCard artist={artist} locale={locale} />
-            </div>
-          ))}
-        </div>
-      )}
+        {filteredArtists.length === 0 ? (
+          <div className="mt-12 text-center text-muted-foreground">
+            {t('noArtists')}
+          </div>
+        ) : (
+          <div className={
+            filteredArtists.length <= 2
+              ? 'mt-16 flex flex-wrap justify-center gap-8 md:gap-12'
+              : 'mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
+          }>
+            {filteredArtists.map((artist) => (
+              <div key={artist.id} className={filteredArtists.length <= 2 ? 'w-full max-w-[350px]' : 'w-full'}>
+                <ArtistCard artist={artist} locale={locale} />
+              </div>
+            ))}
+          </div>
+        )}
 
-      {artists.map((artist) => (
-        <StructuredData
-          key={artist.id}
-          type="Person"
-          data={{
-            name: artist.name,
-            description: artist.biography,
-            image: artist.avatar,
-            knowsAbout: artist.specialty,
-          }}
-        />
-      ))}
+        {artists.map((artist) => (
+          <StructuredData
+            key={artist.id}
+            type="Person"
+            data={{
+              name: artist.name,
+              description: artist.biography,
+              image: artist.avatar,
+              knowsAbout: artist.specialty,
+            }}
+          />
+        ))}
       </div>
     </div>
   );

@@ -31,7 +31,7 @@ export async function Footer() {
   return (
     <footer className="bg-black border-t border-zinc-900 text-zinc-400">
       <div className="container max-w-5xl mx-auto px-6 py-20 flex flex-col items-center text-center">
-        
+
         {/* Top: Social Media */}
         <div className="flex gap-8 mb-16">
           <Link
@@ -62,8 +62,11 @@ export async function Footer() {
 
         {/* Middle: Brand & Navigation */}
         <div className="mb-12">
-          <Link href="/" className="inline-block mb-8">
-            <h2 className="text-3xl font-serif tracking-widest text-white uppercase font-light">
+          <Link href="/" className="inline-flex flex-col items-center gap-6 mb-8 group">
+            {/* <div className="relative h-16 w-16 rounded overflow-hidden bg-primary shadow-sm transition-opacity duration-300 group-hover:opacity-90">
+              <div className="absolute inset-0 bg-black [mask-image:url(/logo.svg)] [mask-size:contain] [mask-repeat:no-repeat] [mask-position:center]" />
+            </div> */}
+            <h2 className="text-3xl font-serif tracking-widest text-white uppercase font-light group-hover:text-amber-500 transition-colors duration-300">
               {settings?.studioName || t('site.name')}
             </h2>
           </Link>
@@ -100,10 +103,10 @@ export async function Footer() {
           <p>Bloodborne Pathogen Training</p>
           <p>First Aid & CPR Certified</p>
           <p>Sterile Equipment & Safety</p>
-          <a 
-            href="https://portal.311.nyc.gov/" 
-            target="_blank" 
-            rel="noopener noreferrer" 
+          <a
+            href="https://portal.311.nyc.gov/"
+            target="_blank"
+            rel="noopener noreferrer"
             className="mt-2 text-xs uppercase tracking-widest underline hover:text-white transition-colors"
           >
             Verify License Online (NYC 311)
