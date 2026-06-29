@@ -77,6 +77,7 @@ export function FeaturedArtists() {
                         <img 
                           src={displayImage} 
                           alt={`${artist.name} profile`} 
+                          crossOrigin="anonymous"
                           className="absolute inset-0 w-full h-full object-cover object-top transition-all duration-700 group-hover/grid:grayscale group-hover/grid:opacity-60 group-hover:!grayscale-0 group-hover:!opacity-100 group-hover:scale-105"
                         />
                       ) : (
