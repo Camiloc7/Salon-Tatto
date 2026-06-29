@@ -188,20 +188,27 @@ export default function PromotionsPage() {
         <div className="pt-6 border-t">
           <h3 className="text-sm font-medium mb-3">Vista Previa</h3>
           <div 
-            className="w-full overflow-hidden whitespace-nowrap py-3 relative flex items-center rounded-md border shadow-inner"
+            className="w-full overflow-hidden whitespace-nowrap py-2 relative flex items-center rounded-md border shadow-inner"
             style={{ backgroundColor: form.backgroundColor, color: form.textColor }}
           >
-            <div className="px-4 tracking-wider text-sm md:text-base font-semibold">
-              {form.message || 'El mensaje aparecerá aquí...'}
-              {form.code && (
-                <span className="ml-4 px-2 py-0.5 bg-white/20 rounded font-bold border border-white/30">
-                  {form.code}
-                </span>
-              )}
+            <div className="animate-marquee flex shrink-0 w-max">
+              {[...Array(10)].map((_, i) => (
+                <div key={i} className="flex items-center px-4 md:px-8">
+                  <span className="font-semibold tracking-wider text-sm md:text-base">
+                    {form.message || 'El mensaje aparecerá aquí...'}
+                  </span>
+                  {form.code && (
+                    <span className="ml-3 px-2 py-0.5 bg-white/20 rounded font-bold border border-white/30 text-sm">
+                      {form.code}
+                    </span>
+                  )}
+                  <span className="mx-4 md:mx-8 opacity-50 text-xs text-white/50">•</span>
+                </div>
+              ))}
             </div>
           </div>
           <p className="text-xs text-muted-foreground mt-2 text-center">
-            Nota: La animación de desplazamiento (Marquee) solo se verá en el sitio público.
+            Nota: La animación de desplazamiento continuo se ajusta automáticamente.
           </p>
         </div>
       </div>
