@@ -3,43 +3,87 @@
 @tailwind utilities;
 
 @layer base {
+  /*  Tema Original
   :root {
-    /* Palette from user prompt */
-    /* Blanco hueso (#F5F2EC) as background */
     --background: 40 27% 94%;
-    /* --background: 0 0% 50%; */
-    /* Negro carbón (#121212) as text */
     --foreground: 0 0% 7%;
-
-    /* Pure white for cards to stand out against bone background */
     --card: 0 0% 100%;
     --card-foreground: 0 0% 7%;
-
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 7%;
-
-    /* Toque cobre o dorado mate (#B08D57) */
     --primary: 36 36% 52%;
     --primary-foreground: 40 27% 94%;
-
-    /* Gris acero (#5E646B) */
     --secondary: 212 6% 39%;
     --secondary-foreground: 40 27% 94%;
-
     --muted: 40 15% 85%;
     --muted-foreground: 212 6% 39%;
-
     --accent: 36 36% 52%;
     --accent-foreground: 40 27% 94%;
-
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 40 27% 94%;
-
     --border: 40 15% 85%;
     --input: 40 15% 85%;
     --ring: 36 36% 52%;
     --radius: 0.25rem;
-    /* Elegant subtle radius */
+  }
+  */
+
+  /* NUEVO TEMA PREMIUM: Grises Oscuros y Dorado 
+  :root {
+    --background: 0 0% 12%; 
+    --foreground: 45 15% 90%; 
+    --card: 0 0% 15%; 
+    --card-foreground: 45 15% 90%;
+    --popover: 0 0% 15%;
+    --popover-foreground: 45 15% 90%;
+    --primary: 43 74% 49%; 
+    --primary-foreground: 0 0% 10%; 
+    --secondary: 0 0% 18%; 
+    --secondary-foreground: 45 15% 90%;
+    --muted: 0 0% 18%;
+    --muted-foreground: 0 0% 65%; 
+    --accent: 43 74% 49%;
+    --accent-foreground: 0 0% 10%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 22%; 
+    --input: 0 0% 22%;
+    --ring: 43 74% 49%; 
+    --radius: 0.5rem;
+  }
+  */
+
+  /* TEMA LUJO OBSIDIANA: Negro Onyx intenso y Oro Clásico (#D4AF37) */
+  :root {
+    --background: 0 0% 5%;
+    /* Negro Onyx profundo, más elegante que el gris */
+    --foreground: 40 33% 93%;
+    /* Ivory/Hueso para el texto (menos agresivo que el blanco puro) */
+    --card: 0 0% 8%;
+    /* Ligeramente más claro para separar elementos */
+    --card-foreground: 40 33% 93%;
+    --popover: 0 0% 8%;
+    --popover-foreground: 40 33% 93%;
+    --primary: 46 65% 52%;
+    /* Classic Luxury Gold (#D4AF37) */
+    --primary-foreground: 0 0% 5%;
+    /* Contraste oscuro absoluto sobre el oro */
+    --secondary: 0 0% 12%;
+    /* Carbón para fondos secundarios */
+    --secondary-foreground: 40 33% 93%;
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 60%;
+    /* Texto secundario gris elegante */
+    --accent: 46 65% 52%;
+    --accent-foreground: 0 0% 5%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 40 33% 93%;
+    --border: 0 0% 15%;
+    /* Bordes muy sutiles para no ensuciar el diseño */
+    --input: 0 0% 15%;
+    --ring: 46 65% 52%;
+    --radius: 0.25rem;
+    /* Bordes ligeramente más cuadrados (editorial/premium) */
   }
 }
 
