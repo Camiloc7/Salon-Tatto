@@ -16,6 +16,7 @@ import {
   Tags,
   ChevronLeft,
   ChevronRight,
+  Megaphone,
 } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
@@ -25,6 +26,7 @@ import { useAuth } from '@/providers/auth-provider';
 const navItems = [
   { href: '/admin', labelKey: 'sidebar.dashboard', icon: LayoutDashboard },
   { href: '/admin/artistas', labelKey: 'sidebar.artists', icon: Users },
+  { href: '/admin/promociones', labelKey: 'sidebar.promotions', icon: Megaphone },
   { href: '/admin/blog', labelKey: 'sidebar.blog', icon: FileText },
   { href: '/admin/categorias', labelKey: 'sidebar.categories', icon: Tags },
   { href: '/admin/seo', labelKey: 'sidebar.seo', icon: Search },
