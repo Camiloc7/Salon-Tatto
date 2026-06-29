@@ -21,7 +21,7 @@ export function Hero({ settings }: { settings: StudioSettings | null }) {
   return (
     <section className="relative min-h-[100dvh] w-full bg-black overflow-hidden flex flex-col items-center justify-center">
       {/* Preload critical assets for LCP */}
-      <link rel="preload" href="/logo.svg" as="image" fetchPriority="high" />
+      <link rel="preload" href="/logo.svg" as="image" type="image/svg+xml" crossOrigin="anonymous" fetchPriority="high" />
       {!settings?.heroMediaUrl && (
         <link rel="preload" href="/stardust.png" as="image" fetchPriority="high" />
       )}
