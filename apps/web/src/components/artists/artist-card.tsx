@@ -7,9 +7,10 @@ import { Instagram, Twitter, Youtube } from 'lucide-react';
 type ArtistCardProps = {
   artist: Artist;
   locale: string;
+  isPriority?: boolean;
 };
 
-export function ArtistCard({ artist, locale }: ArtistCardProps) {
+export function ArtistCard({ artist, locale, isPriority = false }: ArtistCardProps) {
   const coverUrl = getImageUrl(artist.avatar);
 
   return (
@@ -29,6 +30,8 @@ export function ArtistCard({ artist, locale }: ArtistCardProps) {
           <img
             src={coverUrl}
             alt={artist.name || 'Artist'}
+            crossOrigin="anonymous"
+            fetchPriority={isPriority ? "high" : "auto"}
             className="h-full w-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
           />
         </div>

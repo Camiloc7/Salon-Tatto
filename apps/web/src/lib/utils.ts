@@ -35,7 +35,18 @@ export function getOptimizedImageUrl(cloudinaryId: string, options?: {
 
 export function getImageUrl(url: string): string {
   if (!url) return '';
+  const transformations = 'f_auto,q_auto,w_600,c_limit';
+  
+  if (url.includes('res.cloudinary.com') && url.includes('/upload/')) {
+    // Si es una URL de cloudinary, le inyectamos la optimización si no la tiene
+    if (!url.includes('f_auto')) {
+      return url.replace('/upload/', `/upload/${transformations}/`);
+    }
+    return url;
+  }
+  
   if (url.startsWith('http')) return url;
+  
   const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || 'dlimmlxeh';
-  return `https://res.cloudinary.com/${cloudName}/image/upload/f_auto,q_auto/${url}`;
+  return `https://res.cloudinary.com/${cloudName}/image/upload/${transformations}/${url}`;
 }
