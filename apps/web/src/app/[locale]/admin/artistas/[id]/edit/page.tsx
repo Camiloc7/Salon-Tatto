@@ -102,9 +102,14 @@ export default function EditArtistPage() {
 
   const updateMutation = useMutation({
     mutationFn: (data: UpdateArtistFormData) => api.patch(`/artists/${id}`, data),
-    onSuccess: () => {
+    onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.artists.all });
       queryClient.invalidateQueries({ queryKey: queryKeys.artists.detail(id) });
+      
+      // Revalidar la caché del servidor Next.js para reflejar los cambios en la web
+      const { clearCacheByTag } = await import('@/app/actions/cache');
+      await clearCacheByTag('artists');
+
       toast.success('Artist updated successfully!');
     },
     onError: () => {

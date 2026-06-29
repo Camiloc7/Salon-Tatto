@@ -83,8 +83,13 @@ export default function CreateArtistPage() {
 
   const createMutation = useMutation({
     mutationFn: (data: CreateArtistFormData) => api.post('/artists', data),
-    onSuccess: () => {
+    onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.artists.all });
+      
+      // Revalidar la caché del servidor Next.js para reflejar los cambios
+      const { clearCacheByTag } = await import('@/app/actions/cache');
+      await clearCacheByTag('artists');
+
       toast.success('Artist created successfully!');
       router.push('/admin/artistas');
     },

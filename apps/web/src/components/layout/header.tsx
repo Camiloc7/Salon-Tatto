@@ -34,6 +34,8 @@ export function Header() {
         {/* LOGO ORIGINAL EN SU LUGAR */}
         <Link
           href={`/${locale}`}
+          aria-hidden="true"
+          tabIndex={-1}
           className="flex items-center gap-3 text-xl font-bold tracking-tight shrink-0 hover:opacity-90 transition-opacity"
         >
           <div className="relative h-12 w-12 sm:h-14 sm:w-14 rounded overflow-hidden bg-primary shadow-sm">

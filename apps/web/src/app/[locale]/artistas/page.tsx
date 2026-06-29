@@ -55,7 +55,7 @@ export default async function ArtistsPage({ params, searchParams }: Props) {
   try {
     const res = await api.get<{ data: Artist[] }>('/artists', {
       params: { locale, isActive: true, limit: 50 },
-      next: { revalidate: 60 },
+      next: { revalidate: 3600, tags: ['artists'] },
     });
     artists = res.data;
   } catch (error) {

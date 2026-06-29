@@ -38,6 +38,7 @@ export async function Footer() {
             href={settings?.instagram || "https://instagram.com"}
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="Instagram"
             className="w-12 h-12 rounded-full border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white hover:border-amber-500 hover:bg-amber-500/10 transition-all duration-300"
           >
             <Instagram className="h-5 w-5" />
@@ -46,6 +47,7 @@ export async function Footer() {
             href={settings?.facebook || "https://facebook.com"}
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="Facebook"
             className="w-12 h-12 rounded-full border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white hover:border-amber-500 hover:bg-amber-500/10 transition-all duration-300"
           >
             <Facebook className="h-5 w-5" />
@@ -54,6 +56,7 @@ export async function Footer() {
             href={settings?.tiktok || "https://tiktok.com"}
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="TikTok"
             className="w-12 h-12 rounded-full border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white hover:border-amber-500 hover:bg-amber-500/10 transition-all duration-300"
           >
             <Music2 className="h-5 w-5" />
