@@ -42,7 +42,7 @@ export function Hero({ settings }: { settings: StudioSettings | null }) {
       ) : (
         <>
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-zinc-900/50 via-black to-black z-0" />
-          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20 mix-blend-overlay z-0" />
+          <div className="absolute inset-0 bg-[url('/stardust.png')] opacity-20 mix-blend-overlay z-0" />
         </>
       )}
 
