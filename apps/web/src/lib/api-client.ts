@@ -14,8 +14,8 @@ type ApiResponse<T> = {
 const getApiUrl = () => {
   if (typeof window !== 'undefined') {
     // Client Side Request (Browser)
-    if (window.location.hostname.includes('duckdns.org')) {
-      return 'https://api.larolatatto.duckdns.org/api';
+    if (window.location.hostname.includes('larolatattoonyc.com')) {
+      return 'https://api.larolatattoonyc.com/api';
     }
     return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
   }

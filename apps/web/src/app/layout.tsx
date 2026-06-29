@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair' });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.WEB_URL || 'https://larolatatto.duckdns.org'),
+  metadataBase: new URL(process.env.WEB_URL || 'https://larolatattoonyc.com'),
   title: 'La Rola Tattoo NYC | Premium Studio',
   description: 'Estudio de tatuajes boutique, arte personalizado y exclusivo.',
 };

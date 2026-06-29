@@ -30,8 +30,8 @@ export function ImageUploader({ value, onChange, className }: ImageUploaderProps
       let apiUrl = process.env.NEXT_PUBLIC_API_URL;
       if (!apiUrl) {
         if (typeof window !== 'undefined') {
-          if (window.location.hostname.includes('duckdns.org')) {
-            apiUrl = 'https://api.larolatatto.duckdns.org/api';
+          if (window.location.hostname.includes('larolatattoonyc.com')) {
+            apiUrl = 'https://api.larolatattoonyc.com/api';
           } else {
             apiUrl = 'http://localhost:4000/api';
           }
