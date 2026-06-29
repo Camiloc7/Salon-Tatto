@@ -28,7 +28,7 @@ export function ArtistHero({ artist, tInstagram, tContact, whatsappNumber }: Art
           src={getImageUrl(artist.avatar)}
           alt={artist.name || ''}
           fill
-          className="object-cover transition-transform duration-1000 hover:scale-105"
+          className="object-cover object-top transition-transform duration-1000 hover:scale-105"
           priority
         />
       </motion.div>
