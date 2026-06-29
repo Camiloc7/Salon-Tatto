@@ -25,14 +25,13 @@ const getApiUrl = () => {
   return process.env.INTERNAL_API_URL || 'http://localhost:4000/api';
 };
 
-const API_URL = getApiUrl();
-
 async function request<T>(
   method: string,
   path: string,
   body?: unknown,
   options?: RequestOptions,
 ): Promise<T> {
+  const API_URL = getApiUrl();
   const url = new URL(`${API_URL}${path}`);
 
   if (options?.params) {
@@ -74,6 +73,7 @@ async function request<T>(
     const refreshToken = localStorage.getItem('refresh_token');
     if (refreshToken) {
       try {
+        const API_URL = getApiUrl();
         const refreshRes = await fetch(`${API_URL}/auth/refresh`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
