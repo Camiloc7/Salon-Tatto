@@ -26,13 +26,15 @@ jobs:
             git clone https://github.com/Camiloc7/Salon-Tatto.git $DEPLOY_DIR
             cd $DEPLOY_DIR
             
-            echo "=== 2. INSTALANDO Y COMPILANDO EN VPS ==="
+            echo "=== 2. ENLAZANDO VARIABLES DE ENTORNO ==="
+            # Copiar el .env desde el directorio de producción actual ANTES de compilar
+            cp $CURRENT_DIR/.env $DEPLOY_DIR/.env
+            # Y también copiarlo a la carpeta de Next.js para que las variables NEXT_PUBLIC_ funcionen en el build
+            cp $CURRENT_DIR/.env $DEPLOY_DIR/apps/web/.env
+            
+            echo "=== 3. INSTALANDO Y COMPILANDO EN VPS ==="
             npm install
             npm run build
-            
-            echo "=== 3. ENLAZANDO VARIABLES DE ENTORNO ==="
-            # Copiar el .env desde el directorio de producción
-            cp $CURRENT_DIR/.env $DEPLOY_DIR/.env
             
             echo "=== 4. EJECUTANDO SWAP DE CARPETAS (Zero Downtime) ==="
             cd /home/camilo
