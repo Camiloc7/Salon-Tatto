@@ -17,6 +17,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Megaphone,
+  User,
 } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
@@ -33,6 +34,7 @@ const navItems = [
   { href: '/admin/mensajes', labelKey: 'sidebar.messages', icon: Mail },
   { href: '/admin/usuarios', labelKey: 'sidebar.users', icon: Users },
   { href: '/admin/configuracion', labelKey: 'sidebar.settings', icon: Settings },
+  { href: '/admin/perfil', labelKey: 'sidebar.profile', icon: User },
 ];
 
 export function AdminSidebar() {

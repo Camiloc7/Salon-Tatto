@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Param, Put, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Put, Delete, UseGuards, Request } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { UsersService } from '../users.service';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
+import { ChangePasswordDto } from '../dto/change-password.dto';
 import { JwtAuthGuard } from '../../../common/guards/jwt-auth.guard';
 import { RolesGuard } from '../../../common/guards/roles.guard';
 import { Roles } from '../../../common/decorators/roles.decorator';
@@ -19,6 +20,14 @@ export class UsersController {
   @ApiOperation({ summary: 'Get all roles (Admin)' })
   async getRoles() {
     return this.usersService.getRoles();
+  }
+
+  @Put('change-password')
+  @ApiOperation({ summary: 'Change own password' })
+  async changePassword(@Request() req, @Body() changePasswordDto: ChangePasswordDto) {
+    const userId = req.user.sub;
+    await this.usersService.changePassword(userId, changePasswordDto);
+    return { success: true };
   }
 
   @Roles('admin')

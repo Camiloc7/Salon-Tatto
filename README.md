@@ -66,8 +66,8 @@ npm run seed --workspace=@salon-tatto/api
 
 ### 4. Credenciales del Administrador (Generadas por el Seeder)
 Una vez corras el comando anterior, podrás iniciar sesión en `http://localhost:3000/en/login` con:
-- **Email**: `admin@salontatto.com`
-- **Contraseña**: `admin123`
+- **Email**: `rolatattoo@gmail.com`
+- **Contraseña**: `larolatattoo123*`
 
 ### 5. Levantar el Entorno de Desarrollo
 Para iniciar tanto el Backend (NestJS) como el Frontend (Next.js) de forma simultánea, ejecuta:

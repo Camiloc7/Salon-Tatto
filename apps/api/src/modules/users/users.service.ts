@@ -5,6 +5,7 @@ import { User } from './entities/user.entity';
 import { Role } from './entities/role.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { ChangePasswordDto } from './dto/change-password.dto';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -96,6 +97,20 @@ export class UsersService {
 
     await this.userRepository.save(user);
     return this.findByIdOrFail(id);
+  }
+
+  async changePassword(id: string, changePasswordDto: ChangePasswordDto): Promise<void> {
+    const user = await this.findByIdOrFail(id);
+    
+    const isValidPassword = await bcrypt.compare(changePasswordDto.oldPassword, user.passwordHash);
+    if (!isValidPassword) {
+      throw new ConflictException('La contraseña antigua no es correcta');
+    }
+
+    const salt = await bcrypt.genSalt();
+    user.passwordHash = await bcrypt.hash(changePasswordDto.newPassword, salt);
+    
+    await this.userRepository.save(user);
   }
 
   async remove(id: string): Promise<void> {
