@@ -31,6 +31,7 @@ const navItems = [
   { href: '/admin/categorias', labelKey: 'sidebar.categories', icon: Tags },
   { href: '/admin/seo', labelKey: 'sidebar.seo', icon: Search },
   { href: '/admin/mensajes', labelKey: 'sidebar.messages', icon: Mail },
+  { href: '/admin/usuarios', labelKey: 'sidebar.users', icon: Users },
   { href: '/admin/configuracion', labelKey: 'sidebar.settings', icon: Settings },
 ];
 

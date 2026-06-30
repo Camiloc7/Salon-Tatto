@@ -33,5 +33,9 @@ export const queryKeys = {
   messages: {
     all: ['messages'] as const,
     pendingCount: ['messages', 'pendingCount'] as const,
+  },
+  users: {
+    all: ['users'] as const,
+    roles: ['roles'] as const,
   }
 };
