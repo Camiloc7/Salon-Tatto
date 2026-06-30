@@ -28,7 +28,7 @@ export default function AdminDashboard() {
 
   const { data: categoriesData } = useQuery({
     queryKey: ['categories-list'],
-    queryFn: () => api.get<any[]>('/categories'),
+    queryFn: () => api.get<any[]>('/blog/categories'),
   });
 
   const { data: trafficData } = useQuery({
