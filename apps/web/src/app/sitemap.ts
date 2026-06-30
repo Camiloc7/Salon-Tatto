@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 import { locales, defaultLocale } from '../i18n';
 
-const BASE_URL = process.env.WEB_URL || 'http://localhost:3000';
+const BASE_URL = process.env.WEB_URL || 'https://larolatattoonyc.com';
 
 type SitemapEntry = {
   url: string;
