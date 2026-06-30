@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: Props) {
       params: { locale },
       next: { revalidate: 300 },
     });
-  } catch {}
+  } catch { }
 
   return {
     title: seo?.title || t('title'),
@@ -77,7 +77,7 @@ export default async function GalleryPage({ params }: Props) {
         });
       }
     });
-  } catch {}
+  } catch { }
 
   if (images.length === 0) {
     return (
@@ -88,7 +88,6 @@ export default async function GalleryPage({ params }: Props) {
     );
   }
 
-  // Group images by category
   const groupedImages = images.reduce((acc, img) => {
     const category = img.categoryName || t('other', { fallback: 'Otros' });
     if (!acc[category]) acc[category] = [];
@@ -96,7 +95,6 @@ export default async function GalleryPage({ params }: Props) {
     return acc;
   }, {} as Record<string, ImageEntry[]>);
 
-  // Sort categories alphabetically
   const sortedCategories = Object.keys(groupedImages).sort((a, b) => a.localeCompare(b));
 
   return (
