@@ -24,7 +24,7 @@ export class UsersController {
 
   @Put('change-password')
   @ApiOperation({ summary: 'Change own password' })
-  async changePassword(@Request() req, @Body() changePasswordDto: ChangePasswordDto) {
+  async changePassword(@Request() req: any, @Body() changePasswordDto: ChangePasswordDto) {
     const userId = req.user.sub;
     await this.usersService.changePassword(userId, changePasswordDto);
     return { success: true };
