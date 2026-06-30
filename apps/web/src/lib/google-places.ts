@@ -17,7 +17,7 @@ export interface GooglePlaceDetails {
 }
 
 export async function getGooglePlaceReviews(): Promise<GooglePlaceDetails | null> {
-  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+  const apiKey = process.env.GOOGLE_PLACES_API_KEY || process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
   const placeId = process.env.NEXT_PUBLIC_GOOGLE_PLACE_ID;
 
   if (!apiKey || !placeId) {
