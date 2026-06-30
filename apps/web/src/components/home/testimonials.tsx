@@ -45,10 +45,20 @@ export function Testimonials({ initialReviews = [] }: TestimonialsProps) {
         </div>
 
         <div className="mt-12 grid gap-8 md:grid-cols-3">
-          {displayReviews.map((item, index) => (
-            <div
+          {displayReviews.map((item, index) => {
+            const isClickable = 'author_url' in item && !!item.author_url;
+            const Wrapper = isClickable ? 'a' : 'div';
+            const wrapperProps = isClickable ? {
+              href: item.author_url as string,
+              target: "_blank",
+              rel: "noopener noreferrer",
+            } : {};
+
+            return (
+            <Wrapper
               key={index}
-              className="relative rounded-lg border bg-background p-8 flex flex-col"
+              {...wrapperProps}
+              className={`relative rounded-lg border bg-background p-8 flex flex-col ${isClickable ? 'hover:border-primary/50 transition-colors cursor-pointer group' : ''}`}
             >
               <div className="flex justify-between items-start mb-4">
                 <Quote className="h-8 w-8 text-primary/40" />
@@ -88,8 +98,8 @@ export function Testimonials({ initialReviews = [] }: TestimonialsProps) {
                   </p>
                 </div>
               </div>
-            </div>
-          ))}
+            </Wrapper>
+          )})}
         </div>
         
         {/* Optional: Add a call to action to review on Google */}
