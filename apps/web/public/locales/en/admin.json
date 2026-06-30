@@ -28,7 +28,9 @@
     "promotions": "Promotions",
     "seo": "SEO",
     "messages": "Messages",
-    "settings": "Settings"
+    "settings": "Settings",
+    "users": "Users",
+    "profile": "My Profile"
   },
   "artists": {
     "title": "Artist Management",
