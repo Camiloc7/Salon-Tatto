@@ -109,7 +109,7 @@ export default async function ContactPage({ params }: Props) {
                 )}
                 {settings?.whatsapp && (
                   <p className="hover:text-foreground transition-colors">
-                    <a href={`https://wa.me/${settings.whatsapp.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer">
+                    <a href={`https://wa.me/${settings.whatsapp.replace(/[^0-9]/g, '')}?text=${encodeURIComponent("Hi! I'd like to book an appointment. Here's my tattoo idea and reference photo. Could you recommend the best artist for my project?")}`} target="_blank" rel="noopener noreferrer">
                       WhatsApp: {settings.whatsapp}
                     </a>
                   </p>

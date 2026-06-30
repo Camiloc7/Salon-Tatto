@@ -19,7 +19,8 @@ export function WhatsAppButton() {
   }, []);
 
   const phone = whatsapp.replace(/[^0-9]/g, '');
-  const url = `https://wa.me/${phone}`;
+  const message = encodeURIComponent("Hi! I'd like to book an appointment. Here's my tattoo idea and reference photo. Could you recommend the best artist for my project?");
+  const url = `https://wa.me/${phone}?text=${message}`;
 
   return (
     <Link

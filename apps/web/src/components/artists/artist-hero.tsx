@@ -65,7 +65,7 @@ export function ArtistHero({ artist, tInstagram, tContact, whatsappNumber }: Art
             </Link>
           )}
           <Link
-            href={`https://wa.me/${whatsappNumber}`}
+            href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Hi! I'd like to book an appointment. Here's my tattoo idea and reference photo. Could you recommend the best artist for my project?")}`}
             target="_blank"
             rel="noopener noreferrer"
             className="text-sm font-medium text-background bg-primary px-6 py-3 rounded-none hover:bg-primary/90 transition-colors uppercase tracking-wider"
