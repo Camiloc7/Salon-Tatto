@@ -9,7 +9,7 @@ import { StructuredData } from '@/components/shared/structured-data';
 import { getImageUrl, getOptimizedImageUrl } from '@/lib/utils';
 import { Instagram } from 'lucide-react';
 import Link from 'next/link';
-import type { Artist, SeoPage } from '@salon-tatto/shared';
+import type { Artist, SeoPage, StudioSettings } from '@salon-tatto/shared';
 
 import { ArtistHero } from '@/components/artists/artist-hero';
 
@@ -81,6 +81,15 @@ export default async function ArtistProfilePage({ params }: Props) {
 
   if (!artist) notFound();
 
+  let settings: StudioSettings | null = null;
+  try {
+    settings = await api.get<StudioSettings>('/settings', {
+      next: { revalidate: 300 },
+    });
+  } catch {}
+
+  const whatsappPhone = settings?.whatsapp ? settings.whatsapp.replace(/[^0-9]/g, '') : '';
+
   return (
     <div className="container py-20">
       <div className="mx-auto max-w-6xl">
@@ -88,7 +97,7 @@ export default async function ArtistProfilePage({ params }: Props) {
           artist={artist} 
           tInstagram={t('instagram')} 
           tContact={t('contactViaWhatsapp')} 
-          whatsappNumber={process.env.NEXT_PUBLIC_WHATSAPP || ''} 
+          whatsappNumber={whatsappPhone} 
         />
 
         {artist.images && artist.images.length > 0 && (
