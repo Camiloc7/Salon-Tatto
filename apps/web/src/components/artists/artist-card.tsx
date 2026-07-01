@@ -22,7 +22,7 @@ export function ArtistCard({ artist, locale, isPriority = false }: ArtistCardPro
       <div
         className="group relative flex h-full flex-col overflow-hidden rounded-xl border border-muted-foreground/20 bg-card p-4 sm:p-6 text-card-foreground shadow-[10px_10px_30px_rgba(0,0,0,0.15)] transition-all hover:shadow-[10px_10px_30px_rgba(0,0,0,0.25)]"
       >
-        <Link href={`/${locale}/artistas/${artist.slug}`} className="absolute inset-0 z-0" aria-label={`Ver portafolio de ${artist.name}`} />
+        <Link href={`/${locale}/artistas/${artist.slug}`} className="absolute inset-0 z-10" aria-label={`Ver portafolio de ${artist.name}`} />
 
         {/* Subtle noise/texture overlay effect */}
         <div className="pointer-events-none absolute inset-0 opacity-[0.03] mix-blend-overlay" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")' }}></div>
@@ -58,7 +58,7 @@ export function ArtistCard({ artist, locale, isPriority = false }: ArtistCardPro
             VER PORTAFOLIO
           </span>
           
-          <div className="flex gap-3 text-muted-foreground relative z-10">
+          <div className="flex gap-3 text-muted-foreground relative z-20">
             {artist.instagramUrl ? (
               <a href={artist.instagramUrl} target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">
                 <Instagram className="h-4 w-4" />
