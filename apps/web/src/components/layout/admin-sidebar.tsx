@@ -56,7 +56,7 @@ export function AdminSidebar() {
   const sidebarContent = (
     <div className="flex h-full flex-col">
       <div className={cn("flex items-center py-5 transition-all", collapsed ? "justify-center px-2" : "gap-2 px-6")}>
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center relative">
+        <div className="flex h-14 w-14 shrink-0 items-center justify-center relative">
           <Image src="/LR.webp" alt="Logo" fill className="object-contain" />
         </div>
         {!collapsed && (
