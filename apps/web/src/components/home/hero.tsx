@@ -19,7 +19,11 @@ export function Hero({ settings }: { settings: StudioSettings | null }) {
   const whatsappLink = `https://wa.me/${phoneDigits}?text=${waMessage}`;
 
   const isVideo = settings?.heroMediaUrl?.match(/\.(mp4|webm|mov)$/i);
-  const currentSubtitle = locale === 'es' ? settings?.heroSubtitle_es : settings?.heroSubtitle_en;
+  const subtitleEn = settings?.heroSubtitle_en?.trim();
+  const subtitleEs = settings?.heroSubtitle_es?.trim();
+  const currentSubtitle = locale === 'es' 
+    ? (subtitleEs || subtitleEn) 
+    : (subtitleEn || subtitleEs);
 
   return (
     <section className="relative min-h-[100dvh] w-full bg-black overflow-hidden flex flex-col items-center justify-center">

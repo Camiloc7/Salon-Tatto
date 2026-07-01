@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
 import { Setting } from '../entities/setting.entity';
 import { CreateSettingDto } from '../dto/create-setting.dto';
+import { TranslationService } from '../../translation/translation.service';
 
 @Injectable()
 export class SettingsService {
@@ -10,6 +11,7 @@ export class SettingsService {
     @InjectRepository(Setting)
     private readonly settingRepository: Repository<Setting>,
     private readonly dataSource: DataSource,
+    private readonly translationService: TranslationService,
   ) {}
 
   async findAll(): Promise<Record<string, string>> {
@@ -32,6 +34,13 @@ export class SettingsService {
   }
 
   async bulkUpdate(settings: Record<string, string>) {
+    // Auto-translate heroSubtitle if one language is missing
+    if (settings.heroSubtitle_es?.trim() && !settings.heroSubtitle_en?.trim()) {
+      settings.heroSubtitle_en = await this.translationService.translateText(settings.heroSubtitle_es, 'es', 'en');
+    } else if (settings.heroSubtitle_en?.trim() && !settings.heroSubtitle_es?.trim()) {
+      settings.heroSubtitle_es = await this.translationService.translateText(settings.heroSubtitle_en, 'en', 'es');
+    }
+
     return this.dataSource.transaction(async (manager) => {
       for (const [key, value] of Object.entries(settings)) {
         let setting = await manager.findOneBy(Setting, { key });
