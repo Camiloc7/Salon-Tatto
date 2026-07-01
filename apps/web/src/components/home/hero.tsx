@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useTranslations, useLocale } from 'next-intl';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
@@ -67,15 +68,20 @@ export function Hero({ settings }: { settings: StudioSettings | null }) {
         </h1>
         */}
 
-        {/* LOGO CENTRADO (Blanco y Dorado) */}
-        <div className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-[400px] md:h-[400px] mx-auto mb-6 rounded-2xl overflow-hidden shadow-2xl">
-          {/* Fondo dorado que se verá a través de la silueta del logo */}
-          <div className="absolute inset-0 bg-primary" />
-          {/* Recuadro blanco con la máscara del logo */}
-          <div className="absolute inset-0 bg-black/95 backdrop-blur-sm [mask-image:url(/logo.svg)] [mask-size:contain] [mask-repeat:no-repeat] [mask-position:center]" />
+        {/* LOGO NUEVO (Imagen WebP) */}
+        <div className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-[400px] md:h-[400px] mx-auto mb-6">
+          <Image src="/LR.webp" alt="Studio Logo" fill className="object-contain" priority />
         </div>
 
-        <div className="w-24 h-[1px] bg-amber-500/50 my-6 mx-auto" />
+        {/* LOGO ANTERIOR (Máscara SVG Dorado) - Descomentar para restaurar */}
+        {/*
+        <div className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-[400px] md:h-[400px] mx-auto mb-6 rounded-2xl overflow-hidden shadow-2xl">
+          <div className="absolute inset-0 bg-primary" />
+          <div className="absolute inset-0 bg-black/95 backdrop-blur-sm [mask-image:url(/logo.svg)] [mask-size:contain] [mask-repeat:no-repeat] [mask-position:center]" />
+        </div>
+        */}
+
+        <div className="w-24 h-[1px] bg-primary/50 my-6 mx-auto" />
 
         <p className="text-lg md:text-xl text-zinc-400 font-light max-w-2xl tracking-wide leading-relaxed whitespace-pre-line">
           {t('hero.subtitle')}

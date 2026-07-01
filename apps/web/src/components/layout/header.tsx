@@ -38,10 +38,17 @@ export function Header() {
           tabIndex={-1}
           className="flex items-center gap-3 text-xl font-bold tracking-tight shrink-0 hover:opacity-90 transition-opacity"
         >
+          {/* LOGO NUEVO (Imagen WebP) */}
+          <div className="relative h-12 w-12 sm:h-14 sm:w-14">
+            <Image src="/LR.webp" alt="Logo" fill className="object-contain" />
+          </div>
+
+          {/* LOGO ANTERIOR (Máscara SVG Dorado) - Descomentar para restaurar */}
+          {/*
           <div className="relative h-12 w-12 sm:h-14 sm:w-14 rounded overflow-hidden bg-primary shadow-sm">
-            {/* El bg-background hace que el contenedor se camufle con el navbar, dejando la silueta dorada */}
             <div className="absolute inset-0 bg-background [mask-image:url(/logo.svg)] [mask-size:contain] [mask-repeat:no-repeat] [mask-position:center]" />
           </div>
+          */}
           <span className="hidden sm:inline-block truncate">{t('site.name')}</span>
         </Link>
 
