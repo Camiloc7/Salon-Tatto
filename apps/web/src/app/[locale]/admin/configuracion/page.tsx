@@ -34,6 +34,8 @@ type SettingsForm = {
   saturdayHours: string;
   sundayHours: string;
   heroMediaUrl: string;
+  heroSubtitle_en: string;
+  heroSubtitle_es: string;
   licenseNumber: string;
   licenseDates: string;
   sameDayReservation: string;
@@ -58,6 +60,8 @@ const emptyForm: SettingsForm = {
   saturdayHours: '',
   sundayHours: '',
   heroMediaUrl: '',
+  heroSubtitle_en: '',
+  heroSubtitle_es: '',
   licenseNumber: '',
   licenseDates: '',
   sameDayReservation: 'false',
@@ -94,6 +98,8 @@ export default function SettingsPage() {
         saturdayHours: settings.saturdayHours || '',
         sundayHours: settings.sundayHours || '',
         heroMediaUrl: settings.heroMediaUrl || '',
+        heroSubtitle_en: settings.heroSubtitle_en || '',
+        heroSubtitle_es: settings.heroSubtitle_es || '',
         licenseNumber: settings.licenseNumber || '',
         licenseDates: settings.licenseDates || '',
         sameDayReservation: settings.sameDayReservation || 'false',
@@ -182,6 +188,26 @@ export default function SettingsPage() {
               onChange={(e) => updateField('studioName', e.target.value)}
               className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             />
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label className="block text-base font-medium mb-1">Hero Subtitle (English)</label>
+              <textarea
+                value={form.heroSubtitle_en}
+                onChange={(e) => updateField('heroSubtitle_en', e.target.value)}
+                rows={4}
+                className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              />
+            </div>
+            <div>
+              <label className="block text-base font-medium mb-1">Hero Subtitle (Español)</label>
+              <textarea
+                value={form.heroSubtitle_es}
+                onChange={(e) => updateField('heroSubtitle_es', e.target.value)}
+                rows={4}
+                className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              />
+            </div>
           </div>
           <div>
             <label className="block text-base font-medium mb-1">Hero Background (Image or Video URL)</label>

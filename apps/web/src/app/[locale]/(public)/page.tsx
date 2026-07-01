@@ -60,7 +60,6 @@ export default async function HomePage({ params }: Props) {
   } catch {}
 
   const placeDetails = await getGooglePlaceReviews();
-
   return (
     <>
       <StructuredData

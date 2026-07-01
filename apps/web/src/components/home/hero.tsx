@@ -19,6 +19,7 @@ export function Hero({ settings }: { settings: StudioSettings | null }) {
   const whatsappLink = `https://wa.me/${phoneDigits}?text=${waMessage}`;
 
   const isVideo = settings?.heroMediaUrl?.match(/\.(mp4|webm|mov)$/i);
+  const currentSubtitle = locale === 'es' ? settings?.heroSubtitle_es : settings?.heroSubtitle_en;
 
   return (
     <section className="relative min-h-[100dvh] w-full bg-black overflow-hidden flex flex-col items-center justify-center">
@@ -84,7 +85,7 @@ export function Hero({ settings }: { settings: StudioSettings | null }) {
         <div className="w-24 h-[1px] bg-primary/50 my-6 mx-auto" />
 
         <p className="text-lg md:text-xl text-zinc-400 font-light max-w-2xl tracking-wide leading-relaxed whitespace-pre-line">
-          {t('hero.subtitle')}
+          {currentSubtitle || t('hero.subtitle')}
         </p>
 
         <motion.div

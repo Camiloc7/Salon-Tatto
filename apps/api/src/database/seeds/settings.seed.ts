@@ -6,6 +6,8 @@ export async function seedSettings(dataSource: DataSource): Promise<void> {
 
   const settings = [
     { key: 'studioName', value: 'La Rola Tattoo NYC', type: 'string', group: 'general' },
+    { key: 'heroSubtitle_en', value: 'Custom Tattoo Studio in Midtown Manhattan\n\nCustom tattoos designed exclusively for you. Specializing in Fine Line, Black & Grey, Color, Ornamental, UV Ink, and Cover-Up tattoos. Serving both New Yorkers and visitors by appointment only.', type: 'string', group: 'general' },
+    { key: 'heroSubtitle_es', value: 'Estudio de Tatuajes Personalizados en Midtown Manhattan\n\nTatuajes personalizados diseñados exclusivamente para ti. Especialistas en Fine Line, Black & Grey, Color, Ornamental, Tinta UV y Cover-Up. Atendemos a neoyorquinos y visitantes solo con cita previa.', type: 'string', group: 'general' },
     { key: 'address', value: '', type: 'string', group: 'contact' },
     { key: 'phone', value: '+12125550199', type: 'string', group: 'contact' },
     { key: 'whatsapp', value: '+12125550199', type: 'string', group: 'contact' },

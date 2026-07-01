@@ -26,6 +26,8 @@ export type StudioSettings = {
   saturdayHours: string;
   sundayHours: string;
   heroMediaUrl?: string;
+  heroSubtitle_en?: string;
+  heroSubtitle_es?: string;
   licenseNumber?: string;
   licenseDates?: string;
   sameDayReservation?: string;
