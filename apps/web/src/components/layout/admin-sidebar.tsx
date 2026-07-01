@@ -2,6 +2,7 @@
 
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import {
   LayoutDashboard,
@@ -55,8 +56,8 @@ export function AdminSidebar() {
   const sidebarContent = (
     <div className="flex h-full flex-col">
       <div className={cn("flex items-center py-5 transition-all", collapsed ? "justify-center px-2" : "gap-2 px-6")}>
-        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-          <div className="h-5 w-5 bg-current [mask-image:url(/logo.svg)] [mask-size:contain] [mask-repeat:no-repeat] [mask-position:center]" />
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center relative">
+          <Image src="/LR.webp" alt="Logo" fill className="object-contain" />
         </div>
         {!collapsed && (
           <span className="font-semibold text-lg whitespace-nowrap overflow-hidden">
