@@ -4,6 +4,7 @@ import { useState, useRef } from 'react';
 import { Upload, X, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { api } from '@/lib/api-client';
 
 type ImageUploaderProps = {
   value: string;
@@ -27,34 +28,8 @@ export function ImageUploader({ value, onChange, className }: ImageUploaderProps
       const formData = new FormData();
       formData.append('file', file);
 
-      let apiUrl = process.env.NEXT_PUBLIC_API_URL;
-      if (!apiUrl) {
-        if (typeof window !== 'undefined') {
-          if (window.location.hostname.includes('larolatattoonyc.com')) {
-            apiUrl = 'https://api.larolatattoonyc.com/api';
-          } else {
-            apiUrl = 'http://localhost:4000/api';
-          }
-        } else {
-          apiUrl = process.env.INTERNAL_API_URL || 'http://localhost:4000/api';
-        }
-      }
-      const token = localStorage.getItem('auth_token');
-
-      const res = await fetch(`${apiUrl}/upload/image`, {
-        method: 'POST',
-        headers: {
-          ...(token ? { Authorization: `Bearer ${token}` } : {}),
-        },
-        body: formData,
-      });
-
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error(err.message || 'Upload failed');
-      }
-
-      const data = await res.json();
+      const data = await api.post<any>('/upload/image', formData);
+      
       onChange(data.url || data.cloudinaryId);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Upload failed');
