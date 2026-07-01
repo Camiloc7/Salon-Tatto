@@ -39,7 +39,7 @@ export async function Footer() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Instagram"
-            className="w-12 h-12 rounded-full border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white hover:border-amber-500 hover:bg-amber-500/10 transition-all duration-300"
+            className="w-12 h-12 rounded-full border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white hover:border-primary hover:bg-primary/10 transition-all duration-300"
           >
             <Instagram className="h-5 w-5" />
           </Link>
@@ -48,7 +48,7 @@ export async function Footer() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Facebook"
-            className="w-12 h-12 rounded-full border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white hover:border-amber-500 hover:bg-amber-500/10 transition-all duration-300"
+            className="w-12 h-12 rounded-full border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white hover:border-primary hover:bg-primary/10 transition-all duration-300"
           >
             <Facebook className="h-5 w-5" />
           </Link>
@@ -57,7 +57,7 @@ export async function Footer() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="TikTok"
-            className="w-12 h-12 rounded-full border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white hover:border-amber-500 hover:bg-amber-500/10 transition-all duration-300"
+            className="w-12 h-12 rounded-full border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white hover:border-primary hover:bg-primary/10 transition-all duration-300"
           >
             <Music2 className="h-5 w-5" />
           </Link>
@@ -69,7 +69,7 @@ export async function Footer() {
             {/* <div className="relative h-16 w-16 rounded overflow-hidden bg-primary shadow-sm transition-opacity duration-300 group-hover:opacity-90">
               <div className="absolute inset-0 bg-black [mask-image:url(/logo.svg)] [mask-size:contain] [mask-repeat:no-repeat] [mask-position:center]" />
             </div> */}
-            <h2 className="text-3xl font-serif tracking-widest text-white uppercase font-light group-hover:text-amber-500 transition-colors duration-300">
+            <h2 className="text-3xl font-serif tracking-widest text-white uppercase font-light group-hover:text-primary transition-colors duration-300">
               {settings?.studioName || t('site.name')}
             </h2>
           </Link>
@@ -99,8 +99,8 @@ export async function Footer() {
         )}
 
         {/* Credentials Section */}
-        <div className="mb-16 flex flex-col items-center gap-2 text-zinc-500 text-sm font-light leading-relaxed">
-          <h3 className="text-zinc-300 font-medium uppercase tracking-widest text-xs mb-2">Professional Credentials</h3>
+        <div className="mb-16 flex flex-col items-center gap-2 text-primary/70 text-sm font-light leading-relaxed">
+          <h3 className="text-primary font-medium uppercase tracking-widest text-xs mb-2">Professional Credentials</h3>
           <p>NYC Health Department Licensed ({settings?.licenseNumber || '#50107542'})</p>
           <p>Valid: {settings?.licenseDates || '01/07/2025 - 12/31/2026'}</p>
           <p>Bloodborne Pathogen Training</p>
@@ -110,7 +110,7 @@ export async function Footer() {
             href="https://portal.311.nyc.gov/"
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-2 text-xs uppercase tracking-widest underline hover:text-white transition-colors"
+            className="mt-2 text-xs uppercase tracking-widest underline hover:text-primary/80 transition-colors"
           >
             Verify License Online (NYC 311)
           </a>

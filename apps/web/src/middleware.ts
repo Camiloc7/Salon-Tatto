@@ -5,7 +5,9 @@ export default createMiddleware({
   locales,
   defaultLocale,
   localePrefix: 'always',
-  localeDetection: true,
+  // Si deseas que la app detecte el idioma del navegador automáticamente,
+  // cambia la siguiente línea a: localeDetection: true,
+  localeDetection: false,
 });
 
 export const config = {

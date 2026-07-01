@@ -22,6 +22,8 @@ export function ArtistCard({ artist, locale, isPriority = false }: ArtistCardPro
       <div
         className="group relative flex h-full flex-col overflow-hidden rounded-xl border border-muted-foreground/20 bg-card p-4 sm:p-6 text-card-foreground shadow-[10px_10px_30px_rgba(0,0,0,0.15)] transition-all hover:shadow-[10px_10px_30px_rgba(0,0,0,0.25)]"
       >
+        <Link href={`/${locale}/artistas/${artist.slug}`} className="absolute inset-0 z-0" aria-label={`Ver portafolio de ${artist.name}`} />
+
         {/* Subtle noise/texture overlay effect */}
         <div className="pointer-events-none absolute inset-0 opacity-[0.03] mix-blend-overlay" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")' }}></div>
 
@@ -50,14 +52,13 @@ export function ArtistCard({ artist, locale, isPriority = false }: ArtistCardPro
         </div>
         
         <div className="mt-8 flex items-center justify-between border-t border-border pt-4">
-          <Link
-            href={`/${locale}/artistas/${artist.slug}`}
-            className="inline-flex items-center justify-center rounded-sm border border-foreground/30 bg-transparent px-4 py-1.5 text-xs font-medium text-foreground transition-colors hover:bg-foreground hover:text-background"
+          <span
+            className="inline-flex items-center justify-center rounded-sm border border-foreground/30 bg-transparent px-4 py-1.5 text-xs font-medium text-foreground transition-colors group-hover:bg-foreground group-hover:text-background"
           >
             VER PORTAFOLIO
-          </Link>
+          </span>
           
-          <div className="flex gap-3 text-muted-foreground">
+          <div className="flex gap-3 text-muted-foreground relative z-10">
             {artist.instagramUrl ? (
               <a href={artist.instagramUrl} target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">
                 <Instagram className="h-4 w-4" />
@@ -65,8 +66,8 @@ export function ArtistCard({ artist, locale, isPriority = false }: ArtistCardPro
             ) : (
               <Instagram className="h-4 w-4 opacity-50" />
             )}
-            <Twitter className="h-4 w-4 opacity-50" />
-            <Youtube className="h-4 w-4 opacity-50" />
+            {/* <Twitter className="h-4 w-4 opacity-50" /> */}
+            {/* <Youtube className="h-4 w-4 opacity-50" /> */}
           </div>
         </div>
       </div>

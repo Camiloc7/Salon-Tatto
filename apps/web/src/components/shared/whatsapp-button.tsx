@@ -6,6 +6,8 @@ import { api } from '@/lib/api-client';
 import { useEffect, useState } from 'react';
 import type { StudioSettings } from '@salon-tatto/shared';
 
+import { motion } from 'framer-motion';
+
 export function WhatsAppButton() {
   const [whatsapp, setWhatsapp] = useState('+1234567890'); // Fallback number
 
@@ -27,10 +29,17 @@ export function WhatsAppButton() {
       href={url}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-6 right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-zinc-900 border border-amber-500/50 text-amber-500 shadow-[0_0_20px_rgba(245,158,11,0.15)] transition-all hover:bg-black hover:border-amber-400 hover:scale-110"
+      className="fixed bottom-6 right-6 z-40"
       aria-label="Chat on WhatsApp"
     >
-      <MessageCircle className="h-7 w-7" />
+      <motion.div
+        whileHover={{ scale: 1.15, rotate: [0, -10, 10, -10, 10, 0] }}
+        transition={{ duration: 0.3 }}
+        whileTap={{ scale: 0.9 }}
+        className="flex h-16 w-16 items-center justify-center rounded-full bg-zinc-900 border border-primary/50 text-primary shadow-[0_0_20px_hsl(var(--primary)/0.15)] transition-colors hover:bg-black hover:border-primary hover:shadow-[0_0_30px_hsl(var(--primary)/0.3)]"
+      >
+        <MessageCircle className="h-8 w-8" />
+      </motion.div>
     </Link>
   );
 }
