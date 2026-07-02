@@ -35,8 +35,8 @@ export async function generateMetadata({ params }: Props) {
     },
     alternates: {
       languages: {
-        en: '/en/galeria',
-        es: '/es/galeria',
+        en: '/en/gallery',
+        es: '/es/gallery',
       },
     },
   };

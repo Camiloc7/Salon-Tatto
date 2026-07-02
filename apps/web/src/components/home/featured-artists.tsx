@@ -41,7 +41,7 @@ export function FeaturedArtists() {
               {t('featuredArtists.description')}
             </p>
           </div>
-          <Link href={`/${locale}/artistas`} className="hidden md:block">
+          <Link href={`/${locale}/artists`} className="hidden md:block">
             <Button variant="ghost" className="text-zinc-400 hover:text-white uppercase tracking-widest text-xs font-semibold rounded-none group">
               {tCommon('actions.viewAll')} <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
             </Button>
@@ -71,7 +71,7 @@ export function FeaturedArtists() {
                   transition={{ delay: index * 0.1, duration: 0.7, ease: 'easeOut' }}
                   className="group relative"
                 >
-                  <Link href={`/${locale}/artistas/${artist.slug}`} className="block">
+                  <Link href={`/${locale}/artists/${artist.slug}`} className="block">
                     <div className="relative h-[450px] overflow-hidden bg-zinc-900">
                       {displayImage ? (
                         <img 
@@ -104,7 +104,7 @@ export function FeaturedArtists() {
         )}
 
         <div className="mt-12 text-center md:hidden">
-          <Link href={`/${locale}/artistas`}>
+          <Link href={`/${locale}/artists`}>
             <Button variant="outline" className="w-full text-zinc-300 border-zinc-800 hover:bg-zinc-900 hover:text-white uppercase tracking-widest text-xs py-6 rounded-none">
               {tCommon('actions.viewAll')}
             </Button>

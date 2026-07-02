@@ -12,7 +12,7 @@ type SitemapEntry = {
 };
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const staticRoutes = ['', '/estudio', '/artistas', '/galeria', '/blog', '/contacto'];
+  const staticRoutes = ['', '/studio', '/artists', '/gallery', '/blog', '/contact'];
 
   const entries: SitemapEntry[] = [];
 

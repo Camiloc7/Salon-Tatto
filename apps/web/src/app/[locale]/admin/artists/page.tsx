@@ -60,7 +60,7 @@ export default function ArtistListPage() {
             Gestiona los perfiles de los artistas del estudio. Aquí puedes editar su información, redes sociales y añadir o eliminar imágenes de su galería personal.
           </p>
         </div>
-        <Link href="/admin/artistas/create" className="w-full sm:w-auto shrink-0">
+        <Link href="/admin/artists/create" className="w-full sm:w-auto shrink-0">
           <Button className="w-full sm:w-auto">
             <Plus className="mr-2 h-4 w-4" />
             {t('create')}
@@ -110,7 +110,7 @@ export default function ArtistListPage() {
                     </td>
                     <td className="px-4 py-3">
                       <div className="flex items-center justify-end gap-1">
-                        <Link href={`/admin/artistas/${artist.id}/edit`}>
+                        <Link href={`/admin/artists/${artist.id}/edit`}>
                           <Button variant="ghost" size="icon">
                             <Edit className="h-4 w-4" />
                           </Button>

@@ -91,7 +91,7 @@ export default function CreateArtistPage() {
       await clearCacheByTag('artists');
 
       toast.success('Artist created successfully!');
-      router.push('/admin/artistas');
+      router.push('/admin/artists');
     },
     onError: (err: Error) => {
       toast.error(err.message || 'Failed to create artist');
@@ -110,7 +110,7 @@ export default function CreateArtistPage() {
   return (
     <div className="space-y-6 w-full max-w-6xl mx-auto pb-24 relative">
       <div className="flex items-center gap-4">
-        <Link href="/admin/artistas">
+        <Link href="/admin/artists">
           <Button variant="ghost" size="icon">
             <ArrowLeft className="h-4 w-4" />
           </Button>
@@ -279,7 +279,7 @@ export default function CreateArtistPage() {
 
         {/* STICKY ACTION BAR */}
         <div className="fixed bottom-0 left-0 right-0 md:left-[240px] md:right-0 p-4 bg-background/80 backdrop-blur-md border-t flex justify-end gap-4 z-40 shadow-[0_-4px_20px_-15px_rgba(0,0,0,0.1)]">
-          <Link href="/admin/artistas">
+          <Link href="/admin/artists">
             <Button type="button" variant="outline" size="lg" className="w-full sm:w-auto h-11 px-8">Cancelar</Button>
           </Link>
           <Button type="submit" size="lg" disabled={isSubmitting || createMutation.isPending} className="w-full sm:w-auto h-11 px-8 gap-2">

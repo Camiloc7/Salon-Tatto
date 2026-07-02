@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: Props) {
   const t = await getTranslations({ locale, namespace: 'site' });
   let seo: SeoPage | null = null;
   try {
-    seo = await api.get<SeoPage>('/seo/contacto', {
+    seo = await api.get<SeoPage>('/seo/contact', {
       params: { locale },
       next: { revalidate: 300 },
     });
@@ -36,8 +36,8 @@ export async function generateMetadata({ params }: Props) {
     },
     alternates: {
       languages: {
-        en: '/en/contacto',
-        es: '/es/contacto',
+        en: '/en/contact',
+        es: '/es/contact',
       },
     },
   };

@@ -58,8 +58,8 @@ export async function generateMetadata({ params }: Props) {
     },
     alternates: {
       languages: {
-        en: `/en/artistas/${slug}`,
-        es: `/es/artistas/${slug}`,
+        en: `/en/artists/${slug}`,
+        es: `/es/artists/${slug}`,
       },
     },
   };

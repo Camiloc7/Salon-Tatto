@@ -38,8 +38,8 @@ export async function generateMetadata({ params }: Props) {
     },
     alternates: {
       languages: {
-        en: '/en/artistas',
-        es: '/es/artistas',
+        en: '/en/artists',
+        es: '/es/artists',
       },
     },
   };
@@ -82,7 +82,7 @@ export default async function ArtistsPage({ params, searchParams }: Props) {
         {specialties.length > 0 && (
           <div className="mt-8 flex flex-wrap justify-center gap-2">
             <Link
-              href={`/${locale}/artistas`}
+              href={`/${locale}/artists`}
               className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${!currentSpecialty
                 ? 'bg-primary text-primary-foreground'
                 : 'bg-muted hover:bg-muted/80 text-muted-foreground'
@@ -93,7 +93,7 @@ export default async function ArtistsPage({ params, searchParams }: Props) {
             {specialties.map((spec) => (
               <Link
                 key={spec}
-                href={`/${locale}/artistas?specialty=${encodeURIComponent(spec)}`}
+                href={`/${locale}/artists?specialty=${encodeURIComponent(spec)}`}
                 className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${currentSpecialty === spec
                   ? 'bg-primary text-primary-foreground'
                   : 'bg-muted hover:bg-muted/80 text-muted-foreground'

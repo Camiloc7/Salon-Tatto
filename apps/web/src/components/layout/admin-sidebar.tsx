@@ -27,16 +27,16 @@ import { useAuth } from '@/providers/auth-provider';
 
 const navItems = [
   { href: '/admin', labelKey: 'sidebar.dashboard', icon: LayoutDashboard },
-  { href: '/admin/artistas', labelKey: 'sidebar.artists', icon: Users },
-  { href: '/admin/promociones', labelKey: 'sidebar.promotions', icon: Megaphone },
+  { href: '/admin/artists', labelKey: 'sidebar.artists', icon: Users },
+  { href: '/admin/promotions', labelKey: 'sidebar.promotions', icon: Megaphone },
   { href: '/admin/blog', labelKey: 'sidebar.blog', icon: FileText },
-  { href: '/admin/categorias', labelKey: 'sidebar.categories', icon: Tags },
+  { href: '/admin/categories', labelKey: 'sidebar.categories', icon: Tags },
   { href: '/admin/faq', labelKey: 'FAQ', icon: FileText },
   { href: '/admin/seo', labelKey: 'sidebar.seo', icon: Search },
-  { href: '/admin/mensajes', labelKey: 'sidebar.messages', icon: Mail },
-  { href: '/admin/usuarios', labelKey: 'sidebar.users', icon: Users },
-  { href: '/admin/configuracion', labelKey: 'sidebar.settings', icon: Settings },
-  { href: '/admin/perfil', labelKey: 'sidebar.profile', icon: User },
+  { href: '/admin/messages', labelKey: 'sidebar.messages', icon: Mail },
+  { href: '/admin/users', labelKey: 'sidebar.users', icon: Users },
+  { href: '/admin/settings', labelKey: 'sidebar.settings', icon: Settings },
+  { href: '/admin/profile', labelKey: 'sidebar.profile', icon: User },
 ];
 
 export function AdminSidebar() {
@@ -71,7 +71,7 @@ export function AdminSidebar() {
         {navItems
           .filter((item) => {
             if (user?.role === 'artist') {
-              return item.href === '/admin/artistas';
+              return item.href === '/admin/artists';
             }
             return true;
           })

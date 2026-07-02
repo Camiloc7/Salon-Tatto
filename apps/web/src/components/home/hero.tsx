@@ -112,10 +112,10 @@ export function Hero({ settings }: { settings: StudioSettings | null }) {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6, duration: 1 }}
         >
-          <NavIcon href={`/${locale}/galeria`} icon={<ImageIcon size={20} strokeWidth={1} />} label={tCommon('nav.gallery')} />
-          <NavIcon href={`/${locale}/artistas`} icon={<Users size={20} strokeWidth={1} />} label={tCommon('nav.artists')} />
+          <NavIcon href={`/${locale}/gallery`} icon={<ImageIcon size={20} strokeWidth={1} />} label={tCommon('nav.gallery')} />
+          <NavIcon href={`/${locale}/artists`} icon={<Users size={20} strokeWidth={1} />} label={tCommon('nav.artists')} />
           <NavIcon href={`/${locale}/blog`} icon={<Star size={20} strokeWidth={1} />} label={tCommon('nav.blog')} />
-          <NavIcon href={`/${locale}/contacto`} icon={<MapPin size={20} strokeWidth={1} />} label={tCommon('nav.contact')} />
+          <NavIcon href={`/${locale}/contact`} icon={<MapPin size={20} strokeWidth={1} />} label={tCommon('nav.contact')} />
         </motion.div>
       </motion.div>
     </section>

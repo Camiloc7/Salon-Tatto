@@ -7,11 +7,11 @@ import type { StudioSettings } from '@salon-tatto/shared';
 
 const footerNav = [
   { href: '/', labelKey: 'nav.home' },
-  { href: '/estudio', labelKey: 'nav.studio' },
-  { href: '/artistas', labelKey: 'nav.artists' },
-  { href: '/galeria', labelKey: 'nav.gallery' },
+  { href: '/studio', labelKey: 'nav.studio' },
+  { href: '/artists', labelKey: 'nav.artists' },
+  { href: '/gallery', labelKey: 'nav.gallery' },
   { href: '/blog', labelKey: 'nav.blog' },
-  { href: '/contacto', labelKey: 'nav.contact' },
+  { href: '/contact', labelKey: 'nav.contact' },
 ] as const;
 
 async function getSettings(): Promise<StudioSettings | null> {

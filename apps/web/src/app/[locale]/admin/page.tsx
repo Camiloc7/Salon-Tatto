@@ -47,10 +47,10 @@ export default function AdminDashboard() {
   });
 
   const stats = [
-    { label: t('totalArtists'), value: artistsData?.meta.total ?? 0, icon: Users, subtext: t('subtext.artists'), color: 'text-blue-500', href: '/admin/artistas' },
+    { label: t('totalArtists'), value: artistsData?.meta.total ?? 0, icon: Users, subtext: t('subtext.artists'), color: 'text-blue-500', href: '/admin/artists' },
     { label: t('totalPosts'), value: blogData?.meta.total ?? 0, icon: FileText, subtext: t('subtext.posts'), color: 'text-green-500', href: '/admin/blog' },
-    { label: t('totalWorks'), value: galleryTotalData?.count ?? 0, icon: ImageIcon, subtext: t('subtext.works'), color: 'text-orange-500', href: '/admin/artistas' },
-    { label: t('messages'), value: messagesPendingData?.count ?? 0, icon: Mail, subtext: t('subtext.messages'), color: 'text-purple-500', href: '/admin/mensajes' },
+    { label: t('totalWorks'), value: galleryTotalData?.count ?? 0, icon: ImageIcon, subtext: t('subtext.works'), color: 'text-orange-500', href: '/admin/artists' },
+    { label: t('messages'), value: messagesPendingData?.count ?? 0, icon: Mail, subtext: t('subtext.messages'), color: 'text-purple-500', href: '/admin/messages' },
   ];
 
   const pieData = [

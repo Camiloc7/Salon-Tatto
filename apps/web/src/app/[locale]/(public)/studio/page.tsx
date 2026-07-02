@@ -33,8 +33,8 @@ export async function generateMetadata({ params }: Props) {
     },
     alternates: {
       languages: {
-        en: '/en/estudio',
-        es: '/es/estudio',
+        en: '/en/studio',
+        es: '/es/studio',
       },
     },
   };

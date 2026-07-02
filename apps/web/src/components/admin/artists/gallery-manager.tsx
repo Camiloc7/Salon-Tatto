@@ -175,7 +175,7 @@ export function GalleryManager({ artistId }: GalleryManagerProps) {
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <h3 className="text-lg font-medium">Gallery Images</h3>
         {artist?.slug && (
-          <Link href={`/en/artistas/${artist.slug}`} target="_blank" className="flex items-center gap-2 text-sm text-primary hover:underline">
+          <Link href={`/en/artists/${artist.slug}`} target="_blank" className="flex items-center gap-2 text-sm text-primary hover:underline">
             <LinkIcon className="h-4 w-4" /> View Public Profile
           </Link>
         )}

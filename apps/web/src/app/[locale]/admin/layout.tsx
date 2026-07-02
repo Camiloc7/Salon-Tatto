@@ -24,8 +24,8 @@ export default function AdminLayout({ children, params }: Props) {
     }
 
     if (!loading && isAuthenticated && user?.role === 'artist') {
-      // Artists can only access /admin/artistas
-      const allowedPrefix = `/${locale}/admin/artistas`;
+      // Artists can only access /admin/artists
+      const allowedPrefix = `/${locale}/admin/artists`;
       const isDashboard = pathname === `/${locale}/admin`;
       
       if (!pathname.startsWith(allowedPrefix)) {
