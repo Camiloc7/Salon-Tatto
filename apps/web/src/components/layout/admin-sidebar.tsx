@@ -36,6 +36,7 @@ const navItems = [
   { href: '/admin/messages', labelKey: 'sidebar.messages', icon: Mail },
   { href: '/admin/users', labelKey: 'sidebar.users', icon: Users },
   { href: '/admin/settings', labelKey: 'sidebar.settings', icon: Settings },
+  { href: '/admin/studio-page', labelKey: 'Página Studio', icon: FileText },
   { href: '/admin/profile', labelKey: 'sidebar.profile', icon: User },
 ];
 
@@ -93,7 +94,9 @@ export function AdminSidebar() {
               title={collapsed ? t(item.labelKey) : undefined}
             >
               <Icon className={cn("shrink-0", collapsed ? "h-5 w-5" : "h-4 w-4")} />
-              {!collapsed && <span className="text-sm font-medium whitespace-nowrap overflow-hidden">{t(item.labelKey)}</span>}
+              {!collapsed && <span className="text-sm font-medium whitespace-nowrap overflow-hidden">
+                {item.labelKey.includes('Página') ? item.labelKey : t(item.labelKey)}
+              </span>}
             </Link>
           );
         })}

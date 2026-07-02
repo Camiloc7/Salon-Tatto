@@ -31,4 +31,6 @@ export type StudioSettings = {
   licenseNumber?: string;
   licenseDates?: string;
   sameDayReservation?: string;
+  studioPageContent_en?: string;
+  studioPageContent_es?: string;
 };

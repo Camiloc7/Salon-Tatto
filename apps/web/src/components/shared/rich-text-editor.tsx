@@ -6,14 +6,16 @@ import Link from '@tiptap/extension-link';
 import TextAlign from '@tiptap/extension-text-align';
 import { TextStyle } from '@tiptap/extension-text-style';
 import FontFamily from '@tiptap/extension-font-family';
+import Image from '@tiptap/extension-image';
 import { 
   Bold, Italic, Strikethrough, Heading2, Heading3, 
   List, ListOrdered, Quote, Undo, Redo, Link as LinkIcon, Unlink,
-  AlignLeft, AlignCenter, AlignRight, AlignJustify
+  AlignLeft, AlignCenter, AlignRight, AlignJustify, Image as ImageIcon, Loader2
 } from 'lucide-react';
-import { useCallback } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import { api } from '@/lib/api-client';
 
 interface RichTextEditorProps {
   content: string;
@@ -31,6 +33,9 @@ const FONTS = [
 ];
 
 export function RichTextEditor({ content, onChange, placeholder, className }: RichTextEditorProps) {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [uploading, setUploading] = useState(false);
+
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -45,6 +50,13 @@ export function RichTextEditor({ content, onChange, placeholder, className }: Ri
       }),
       TextStyle,
       FontFamily,
+      Image.configure({
+        inline: true,
+        allowBase64: true,
+        HTMLAttributes: {
+          class: 'rounded-md max-w-full h-auto',
+        },
+      }),
     ],
     content,
     onUpdate: ({ editor }) => {
@@ -73,6 +85,32 @@ export function RichTextEditor({ content, onChange, placeholder, className }: Ri
 
     editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
   }, [editor]);
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !editor) return;
+
+    setUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      
+      const data = await api.post<any>('/upload/image', formData);
+      const urlId = data.url || data.cloudinaryId;
+      
+      const fullUrl = urlId.startsWith('http') 
+        ? urlId 
+        : `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/f_auto,q_auto/${urlId}`;
+
+      editor.chain().focus().setImage({ src: fullUrl }).run();
+    } catch (err) {
+      console.error('Failed to upload image', err);
+      alert('Error uploading image');
+    } finally {
+      setUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    }
+  };
 
   if (!editor) {
     return null;
@@ -184,6 +222,27 @@ export function RichTextEditor({ content, onChange, placeholder, className }: Ri
           <Heading3 className="h-4 w-4" />
         </Button>
         <div className="w-px h-6 bg-border mx-1" />
+        
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          className="h-8 w-8 p-0"
+          onClick={() => fileInputRef.current?.click()}
+          disabled={uploading}
+        >
+          {uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <ImageIcon className="h-4 w-4" />}
+        </Button>
+        <input 
+          type="file" 
+          accept="image/*" 
+          ref={fileInputRef} 
+          onChange={handleImageUpload} 
+          className="hidden" 
+        />
+        
+        <div className="w-px h-6 bg-border mx-1" />
+        
         <Button
           type="button"
           variant="ghost"
