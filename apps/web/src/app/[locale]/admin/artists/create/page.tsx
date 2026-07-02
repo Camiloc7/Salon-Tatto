@@ -108,6 +108,11 @@ export default function CreateArtistPage() {
     createMutation.mutate({ ...data, translations: validTranslations as any });
   };
 
+  const onInvalid = (errors: any) => {
+    console.error('Validation errors:', errors);
+    toast.error('Error de validación: Revisa los campos resaltados o las pestañas ocultas.');
+  };
+
   return (
     <div className="space-y-6 w-full max-w-6xl mx-auto pb-24 relative">
       <div className="flex items-center gap-4">
@@ -136,7 +141,7 @@ export default function CreateArtistPage() {
         </button>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={handleSubmit(onSubmit, onInvalid)} className="space-y-8">
         
         {/* TAB 1: PERFIL PÚBLICO */}
         {activeTab === 'profile' && (

@@ -127,6 +127,11 @@ export default function EditArtistPage() {
     updateMutation.mutate({ ...data, translations: validTranslations as any });
   };
 
+  const onInvalid = (errors: any) => {
+    console.error('Validation errors:', errors);
+    toast.error('Error de validación: Revisa los campos resaltados o las pestañas ocultas.');
+  };
+
   if (isLoading) {
     return (
       <div className="flex justify-center py-12">
@@ -174,7 +179,7 @@ export default function EditArtistPage() {
         </button>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={handleSubmit(onSubmit, onInvalid)} className="space-y-8">
         
         {/* TAB 1: PERFIL PÚBLICO */}
         {activeTab === 'profile' && (
