@@ -113,8 +113,8 @@ export default function EditArtistPage() {
 
       toast.success('Artist updated successfully!');
     },
-    onError: () => {
-      toast.error('Hubo un error al actualizar el artista. Por favor, inténtalo de nuevo más tarde.');
+    onError: (error: any) => {
+      toast.error(error.message || 'Hubo un error al actualizar el artista. Por favor, inténtalo de nuevo más tarde.');
     },
   });
 
