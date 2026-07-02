@@ -32,11 +32,24 @@ export function FaqForm({ initialData }: FaqFormProps) {
   const locale = params.locale as string;
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Default to english and spanish fields
-  const defaultTranslations = initialData?.translations || [
-    { languageCode: 'es', question: '', answer: '' },
-    { languageCode: 'en', question: '', answer: '' },
+  // Map API translations to form schema, ensuring both languages exist
+  let defaultTranslations = [
+    { languageCode: 'es' as const, question: '', answer: '' },
+    { languageCode: 'en' as const, question: '', answer: '' },
   ];
+
+  if (initialData?.translations && initialData.translations.length > 0) {
+    defaultTranslations = ['es', 'en'].map(lang => {
+      const existing: any = initialData.translations.find(
+        (t: any) => (t.languageCode || t.language?.code) === lang
+      );
+      return {
+        languageCode: lang as 'es' | 'en',
+        question: existing?.question || '',
+        answer: existing?.answer || '',
+      };
+    });
+  }
 
   const {
     register,
