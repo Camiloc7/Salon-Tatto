@@ -54,13 +54,14 @@ export default async function StudioPage({ params }: Props) {
   }
 
   const dynamicContent = locale === 'en' ? settings?.studioPageContent_en : settings?.studioPageContent_es;
+  const hasDynamicContent = dynamicContent && dynamicContent.trim() !== '' && dynamicContent.trim() !== '<p></p>';
 
   return (
     <div className="container py-20">
       <div className="mx-auto max-w-4xl">
         <h1 className="text-4xl font-bold tracking-tight mb-8">{t('studio.title')}</h1>
         
-        {dynamicContent ? (
+        {hasDynamicContent ? (
           <div 
             className="prose prose-sm md:prose-base dark:prose-invert max-w-none text-muted-foreground leading-relaxed"
             dangerouslySetInnerHTML={{ __html: dynamicContent }}
