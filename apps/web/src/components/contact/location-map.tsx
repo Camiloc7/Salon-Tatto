@@ -61,17 +61,17 @@ export function LocationMap({ lat, lng }: LocationMapProps) {
   }
 
   return (
-    <div 
-      className="w-full h-full rounded-xl overflow-hidden border cursor-pointer group relative"
-      onClick={() => {
-        const placeId = process.env.NEXT_PUBLIC_GOOGLE_PLACE_ID;
-        const url = placeId 
-          ? `https://www.google.com/maps/place/?q=place_id:${placeId}`
-          : `https://maps.google.com/?q=${lat},${lng}`;
-        window.open(url, '_blank');
-      }}
-    >
-      <div className="absolute inset-0 z-10 bg-black/0 group-hover:bg-white/5 transition-colors pointer-events-none flex items-center justify-center">
+    <div className="w-full h-full rounded-xl overflow-hidden border group relative">
+      <div 
+        className="absolute inset-0 z-10 bg-black/0 group-hover:bg-white/5 transition-colors cursor-pointer flex items-center justify-center"
+        onClick={() => {
+          const placeId = process.env.NEXT_PUBLIC_GOOGLE_PLACE_ID;
+          const url = placeId 
+            ? `https://www.google.com/maps/place/?q=place_id:${placeId}`
+            : `https://maps.google.com/?q=${lat},${lng}`;
+          window.open(url, '_blank');
+        }}
+      >
         <span className="opacity-0 group-hover:opacity-100 bg-black/80 text-white text-sm px-4 py-2 rounded-full font-medium transition-opacity shadow-lg backdrop-blur-sm">
           Open in Google Maps
         </span>
@@ -83,7 +83,8 @@ export function LocationMap({ lat, lng }: LocationMapProps) {
         options={{
           styles: darkMapStyle,
           disableDefaultUI: true,
-          zoomControl: true,
+          zoomControl: false,
+          gestureHandling: 'none',
         }}
       >
         <MarkerF position={center} />

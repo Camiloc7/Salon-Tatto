@@ -33,8 +33,16 @@ export function WhatsAppButton() {
       aria-label="Chat on WhatsApp"
     >
       <motion.div
-        whileHover={{ scale: 1.15, rotate: [0, -10, 10, -10, 10, 0] }}
-        transition={{ duration: 0.3 }}
+        animate={{
+          scale: [1, 1.15, 1, 1.2, 1, 1, 1.1, 1, 1],
+        }}
+        transition={{ 
+          duration: 3, 
+          repeat: Infinity,
+          times: [0, 0.1, 0.2, 0.3, 0.4, 0.7, 0.8, 0.9, 1],
+          ease: "easeInOut"
+        }}
+        whileHover={{ scale: 1.2, rotate: [0, -10, 10, -10, 10, 0], transition: { duration: 0.3 } }}
         whileTap={{ scale: 0.9 }}
         className="flex h-16 w-16 items-center justify-center rounded-full bg-zinc-900 border border-primary/50 text-primary shadow-[0_0_20px_hsl(var(--primary)/0.15)] transition-colors hover:bg-black hover:border-primary hover:shadow-[0_0_30px_hsl(var(--primary)/0.3)]"
       >

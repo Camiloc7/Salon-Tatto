@@ -125,7 +125,11 @@ export default function CreateBlogPostPage() {
       toast.error('You must provide the post title in at least one language.');
       return;
     }
-    createMutation.mutate({ ...data, translations: validTranslations as any });
+    const payload = { ...data, translations: validTranslations as any };
+    if (payload.featuredImage === '') {
+      payload.featuredImage = null as any;
+    }
+    createMutation.mutate(payload);
   };
 
   return (

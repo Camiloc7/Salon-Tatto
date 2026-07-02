@@ -46,10 +46,11 @@ export function Testimonials({ initialReviews = [] }: TestimonialsProps) {
 
         <div className="mt-12 grid gap-8 md:grid-cols-3">
           {displayReviews.map((item, index) => {
-            const isClickable = 'author_url' in item && !!item.author_url;
+            const placeId = process.env.NEXT_PUBLIC_GOOGLE_PLACE_ID;
+            const isClickable = !!placeId;
             const Wrapper = isClickable ? 'a' : 'div';
             const wrapperProps = isClickable ? {
-              href: item.author_url as string,
+              href: `https://search.google.com/local/reviews?placeid=${placeId}`,
               target: "_blank",
               rel: "noopener noreferrer",
             } : {};
@@ -102,17 +103,7 @@ export function Testimonials({ initialReviews = [] }: TestimonialsProps) {
           )})}
         </div>
         
-        {/* Optional: Add a call to action to review on Google */}
-        <div className="mt-12 text-center">
-           <a 
-              href="https://g.page/review" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="text-sm text-muted-foreground hover:text-primary transition-colors underline underline-offset-4"
-            >
-              Powered by Google Reviews
-            </a>
-        </div>
+
       </div>
     </section>
   );

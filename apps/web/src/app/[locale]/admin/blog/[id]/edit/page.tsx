@@ -153,7 +153,11 @@ export default function EditBlogPostPage() {
       toast.error('You must provide the post title in at least one language.');
       return;
     }
-    updateMutation.mutate({ ...data, translations: validTranslations as any });
+    const payload = { ...data, translations: validTranslations as any };
+    if (payload.featuredImage === '') {
+      payload.featuredImage = null as any;
+    }
+    updateMutation.mutate(payload);
   };
 
   if (isLoading) {
