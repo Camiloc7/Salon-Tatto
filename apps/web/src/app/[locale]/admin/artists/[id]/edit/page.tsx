@@ -198,6 +198,7 @@ export default function EditArtistPage() {
                   className="flex h-11 w-full rounded-md border border-input bg-background px-4 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                   placeholder="https://instagram.com/..."
                 />
+                {errors.instagramUrl && <p className="mt-1.5 text-sm text-destructive">{errors.instagramUrl.message}</p>}
               </div>
             </div>
 
@@ -215,6 +216,9 @@ export default function EditArtistPage() {
                     onChange={(e) => updateTranslationField('name', e.target.value)}
                     className="flex h-11 w-full rounded-md border border-input bg-background px-4 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                   />
+                  {errors.translations?.[activeLocale === 'en' ? 0 : 1]?.name && (
+                    <p className="mt-1.5 text-sm text-destructive">{errors.translations[activeLocale === 'en' ? 0 : 1]?.name?.message}</p>
+                  )}
                 </div>
 
                 <div>
@@ -225,11 +229,15 @@ export default function EditArtistPage() {
                     className="flex h-11 w-full rounded-md border border-input bg-background px-4 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                     placeholder="Ej. Realismo, Tradicional, Fine Line"
                   />
+                  {errors.translations?.[activeLocale === 'en' ? 0 : 1]?.specialty && (
+                    <p className="mt-1.5 text-sm text-destructive">{errors.translations[activeLocale === 'en' ? 0 : 1]?.specialty?.message}</p>
+                  )}
                 </div>
 
                 <div>
                   <label className="block text-base font-medium mb-2">Biografía</label>
                   <RichTextEditor
+                    key={activeLocale}
                     content={currentTranslation?.biography || ''}
                     onChange={(content) => updateTranslationField('biography', content)}
                   />
