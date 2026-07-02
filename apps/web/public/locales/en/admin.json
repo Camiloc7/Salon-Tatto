@@ -30,7 +30,8 @@
     "messages": "Messages",
     "settings": "Settings",
     "users": "Users",
-    "profile": "My Profile"
+    "profile": "My Profile",
+    "faq": "FAQ"
   },
   "artists": {
     "title": "Artist Management",

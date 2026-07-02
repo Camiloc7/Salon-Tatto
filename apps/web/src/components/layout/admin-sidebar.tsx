@@ -31,7 +31,7 @@ const navItems = [
   { href: '/admin/promotions', labelKey: 'sidebar.promotions', icon: Megaphone },
   { href: '/admin/blog', labelKey: 'sidebar.blog', icon: FileText },
   { href: '/admin/categories', labelKey: 'sidebar.categories', icon: Tags },
-  { href: '/admin/faq', labelKey: 'FAQ', icon: FileText },
+  { href: '/admin/faq', labelKey: 'sidebar.faq', icon: FileText },
   { href: '/admin/seo', labelKey: 'sidebar.seo', icon: Search },
   { href: '/admin/messages', labelKey: 'sidebar.messages', icon: Mail },
   { href: '/admin/users', labelKey: 'sidebar.users', icon: Users },

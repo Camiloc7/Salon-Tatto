@@ -30,7 +30,8 @@
     "messages": "Mensajes",
     "settings": "Configuración",
     "users": "Usuarios",
-    "profile": "Mi Perfil"
+    "profile": "Mi Perfil",
+    "faq": "Preguntas Frecuentes"
   },
   "artists": {
     "title": "Gestión de Artistas",
