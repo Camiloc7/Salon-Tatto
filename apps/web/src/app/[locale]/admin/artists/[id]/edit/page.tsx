@@ -194,6 +194,7 @@ export default function EditArtistPage() {
               <div>
                 <label className="block text-base font-medium mb-2">Instagram URL</label>
                 <input
+                  id="instagramUrl"
                   {...register('instagramUrl')}
                   className="flex h-11 w-full rounded-md border border-input bg-background px-4 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                   placeholder="https://instagram.com/..."
@@ -212,6 +213,8 @@ export default function EditArtistPage() {
                 <div>
                   <label className="block text-base font-medium mb-2">Nombre del Artista</label>
                   <input
+                    id={`name-${activeLocale}`}
+                    name={`name-${activeLocale}`}
                     value={currentTranslation?.name || ''}
                     onChange={(e) => updateTranslationField('name', e.target.value)}
                     className="flex h-11 w-full rounded-md border border-input bg-background px-4 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
@@ -224,6 +227,8 @@ export default function EditArtistPage() {
                 <div>
                   <label className="block text-base font-medium mb-2">Especialidad</label>
                   <input
+                    id={`specialty-${activeLocale}`}
+                    name={`specialty-${activeLocale}`}
                     value={currentTranslation?.specialty || ''}
                     onChange={(e) => updateTranslationField('specialty', e.target.value)}
                     className="flex h-11 w-full rounded-md border border-input bg-background px-4 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
@@ -289,6 +294,7 @@ export default function EditArtistPage() {
                   </Button>
                 </label>
                 <input
+                  id="slug"
                   {...register('slug', {
                     onChange: (e) => {
                       setValue('slug', e.target.value.toLowerCase().replace(/\s+/g, '-'), { shouldValidate: true, shouldDirty: true });
@@ -302,6 +308,7 @@ export default function EditArtistPage() {
               <div>
                 <label className="block text-base font-medium mb-2">Orden de Visualización</label>
                 <input
+                  id="orderIndex"
                   type="number"
                   {...register('orderIndex')}
                   className="flex h-11 w-full rounded-md border border-input bg-background px-4 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"

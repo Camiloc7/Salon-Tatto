@@ -219,6 +219,8 @@ export function RichTextEditor({ content, onChange, placeholder, className }: Ri
         <div className="w-px h-6 bg-border mx-1" />
         
         <select
+          id="fontFamily"
+          name="fontFamily"
           className="h-8 px-2 text-sm bg-transparent border border-input rounded-md hover:bg-muted focus:outline-none focus:ring-1 focus:ring-primary ml-1 max-w-[140px]"
           onChange={(e) => {
             if (e.target.value === 'inherit') {
@@ -234,6 +236,8 @@ export function RichTextEditor({ content, onChange, placeholder, className }: Ri
           ))}
         </select>
         <select
+          id="fontSize"
+          name="fontSize"
           className="h-8 px-2 text-sm bg-transparent border border-input rounded-md hover:bg-muted focus:outline-none focus:ring-1 focus:ring-primary ml-1 max-w-[90px]"
           onChange={(e) => {
             if (e.target.value === 'inherit') {
