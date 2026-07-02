@@ -41,6 +41,18 @@ export class SettingsService {
       settings.heroSubtitle_es = await this.translationService.translateText(settings.heroSubtitle_en, 'en', 'es');
     }
 
+    // Auto-translate studioPageContent if one language is missing
+    const esStudioContent = settings.studioPageContent_es?.trim();
+    const enStudioContent = settings.studioPageContent_en?.trim();
+    const isEsEmpty = !esStudioContent || esStudioContent === '<p></p>';
+    const isEnEmpty = !enStudioContent || enStudioContent === '<p></p>';
+
+    if (!isEsEmpty && isEnEmpty) {
+      settings.studioPageContent_en = await this.translationService.translateText(settings.studioPageContent_es, 'es', 'en');
+    } else if (!isEnEmpty && isEsEmpty) {
+      settings.studioPageContent_es = await this.translationService.translateText(settings.studioPageContent_en, 'en', 'es');
+    }
+
     return this.dataSource.transaction(async (manager) => {
       for (const [key, value] of Object.entries(settings)) {
         let setting = await manager.findOneBy(Setting, { key });
