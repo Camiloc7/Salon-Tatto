@@ -16,6 +16,7 @@ import { useCallback, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { api } from '@/lib/api-client';
+import { toast } from 'sonner';
 
 interface RichTextEditorProps {
   content: string;
@@ -64,7 +65,7 @@ export function RichTextEditor({ content, onChange, placeholder, className }: Ri
     },
     editorProps: {
       attributes: {
-        class: 'prose prose-sm dark:prose-invert max-w-none focus:outline-none min-h-[300px] p-4',
+        class: 'prose prose-sm dark:prose-invert max-w-none focus:outline-none min-h-[500px] p-4',
       },
     },
   });
@@ -91,6 +92,8 @@ export function RichTextEditor({ content, onChange, placeholder, className }: Ri
     if (!file || !editor) return;
 
     setUploading(true);
+    const toastId = toast.loading('Subiendo imagen...');
+    
     try {
       const formData = new FormData();
       formData.append('file', file);
@@ -103,9 +106,10 @@ export function RichTextEditor({ content, onChange, placeholder, className }: Ri
         : `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/f_auto,q_auto/${urlId}`;
 
       editor.chain().focus().setImage({ src: fullUrl }).run();
+      toast.success('Imagen insertada correctamente', { id: toastId });
     } catch (err) {
       console.error('Failed to upload image', err);
-      alert('Error uploading image');
+      toast.error('Error al subir la imagen. Por favor, intenta de nuevo.', { id: toastId });
     } finally {
       setUploading(false);
       if (fileInputRef.current) fileInputRef.current.value = '';
