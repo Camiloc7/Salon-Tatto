@@ -7,8 +7,18 @@
     "error": "Invalid credentials"
   },
   "dashboard": {
+    "header": "Admin Panel",
     "title": "Manage artists, posts, and website content.",
     "welcome": "Studio",
+    "traffic": {
+      "title": "Website Traffic",
+      "desc": "Live data from Google Analytics (Last 28 Days)"
+    },
+    "contentDist": {
+      "title": "Content Distribution",
+      "desc": "Breakdown of active resources.",
+      "noData": "No data available"
+    },
     "totalArtists": "Artists",
     "totalPosts": "Publications",
     "totalWorks": "Works",
@@ -31,7 +41,8 @@
     "settings": "Settings",
     "users": "Users",
     "profile": "My Profile",
-    "faq": "FAQ"
+    "faq": "FAQ",
+    "studioPage": "Studio Page"
   },
   "artists": {
     "title": "Artist Management",

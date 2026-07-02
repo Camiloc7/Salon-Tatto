@@ -9,7 +9,7 @@ export const CreateArtistSchema = z.object({
   translations: z.array(z.object({
     languageCode: z.enum(['en', 'es']),
     name: z.string().min(1).max(200),
-    biography: z.string().max(5000).optional(),
+    biography: z.string().max(100000).optional(),
     specialty: z.string().max(500).optional(),
     seoTitle: z.string().max(70).optional(),
     seoDescription: z.string().max(160).optional(),

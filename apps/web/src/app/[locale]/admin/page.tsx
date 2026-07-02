@@ -64,7 +64,7 @@ export default function AdminDashboard() {
       <div className="flex flex-col gap-2">
         <p className="text-sm font-medium text-muted-foreground uppercase tracking-widest">{t('welcome')}</p>
         <h1 className="text-4xl font-extrabold tracking-tight bg-gradient-to-r from-primary to-primary/50 bg-clip-text text-transparent w-fit">
-          Panel de administración
+          {t('header')}
         </h1>
         <p className="text-muted-foreground text-lg">{t('title')}</p>
       </div>
@@ -110,8 +110,8 @@ export default function AdminDashboard() {
         <div className="lg:col-span-2 rounded-2xl border bg-card p-6 shadow-sm">
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h3 className="text-xl font-semibold">Website Traffic</h3>
-              <p className="text-sm text-muted-foreground">Live data from Google Analytics (Last 28 Days)</p>
+              <h3 className="text-xl font-semibold">{t('traffic.title')}</h3>
+              <p className="text-sm text-muted-foreground">{t('traffic.desc')}</p>
             </div>
           </div>
           <div className="h-[350px] w-full">
@@ -142,8 +142,8 @@ export default function AdminDashboard() {
 
         <div className="rounded-2xl border bg-card p-6 shadow-sm flex flex-col">
           <div>
-            <h3 className="text-xl font-semibold">Content Distribution</h3>
-            <p className="text-sm text-muted-foreground">Breakdown of active resources.</p>
+            <h3 className="text-xl font-semibold">{t('contentDist.title')}</h3>
+            <p className="text-sm text-muted-foreground">{t('contentDist.desc')}</p>
           </div>
           
           <div className="flex-1 flex items-center justify-center min-h-[300px] mt-4">
@@ -174,7 +174,7 @@ export default function AdminDashboard() {
             ) : (
               <div className="text-center text-muted-foreground flex flex-col items-center gap-2">
                 <LayoutGrid className="h-8 w-8 opacity-20" />
-                <p>No data available</p>
+                <p>{t('contentDist.noData')}</p>
               </div>
             )}
           </div>

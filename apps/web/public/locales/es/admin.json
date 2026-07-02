@@ -7,8 +7,18 @@
     "error": "Credenciales inválidas"
   },
   "dashboard": {
-    "title": "Gestiona artistas, publicaciones y el contenido de la web.",
+    "header": "Panel de administración",
+    "title": "Gestiona artistas, publicaciones y contenido del sitio.",
     "welcome": "Estudio",
+    "traffic": {
+      "title": "Tráfico del Sitio Web",
+      "desc": "Datos en vivo de Google Analytics (Últimos 28 Días)"
+    },
+    "contentDist": {
+      "title": "Distribución de Contenido",
+      "desc": "Desglose de los recursos activos.",
+      "noData": "No hay datos disponibles"
+    },
     "totalArtists": "Artistas",
     "totalPosts": "Publicaciones",
     "totalWorks": "Trabajos",
@@ -31,7 +41,8 @@
     "settings": "Configuración",
     "users": "Usuarios",
     "profile": "Mi Perfil",
-    "faq": "Preguntas Frecuentes"
+    "faq": "Preguntas Frecuentes",
+    "studioPage": "Página Studio"
   },
   "artists": {
     "title": "Gestión de Artistas",
