@@ -47,9 +47,10 @@ export function ArtistHero({ artist, tInstagram, tContact, whatsappNumber }: Art
         </p>
         
         {artist.biography && (
-          <p className="text-muted-foreground leading-relaxed text-lg mb-8 max-w-xl whitespace-pre-wrap">
-            {artist.biography}
-          </p>
+          <div 
+            className="prose prose-sm md:prose-base dark:prose-invert text-muted-foreground leading-relaxed mb-8 max-w-xl"
+            dangerouslySetInnerHTML={{ __html: artist.biography }}
+          />
         )}
         
         <div className="flex flex-wrap items-center gap-6 mt-auto">

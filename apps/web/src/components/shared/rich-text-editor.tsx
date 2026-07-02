@@ -3,7 +3,14 @@
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Link from '@tiptap/extension-link';
-import { Bold, Italic, Strikethrough, Heading2, Heading3, List, ListOrdered, Quote, Undo, Redo, Link as LinkIcon, Unlink } from 'lucide-react';
+import TextAlign from '@tiptap/extension-text-align';
+import { TextStyle } from '@tiptap/extension-text-style';
+import FontFamily from '@tiptap/extension-font-family';
+import { 
+  Bold, Italic, Strikethrough, Heading2, Heading3, 
+  List, ListOrdered, Quote, Undo, Redo, Link as LinkIcon, Unlink,
+  AlignLeft, AlignCenter, AlignRight, AlignJustify
+} from 'lucide-react';
 import { useCallback } from 'react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -15,6 +22,14 @@ interface RichTextEditorProps {
   className?: string;
 }
 
+const FONTS = [
+  { name: 'Predeterminada', value: 'inherit' },
+  { name: 'Sans Serif (Moderna)', value: 'var(--font-sans), sans-serif' },
+  { name: 'Serif (Elegante)', value: 'var(--font-serif), serif' },
+  { name: 'Monospace (Máquina)', value: 'monospace' },
+  { name: 'Cursive (Firma)', value: 'cursive' }
+];
+
 export function RichTextEditor({ content, onChange, placeholder, className }: RichTextEditorProps) {
   const editor = useEditor({
     extensions: [
@@ -25,6 +40,11 @@ export function RichTextEditor({ content, onChange, placeholder, className }: Ri
           class: 'text-primary underline underline-offset-4',
         },
       }),
+      TextAlign.configure({
+        types: ['heading', 'paragraph'],
+      }),
+      TextStyle,
+      FontFamily,
     ],
     content,
     onUpdate: ({ editor }) => {
@@ -89,6 +109,62 @@ export function RichTextEditor({ content, onChange, placeholder, className }: Ri
           <Strikethrough className="h-4 w-4" />
         </Button>
         <div className="w-px h-6 bg-border mx-1" />
+        
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          className={cn("h-8 w-8 p-0", editor.isActive({ textAlign: 'left' }) && "bg-muted")}
+          onClick={() => editor.chain().focus().setTextAlign('left').run()}
+        >
+          <AlignLeft className="h-4 w-4" />
+        </Button>
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          className={cn("h-8 w-8 p-0", editor.isActive({ textAlign: 'center' }) && "bg-muted")}
+          onClick={() => editor.chain().focus().setTextAlign('center').run()}
+        >
+          <AlignCenter className="h-4 w-4" />
+        </Button>
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          className={cn("h-8 w-8 p-0", editor.isActive({ textAlign: 'right' }) && "bg-muted")}
+          onClick={() => editor.chain().focus().setTextAlign('right').run()}
+        >
+          <AlignRight className="h-4 w-4" />
+        </Button>
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          className={cn("h-8 w-8 p-0", editor.isActive({ textAlign: 'justify' }) && "bg-muted")}
+          onClick={() => editor.chain().focus().setTextAlign('justify').run()}
+        >
+          <AlignJustify className="h-4 w-4" />
+        </Button>
+        <div className="w-px h-6 bg-border mx-1" />
+        
+        <select
+          className="h-8 px-2 text-sm bg-transparent border border-input rounded-md hover:bg-muted focus:outline-none focus:ring-1 focus:ring-primary ml-1 max-w-[140px]"
+          onChange={(e) => {
+            if (e.target.value === 'inherit') {
+              editor.chain().focus().unsetFontFamily().run();
+            } else {
+              editor.chain().focus().setFontFamily(e.target.value).run();
+            }
+          }}
+          value={editor.getAttributes('textStyle').fontFamily || 'inherit'}
+        >
+          {FONTS.map(font => (
+            <option key={font.value} value={font.value}>{font.name}</option>
+          ))}
+        </select>
+        <div className="w-px h-6 bg-border mx-1" />
+
         <Button
           type="button"
           variant="ghost"

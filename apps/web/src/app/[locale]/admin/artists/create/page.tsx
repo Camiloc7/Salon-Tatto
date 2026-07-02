@@ -12,6 +12,7 @@ import { queryKeys } from '@/lib/query-keys';
 import { Button } from '@/components/ui/button';
 import { ImageUploader } from '@/components/shared/image-uploader';
 import { LocaleTabs } from '@/components/shared/locale-tabs';
+import { RichTextEditor } from '@/components/shared/rich-text-editor';
 import { SeoPreviewCard } from '@/components/admin/seo-preview-fieldset';
 import { Loader2, ArrowLeft, User, Settings, Save, Wand2 } from 'lucide-react';
 import Link from 'next/link';
@@ -195,11 +196,9 @@ export default function CreateArtistPage() {
 
                 <div>
                   <label className="block text-base font-medium mb-2">Biografía</label>
-                  <textarea
-                    rows={6}
-                    value={currentTranslation?.biography || ''}
-                    onChange={(e) => updateTranslationField('biography', e.target.value)}
-                    className="flex w-full rounded-md border border-input bg-background px-4 py-3 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                  <RichTextEditor
+                    content={currentTranslation?.biography || ''}
+                    onChange={(content) => updateTranslationField('biography', content)}
                   />
                 </div>
               </div>
