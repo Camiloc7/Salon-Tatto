@@ -59,7 +59,9 @@ export default async function StudioPage({ params }: Props) {
   return (
     <div className="container py-20">
       <div className="mx-auto max-w-4xl">
-        <h1 className="text-4xl font-bold tracking-tight mb-8">{t('studio.title')}</h1>
+        {!hasDynamicContent && (
+          <h1 className="text-4xl font-bold tracking-tight mb-8">{t('studio.title')}</h1>
+        )}
         
         {hasDynamicContent ? (
           <div 

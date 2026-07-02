@@ -8,11 +8,11 @@ import { TextStyle } from '@tiptap/extension-text-style';
 import FontFamily from '@tiptap/extension-font-family';
 import Image from '@tiptap/extension-image';
 import { 
-  Bold, Italic, Strikethrough, Heading2, Heading3, 
+  Bold, Italic, Strikethrough, Heading1, Heading2, Heading3, 
   List, ListOrdered, Quote, Undo, Redo, Link as LinkIcon, Unlink,
   AlignLeft, AlignCenter, AlignRight, AlignJustify, Image as ImageIcon, Loader2
 } from 'lucide-react';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useRef, useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { api } from '@/lib/api-client';
@@ -69,6 +69,17 @@ export function RichTextEditor({ content, onChange, placeholder, className }: Ri
       },
     },
   });
+
+  useEffect(() => {
+    if (!editor) return;
+    
+    // Solo actualizar si el contenido es distinto al actual y el usuario NO tiene el foco 
+    // (para no saltar el cursor mientras escribe)
+    const currentHtml = editor.getHTML();
+    if (content !== currentHtml && !editor.isFocused) {
+      editor.commands.setContent(content);
+    }
+  }, [content, editor]);
 
   const setLink = useCallback(() => {
     if (!editor) return;
@@ -207,6 +218,15 @@ export function RichTextEditor({ content, onChange, placeholder, className }: Ri
         </select>
         <div className="w-px h-6 bg-border mx-1" />
 
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          className={cn("h-8 w-8 p-0", editor.isActive('heading', { level: 1 }) && "bg-muted")}
+          onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+        >
+          <Heading1 className="h-4 w-4" />
+        </Button>
         <Button
           type="button"
           variant="ghost"
