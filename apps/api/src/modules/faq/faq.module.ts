@@ -4,11 +4,12 @@ import { FaqService } from './faq.service';
 import { FaqController } from './faq.controller';
 import { Faq } from './entities/faq.entity';
 import { FaqTranslation } from './entities/faq-translation.entity';
+import { Language } from '../languages/entities/language.entity';
 import { LanguagesModule } from '../languages/languages.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Faq, FaqTranslation]),
+    TypeOrmModule.forFeature([Faq, FaqTranslation, Language]),
     LanguagesModule,
   ],
   controllers: [FaqController],
