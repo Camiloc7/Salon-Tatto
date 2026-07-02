@@ -4,3 +4,4 @@ export { CreateBlogPostSchema, UpdateBlogPostSchema, BlogPostQuerySchema, Create
 export { LoginSchema, AuthResponseSchema } from './auth.dto';
 export { UpdateSeoPageSchema } from './seo.dto';
 export { UpdateSettingSchema, BulkUpdateSettingsSchema } from './settings.dto';
+export { CreateFaqSchema, UpdateFaqSchema, FaqQuerySchema } from './faq.dto';

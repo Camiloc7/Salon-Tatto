@@ -19,6 +19,7 @@ import { TranslationModule } from './modules/translation/translation.module';
 import { PromotionsModule } from './modules/promotions/promotions.module';
 import { AnalyticsModule } from './modules/analytics/analytics.module';
 import { MessagesModule } from './modules/messages/messages.module';
+import { FaqModule } from './modules/faq/faq.module';
 
 @Module({
   imports: [
@@ -57,6 +58,7 @@ import { MessagesModule } from './modules/messages/messages.module';
     PromotionsModule,
     AnalyticsModule,
     MessagesModule,
+    FaqModule,
   ],
   providers: [
     {
