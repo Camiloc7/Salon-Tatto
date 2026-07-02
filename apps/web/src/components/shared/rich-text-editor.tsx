@@ -7,6 +7,7 @@ import TextAlign from '@tiptap/extension-text-align';
 import { TextStyle } from '@tiptap/extension-text-style';
 import FontFamily from '@tiptap/extension-font-family';
 import Image from '@tiptap/extension-image';
+import { FontSize } from './font-size-extension';
 import { 
   Bold, Italic, Strikethrough, Heading1, Heading2, Heading3, 
   List, ListOrdered, Quote, Undo, Redo, Link as LinkIcon, Unlink,
@@ -33,6 +34,21 @@ const FONTS = [
   { name: 'Cursive (Firma)', value: 'cursive' }
 ];
 
+const FONT_SIZES = [
+  { name: 'Predeterminado', value: 'inherit' },
+  { name: '10px', value: '10px' },
+  { name: '12px', value: '12px' },
+  { name: '14px', value: '14px' },
+  { name: '16px', value: '16px' },
+  { name: '18px', value: '18px' },
+  { name: '20px', value: '20px' },
+  { name: '24px', value: '24px' },
+  { name: '30px', value: '30px' },
+  { name: '36px', value: '36px' },
+  { name: '48px', value: '48px' },
+  { name: '64px', value: '64px' }
+];
+
 export function RichTextEditor({ content, onChange, placeholder, className }: RichTextEditorProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
@@ -51,6 +67,7 @@ export function RichTextEditor({ content, onChange, placeholder, className }: Ri
       }),
       TextStyle,
       FontFamily,
+      FontSize,
       Image.configure({
         inline: true,
         allowBase64: true,
@@ -214,6 +231,21 @@ export function RichTextEditor({ content, onChange, placeholder, className }: Ri
         >
           {FONTS.map(font => (
             <option key={font.value} value={font.value}>{font.name}</option>
+          ))}
+        </select>
+        <select
+          className="h-8 px-2 text-sm bg-transparent border border-input rounded-md hover:bg-muted focus:outline-none focus:ring-1 focus:ring-primary ml-1 max-w-[90px]"
+          onChange={(e) => {
+            if (e.target.value === 'inherit') {
+              editor.chain().focus().unsetFontSize().run();
+            } else {
+              editor.chain().focus().setFontSize(e.target.value).run();
+            }
+          }}
+          value={editor.getAttributes('textStyle').fontSize || 'inherit'}
+        >
+          {FONT_SIZES.map(size => (
+            <option key={size.value} value={size.value}>{size.name}</option>
           ))}
         </select>
         <div className="w-px h-6 bg-border mx-1" />
