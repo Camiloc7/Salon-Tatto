@@ -67,8 +67,8 @@ export function LocationMap({ lat, lng }: LocationMapProps) {
         onClick={() => {
           const placeId = process.env.NEXT_PUBLIC_GOOGLE_PLACE_ID;
           const url = placeId 
-            ? `https://www.google.com/maps/place/?q=place_id:${placeId}`
-            : `https://maps.google.com/?q=${lat},${lng}`;
+            ? `https://www.google.com/maps/search/?api=1&query=${lat},${lng}&query_place_id=${placeId}`
+            : `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
           window.open(url, '_blank');
         }}
       >
