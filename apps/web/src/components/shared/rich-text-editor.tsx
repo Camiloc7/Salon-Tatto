@@ -12,12 +12,14 @@ import Underline from '@tiptap/extension-underline';
 import Subscript from '@tiptap/extension-subscript';
 import Superscript from '@tiptap/extension-superscript';
 import { FontSize } from './font-size-extension';
+import { Indent, LineHeight } from './editor-extensions';
 import {
   Bold, Italic, Strikethrough, Heading1, Heading2, Heading3,
   List, ListOrdered, Quote, Undo, Redo, Link as LinkIcon, Unlink,
   AlignLeft, AlignCenter, AlignRight, AlignJustify, Image as ImageIcon,
   Loader2, UnderlineIcon, Subscript as SubscriptIcon,
   Superscript as SuperscriptIcon, Minus, Highlighter, Link2,
+  Indent as IndentIcon, Outdent as OutdentIcon, WrapText,
 } from 'lucide-react';
 import { useCallback, useRef, useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
@@ -55,6 +57,14 @@ const FONT_SIZES = [
   { name: '36px', value: '36px' },
   { name: '48px', value: '48px' },
   { name: '64px', value: '64px' },
+];
+
+const LINE_HEIGHTS = [
+  { name: 'Normal', value: 'normal' },
+  { name: '1.15', value: '1.15' },
+  { name: '1.5', value: '1.5' },
+  { name: '2.0', value: '2' },
+  { name: '2.5', value: '2.5' },
 ];
 
 // Colores rápidos para el picker de texto (múltiplos de 8 para la grilla)
@@ -285,6 +295,8 @@ export function RichTextEditor({ content, onChange, placeholder, className, full
       FontFamily,
       FontSize,
       Highlight.configure({ multicolor: true }),
+      Indent,
+      LineHeight,
       Image.configure({
         inline: false,
         allowBase64: true,
@@ -485,6 +497,35 @@ export function RichTextEditor({ content, onChange, placeholder, className, full
               <option key={size.value} value={size.value}>{size.name}</option>
             ))}
           </select>
+
+          <select
+            id="lineHeight"
+            name="lineHeight"
+            title="Espaciado (Interlineado)"
+            className="h-8 px-1.5 text-xs bg-transparent border border-input rounded-md hover:bg-muted focus:outline-none focus:ring-1 focus:ring-primary max-w-[80px] flex-shrink-0"
+            onChange={(e) => {
+              if (e.target.value === 'normal') {
+                editor.chain().focus().unsetLineHeight().run();
+              } else {
+                editor.chain().focus().setLineHeight(e.target.value).run();
+              }
+            }}
+            value={editor.getAttributes('textStyle').lineHeight || 'normal'}
+          >
+            {LINE_HEIGHTS.map((lh) => (
+              <option key={lh.value} value={lh.value}>{lh.name}</option>
+            ))}
+          </select>
+
+          <Sep />
+
+          {/* Grupo: Sangría */}
+          <ToolBtn title="Reducir sangría (Shift+Tab)" onClick={() => editor.chain().focus().outdent().run()}>
+            <OutdentIcon className="h-4 w-4" />
+          </ToolBtn>
+          <ToolBtn title="Aumentar sangría (Tab)" onClick={() => editor.chain().focus().indent().run()}>
+            <IndentIcon className="h-4 w-4" />
+          </ToolBtn>
 
           <Sep />
 
