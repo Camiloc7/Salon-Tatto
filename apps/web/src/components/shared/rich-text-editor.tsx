@@ -57,17 +57,23 @@ const FONT_SIZES = [
   { name: '64px', value: '64px' },
 ];
 
-// Colores rápidos para el picker de texto
+// Colores rápidos para el picker de texto (múltiplos de 8 para la grilla)
 const QUICK_TEXT_COLORS = [
-  '#000000', '#374151', '#6B7280', '#9CA3AF', '#D1D5DB', '#FFFFFF',
-  '#EF4444', '#F97316', '#EAB308', '#22C55E', '#3B82F6', '#8B5CF6',
-  '#EC4899', '#06B6D4', '#14B8A6', '#F59E0B',
+  '#000000', '#1F2937', '#4B5563', '#9CA3AF', '#D1D5DB', '#F3F4F6', '#F9FAFB', '#FFFFFF', // Grises/Neutros
+  '#7F1D1D', '#991B1B', '#B91C1C', '#DC2626', '#EF4444', '#F87171', '#FCA5A5', '#FECACA', // Rojos
+  '#78350F', '#92400E', '#B45309', '#D97706', '#F59E0B', '#FBBF24', '#FCD34D', '#FDE68A', // Naranjas/Amarillos
+  '#14532D', '#166534', '#15803D', '#16A34A', '#22C55E', '#4ADE80', '#86EFAC', '#BBF7D0', // Verdes
+  '#1E3A8A', '#1E40AF', '#1D4ED8', '#2563EB', '#3B82F6', '#60A5FA', '#93C5FD', '#BFDBFE', // Azules
+  '#4C1D95', '#5B21B6', '#6D28D9', '#7C3AED', '#8B5CF6', '#A78BFA', '#C4B5FD', '#DDD6FE', // Morados
+  '#831843', '#9D174D', '#BE185D', '#DB2777', '#EC4899', '#F472B6', '#F9A8D4', '#FBCFE8', // Rosas
 ];
 
-// Colores rápidos para resaltado
+// Colores rápidos para resaltado (múltiplos de 8 para la grilla)
 const QUICK_HIGHLIGHT_COLORS = [
-  '#FEF08A', '#BBF7D0', '#BFDBFE', '#FCA5A5', '#DDD6FE', '#FED7AA',
-  '#F9A8D4', '#99F6E4', '#transparent',
+  'transparent', '#FEE2E2', '#FFEDD5', '#FEF9C3', '#DCFCE7', '#E0F2FE', '#F3E8FF', '#FCE7F3', // Muy Claros
+  '#FCA5A5', '#FDBA74', '#FDE047', '#86EFAC', '#7DD3FC', '#D8B4FE', '#F9A8D4', '#D1D5DB', // Claros
+  '#EF4444', '#F97316', '#EAB308', '#22C55E', '#0EA5E9', '#A855F7', '#EC4899', '#6B7280', // Normales
+  '#B91C1C', '#C2410C', '#A16207', '#15803D', '#0369A1', '#7E22CE', '#BE185D', '#374151', // Oscuros
 ];
 
 // Separador vertical de la toolbar
@@ -145,19 +151,19 @@ function ColorPickerPopover({
       </button>
 
       {open && (
-        <div className="absolute top-9 left-0 z-50 p-2 bg-popover border rounded-lg shadow-xl w-48">
+        <div className="absolute top-9 left-0 z-50 p-2 bg-popover border rounded-lg shadow-xl w-64 max-h-[300px] overflow-y-auto">
           <div className="grid grid-cols-8 gap-1 mb-2">
             {colors.map((color) => (
               <button
                 key={color}
                 type="button"
-                title={color === 'transparent' ? 'Sin resaltado' : color}
+                title={color === 'transparent' ? 'Sin color' : color}
                 onClick={() => {
                   onColorSelect(color);
                   setOpen(false);
                 }}
                 className={cn(
-                  'w-5 h-5 rounded-sm border border-border/50 transition-transform hover:scale-110',
+                  'w-6 h-6 rounded-sm border border-border/50 transition-transform hover:scale-110',
                   color === currentColor && 'ring-2 ring-primary ring-offset-1',
                   color === 'transparent' && 'bg-transparent border-dashed',
                 )}
@@ -166,13 +172,13 @@ function ColorPickerPopover({
             ))}
           </div>
           {allowCustom && (
-            <div className="flex items-center gap-2 pt-1 border-t">
+            <div className="flex items-center gap-2 pt-1 border-t mt-2">
               <label className="text-xs text-muted-foreground">Personalizado:</label>
               <input
                 type="color"
                 defaultValue={currentColor && currentColor !== 'transparent' ? currentColor : '#000000'}
                 onChange={(e) => onColorSelect(e.target.value)}
-                className="w-8 h-6 rounded cursor-pointer border-0 bg-transparent p-0"
+                className="w-12 h-8 rounded cursor-pointer border-0 bg-transparent p-0"
               />
             </div>
           )}
@@ -420,6 +426,7 @@ export function RichTextEditor({ content, onChange, placeholder, className, full
           <ColorPickerPopover
             colors={QUICK_HIGHLIGHT_COLORS}
             currentColor={currentHighlight}
+            allowCustom
             onColorSelect={(color) => {
               if (color === 'transparent') {
                 editor.chain().focus().unsetHighlight().run();
