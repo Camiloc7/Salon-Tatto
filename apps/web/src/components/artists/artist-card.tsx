@@ -3,6 +3,7 @@ import { getImageUrl } from '@/lib/utils';
 import type { Artist } from '@salon-tatto/shared';
 import * as motion from 'framer-motion/client';
 import { Instagram, Twitter, Youtube } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 type ArtistCardProps = {
   artist: Artist;
@@ -11,6 +12,7 @@ type ArtistCardProps = {
 };
 
 export function ArtistCard({ artist, locale, isPriority = false }: ArtistCardProps) {
+  const t = useTranslations('artists');
   const coverUrl = getImageUrl(artist.avatar);
 
   return (
@@ -22,7 +24,7 @@ export function ArtistCard({ artist, locale, isPriority = false }: ArtistCardPro
       <div
         className="group relative flex h-full flex-col overflow-hidden rounded-xl border border-muted-foreground/20 bg-card p-4 sm:p-6 text-card-foreground shadow-[10px_10px_30px_rgba(0,0,0,0.15)] transition-all hover:shadow-[10px_10px_30px_rgba(0,0,0,0.25)]"
       >
-        <Link href={`/${locale}/artists/${artist.slug}`} className="absolute inset-0 z-10" aria-label={`Ver portafolio de ${artist.name}`} />
+        <Link href={`/${locale}/artists/${artist.slug}`} className="absolute inset-0 z-10" aria-label={t('viewPortfolioOf', { name: artist.name || 'Artist' })} />
 
         {/* Subtle noise/texture overlay effect */}
         <div className="pointer-events-none absolute inset-0 opacity-[0.03] mix-blend-overlay" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")' }}></div>
@@ -47,7 +49,7 @@ export function ArtistCard({ artist, locale, isPriority = false }: ArtistCardPro
           </p>
           
           <p className="mt-4 text-xs leading-relaxed text-muted-foreground line-clamp-3 md:line-clamp-4 px-2">
-            {artist.biography || "Conoce más sobre el increíble trabajo y estilo de este artista en su portafolio detallado. Especialista en diseños únicos y personalizados."}
+            {artist.biography || t('defaultBiography')}
           </p>
         </div>
         
@@ -55,7 +57,7 @@ export function ArtistCard({ artist, locale, isPriority = false }: ArtistCardPro
           <span
             className="inline-flex items-center justify-center rounded-sm border border-foreground/30 bg-transparent px-4 py-1.5 text-xs font-medium text-foreground transition-colors group-hover:bg-foreground group-hover:text-background"
           >
-            VER PORTAFOLIO
+            {t('viewPortfolio')}
           </span>
           
           <div className="flex gap-3 text-muted-foreground relative z-20">

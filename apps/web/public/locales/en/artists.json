@@ -7,5 +7,8 @@
   "gallery": "Gallery",
   "noArtists": "No artists found",
   "biography": "Biography",
-  "all": "All"
+  "all": "All",
+  "viewPortfolio": "VIEW PORTFOLIO",
+  "viewPortfolioOf": "View portfolio of {name}",
+  "defaultBiography": "Learn more about the incredible work and style of this artist in their detailed portfolio. Specialist in unique and custom designs."
 }
