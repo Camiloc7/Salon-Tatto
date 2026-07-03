@@ -174,6 +174,13 @@ export class BlogService {
             const translated = await this.translationService.translateObject(esTrans, [
               'title', 'excerpt', 'content', 'seoTitle', 'seoDescription'
             ]);
+            
+            ['title', 'seoTitle', 'seoDescription'].forEach(field => {
+              if (translated[field] && typeof translated[field] === 'string' && translated[field].length > 255) {
+                translated[field] = translated[field].substring(0, 255);
+              }
+            });
+
             dto.translations.push({
               ...esTrans,
               ...translated,
@@ -259,6 +266,13 @@ export class BlogService {
             const translated = await this.translationService.translateObject(esTrans, [
               'title', 'excerpt', 'content', 'seoTitle', 'seoDescription'
             ]);
+            
+            ['title', 'seoTitle', 'seoDescription'].forEach(field => {
+              if (translated[field] && typeof translated[field] === 'string' && translated[field].length > 255) {
+                translated[field] = translated[field].substring(0, 255);
+              }
+            });
+
             dto.translations.push({
               ...esTrans,
               ...translated,

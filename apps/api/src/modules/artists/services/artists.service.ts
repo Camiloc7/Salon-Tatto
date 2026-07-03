@@ -184,7 +184,11 @@ export class ArtistsService {
             const translated = await this.translationService.translateObject(esTrans as any, fieldsToTranslateToEn, 'es', 'en');
             for (const field of fieldsToTranslateToEn) {
               if ((translated as any)[field]) {
-                (enTrans as any)[field] = (translated as any)[field];
+                let val = (translated as any)[field];
+                if (['name', 'specialty', 'seoTitle', 'seoDescription'].includes(field) && typeof val === 'string' && val.length > 255) {
+                  val = val.substring(0, 255);
+                }
+                (enTrans as any)[field] = val;
               }
             }
           }
@@ -193,7 +197,11 @@ export class ArtistsService {
             const translated = await this.translationService.translateObject(enTrans as any, fieldsToTranslateToEs, 'en', 'es');
             for (const field of fieldsToTranslateToEs) {
               if ((translated as any)[field]) {
-                (esTrans as any)[field] = (translated as any)[field];
+                let val = (translated as any)[field];
+                if (['name', 'specialty', 'seoTitle', 'seoDescription'].includes(field) && typeof val === 'string' && val.length > 255) {
+                  val = val.substring(0, 255);
+                }
+                (esTrans as any)[field] = val;
               }
             }
           }
@@ -294,7 +302,11 @@ export class ArtistsService {
             const translated = await this.translationService.translateObject(esTrans as any, fieldsToTranslateToEn, 'es', 'en');
             for (const field of fieldsToTranslateToEn) {
               if ((translated as any)[field]) {
-                (enTrans as any)[field] = (translated as any)[field];
+                let val = (translated as any)[field];
+                if (['name', 'specialty', 'seoTitle', 'seoDescription'].includes(field) && typeof val === 'string' && val.length > 255) {
+                  val = val.substring(0, 255);
+                }
+                (enTrans as any)[field] = val;
               }
             }
           }
@@ -303,7 +315,11 @@ export class ArtistsService {
             const translated = await this.translationService.translateObject(enTrans as any, fieldsToTranslateToEs, 'en', 'es');
             for (const field of fieldsToTranslateToEs) {
               if ((translated as any)[field]) {
-                (esTrans as any)[field] = (translated as any)[field];
+                let val = (translated as any)[field];
+                if (['name', 'specialty', 'seoTitle', 'seoDescription'].includes(field) && typeof val === 'string' && val.length > 255) {
+                  val = val.substring(0, 255);
+                }
+                (esTrans as any)[field] = val;
               }
             }
           }
