@@ -39,15 +39,15 @@ export class CreateArtistTranslationDto {
   specialty?: string;
 
   @ApiPropertyOptional({ example: 'Jane Doe | La Rola Tattoo NYC' })
-  @IsOptional()
   @IsString()
-  @MaxLength(70)
+  @IsOptional()
+  @MaxLength(255)
   seoTitle?: string;
 
   @ApiPropertyOptional({ example: 'Portfolio of Jane Doe...' })
-  @IsOptional()
   @IsString()
-  @MaxLength(160)
+  @IsOptional()
+  @MaxLength(500)
   seoDescription?: string;
 }
 

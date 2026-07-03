@@ -37,15 +37,15 @@ export class CreateBlogPostTranslationDto {
   content?: string;
 
   @ApiPropertyOptional({ example: 'SEO Title | La Rola Tattoo NYC' })
-  @IsOptional()
   @IsString()
-  @MaxLength(70)
+  @IsOptional()
+  @MaxLength(255)
   seoTitle?: string;
 
   @ApiPropertyOptional({ example: 'SEO description for the post' })
-  @IsOptional()
   @IsString()
-  @MaxLength(160)
+  @IsOptional()
+  @MaxLength(500)
   seoDescription?: string;
 }
 
