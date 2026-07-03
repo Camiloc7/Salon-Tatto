@@ -380,9 +380,9 @@ export function RichTextEditor({ content, onChange, placeholder, className, full
         />
       )}
 
-      <div className={cn('flex flex-col border rounded-lg overflow-hidden bg-background', className)}>
+      <div className={cn('flex flex-col border rounded-lg bg-background', className)}>
         {/* ─── Toolbar ─── */}
-        <div className="flex flex-wrap items-center gap-0.5 border-b p-1.5 bg-muted/40 sticky top-0 z-10">
+        <div className="flex flex-wrap items-center gap-0.5 border-b p-1.5 bg-muted/40 sticky top-0 z-10 rounded-t-[7px]">
 
           {/* Grupo: Formato básico */}
           <ToolBtn title="Negrita (Ctrl+B)" active={editor.isActive('bold')} onClick={() => editor.chain().focus().toggleBold().run()}>
