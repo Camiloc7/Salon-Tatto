@@ -48,7 +48,7 @@ export function ArtistHero({ artist, tInstagram, tContact, whatsappNumber }: Art
         
         {artist.biography && (
           <div 
-            className="prose prose-sm md:prose-base dark:prose-invert text-muted-foreground leading-relaxed mb-8 max-w-xl"
+            className="rich-content mb-8"
             dangerouslySetInnerHTML={{ __html: artist.biography }}
           />
         )}

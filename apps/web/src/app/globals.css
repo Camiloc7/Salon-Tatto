@@ -106,3 +106,126 @@
     @apply bg-background text-foreground;
   }
 }
+
+/**
+ * Estilos para el contenido HTML generado por el editor Tiptap (RichTextEditor).
+ * Se aplica en las páginas públicas donde se renderiza el contenido del admin.
+ * Los estilos inline del editor (color, font-size, etc.) deben poder verse,
+ * por eso usamos valores por defecto sin !important que los sobreescriban.
+ */
+.rich-content {
+  line-height: 1.75;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+.rich-content h1,
+.rich-content h2,
+.rich-content h3,
+.rich-content h4,
+.rich-content h5,
+.rich-content h6 {
+  font-weight: 700;
+  line-height: 1.25;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+.rich-content h1 { font-size: 2em; }
+.rich-content h2 { font-size: 1.5em; }
+.rich-content h3 { font-size: 1.25em; }
+.rich-content h4 { font-size: 1.1em; }
+
+.rich-content p {
+  margin-top: 0.75em;
+  margin-bottom: 0.75em;
+}
+
+.rich-content ul {
+  list-style-type: disc;
+  padding-left: 1.5em;
+  margin-top: 0.75em;
+  margin-bottom: 0.75em;
+}
+
+.rich-content ol {
+  list-style-type: decimal;
+  padding-left: 1.5em;
+  margin-top: 0.75em;
+  margin-bottom: 0.75em;
+}
+
+.rich-content li {
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+}
+
+.rich-content blockquote {
+  border-left: 3px solid hsl(var(--primary));
+  padding-left: 1em;
+  margin-left: 0;
+  font-style: italic;
+  color: hsl(var(--muted-foreground));
+}
+
+.rich-content hr {
+  border: none;
+  border-top: 1px solid hsl(var(--border) / 0.5);
+  margin: 1.5em 0;
+}
+
+.rich-content a {
+  color: hsl(var(--primary));
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.rich-content a:hover {
+  opacity: 0.8;
+}
+
+.rich-content img {
+  border-radius: 0.5rem;
+  max-width: 100%;
+  height: auto;
+  margin: 1rem auto;
+  display: block;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+}
+
+.rich-content code {
+  background: hsl(var(--muted) / 0.4);
+  border-radius: 0.25rem;
+  padding: 0.1em 0.3em;
+  font-size: 0.875em;
+  font-family: monospace;
+}
+
+.rich-content pre {
+  background: hsl(var(--muted));
+  border-radius: 0.5rem;
+  padding: 1rem;
+  overflow-x: auto;
+  margin: 1em 0;
+}
+
+.rich-content pre code {
+  background: none;
+  padding: 0;
+}
+
+.rich-content strong { font-weight: 700; }
+.rich-content em { font-style: italic; }
+.rich-content u { text-decoration: underline; }
+.rich-content s { text-decoration: line-through; }
+
+/* Permitir que los estilos inline del editor prevalezcan */
+.rich-content [style] {
+  /* No sobreescribir – los estilos inline del editor tienen prioridad */
+}
+
+/* Resaltado de texto (Highlight extension) */
+.rich-content mark {
+  border-radius: 2px;
+  padding: 0 2px;
+}

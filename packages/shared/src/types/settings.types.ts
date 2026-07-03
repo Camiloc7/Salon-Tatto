@@ -33,4 +33,12 @@ export type StudioSettings = {
   sameDayReservation?: string;
   studioPageContent_en?: string;
   studioPageContent_es?: string;
+  /** URL de imagen de fondo para la página /studio */
+  studioBgImageUrl?: string;
+  /** Color de fondo CSS (ej: #1a1a2e, rgba(0,0,0,0.8)) cuando no hay imagen */
+  studioBgColor?: string;
+  /** Opacidad del overlay oscuro sobre la imagen de fondo (0-1) */
+  studioOverlayOpacity?: string;
+  /** Layout de la página: 'default' | 'fullwidth' | 'centered' */
+  studioLayout?: string;
 };
