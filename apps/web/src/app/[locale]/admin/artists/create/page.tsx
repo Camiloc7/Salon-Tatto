@@ -21,11 +21,11 @@ import type { LocaleCode } from '@salon-tatto/shared';
 
 const translationSchema = z.object({
   languageCode: z.enum(['en', 'es']),
-  name: z.string().max(100).optional().or(z.literal('')),
-  specialty: z.string().max(200).optional(),
-  biography: z.string().optional(),
-  seoTitle: z.string().max(70).optional(),
-  seoDescription: z.string().max(160).optional(),
+  name: z.string().max(255).optional().or(z.literal('')),
+  specialty: z.string().max(255).optional().or(z.literal('')),
+  biography: z.string().optional().or(z.literal('')),
+  seoTitle: z.string().max(255).optional().or(z.literal('')),
+  seoDescription: z.string().max(500).optional().or(z.literal('')),
 });
 
 const createArtistSchema = z.object({

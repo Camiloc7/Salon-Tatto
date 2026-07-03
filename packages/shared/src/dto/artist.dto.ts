@@ -8,11 +8,11 @@ export const CreateArtistSchema = z.object({
   orderIndex: z.number().int().min(0).default(0),
   translations: z.array(z.object({
     languageCode: z.enum(['en', 'es']),
-    name: z.string().min(1).max(200),
+    name: z.string().min(1).max(255),
     biography: z.string().max(100000).optional(),
-    specialty: z.string().max(500).optional(),
-    seoTitle: z.string().max(70).optional(),
-    seoDescription: z.string().max(160).optional(),
+    specialty: z.string().max(255).optional(),
+    seoTitle: z.string().max(255).optional(),
+    seoDescription: z.string().max(500).optional(),
   })).min(1),
 });
 
