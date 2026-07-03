@@ -176,8 +176,9 @@ export class BlogService {
             ]);
             
             ['title', 'seoTitle', 'seoDescription'].forEach(field => {
-              if (translated[field] && typeof translated[field] === 'string' && translated[field].length > 255) {
-                translated[field] = translated[field].substring(0, 255);
+              const val = (translated as any)[field];
+              if (val && typeof val === 'string' && val.length > 255) {
+                (translated as any)[field] = val.substring(0, 255);
               }
             });
 
@@ -268,8 +269,9 @@ export class BlogService {
             ]);
             
             ['title', 'seoTitle', 'seoDescription'].forEach(field => {
-              if (translated[field] && typeof translated[field] === 'string' && translated[field].length > 255) {
-                translated[field] = translated[field].substring(0, 255);
+              const val = (translated as any)[field];
+              if (val && typeof val === 'string' && val.length > 255) {
+                (translated as any)[field] = val.substring(0, 255);
               }
             });
 
