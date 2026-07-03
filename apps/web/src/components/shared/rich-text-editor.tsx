@@ -61,6 +61,10 @@ const FONT_SIZES = [
 
 const LINE_HEIGHTS = [
   { name: 'Normal', value: 'normal' },
+  { name: '0.5', value: '0.5' },
+  { name: '0.8', value: '0.8' },
+  { name: '0.9', value: '0.9' },
+  { name: '1.0', value: '1' },
   { name: '1.15', value: '1.15' },
   { name: '1.5', value: '1.5' },
   { name: '2.0', value: '2' },
