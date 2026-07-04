@@ -204,11 +204,11 @@ export class BlogService {
           const translation = manager.create(BlogPostTranslation, {
             blogPostId: savedPost.id,
             languageId: language.id,
-            title: transDto.title,
+            title: transDto.title ? transDto.title.substring(0, 255) : transDto.title,
             excerpt: transDto.excerpt ?? null,
             content: transDto.content ?? null,
-            seoTitle: transDto.seoTitle ?? null,
-            seoDescription: transDto.seoDescription ?? null,
+            seoTitle: transDto.seoTitle ? transDto.seoTitle.substring(0, 255) : null,
+            seoDescription: transDto.seoDescription ? transDto.seoDescription.substring(0, 255) : null,
           });
 
           await manager.save(translation);
@@ -299,11 +299,11 @@ export class BlogService {
           const translation = manager.create(BlogPostTranslation, {
             blogPostId: id,
             languageId: language.id,
-            title: transDto.title,
+            title: transDto.title ? transDto.title.substring(0, 255) : transDto.title,
             excerpt: transDto.excerpt ?? null,
             content: transDto.content ?? null,
-            seoTitle: transDto.seoTitle ?? null,
-            seoDescription: transDto.seoDescription ?? null,
+            seoTitle: transDto.seoTitle ? transDto.seoTitle.substring(0, 255) : null,
+            seoDescription: transDto.seoDescription ? transDto.seoDescription.substring(0, 255) : null,
           });
 
           await manager.save(translation);
