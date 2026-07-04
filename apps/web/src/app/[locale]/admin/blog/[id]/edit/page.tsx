@@ -69,13 +69,22 @@ export default function EditBlogPostPage() {
 
   const { data: categories } = useQuery({
     queryKey: queryKeys.blog.categories(),
-    queryFn: () => api.get<Category[]>('/blog/categories'),
+    queryFn: () => api.get<any[]>('/blog/categories?locale=all'),
   });
 
   const { data: tags } = useQuery({
     queryKey: queryKeys.blog.tags,
-    queryFn: () => api.get<Tag[]>('/blog/tags'),
+    queryFn: () => api.get<any[]>('/blog/tags?locale=all'),
   });
+
+  const getTranslatedName = (item: any, locale: string) => {
+    if (item.translations && item.translations.length > 0) {
+      const tr = item.translations.find((t: any) => t.language?.code === locale || t.languageCode === locale);
+      if (tr) return tr.name;
+      return item.translations[0].name;
+    }
+    return item.name || item.slug;
+  };
 
   const {
     register,
@@ -233,7 +242,7 @@ export default function EditBlogPostPage() {
                       : 'bg-background text-muted-foreground border-input hover:border-primary'
                   }`}
                 >
-                  {cat.name || cat.slug}
+                  {getTranslatedName(cat, activeLocale)}
                 </button>
               ))}
             </div>
@@ -253,7 +262,7 @@ export default function EditBlogPostPage() {
                       : 'bg-background text-muted-foreground border-input hover:border-primary'
                   }`}
                 >
-                  {tag.name || tag.slug}
+                  {getTranslatedName(tag, activeLocale)}
                 </button>
               ))}
             </div>

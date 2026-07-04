@@ -255,7 +255,17 @@ export class BlogService {
       if (dto.featuredImage !== undefined) post.featuredImage = dto.featuredImage;
       if (dto.status !== undefined) post.status = dto.status;
 
-      await manager.save(post);
+      if (dto.categoryIds) {
+        post.categories = dto.categoryIds.length > 0
+          ? await manager.findBy(Category, { id: In(dto.categoryIds) })
+          : [];
+      }
+
+      if (dto.tagIds) {
+        post.tags = dto.tagIds.length > 0
+          ? await manager.findBy(Tag, { id: In(dto.tagIds) })
+          : [];
+      }
 
       if (dto.translations) {
         const hasEs = dto.translations.some(t => t.languageCode === 'es');
@@ -285,6 +295,7 @@ export class BlogService {
 
         await manager.delete(BlogPostTranslation, { blogPostId: id });
 
+        const newTranslations = [];
         for (const transDto of dto.translations) {
           const language = await manager.findOneBy(Language, {
             code: transDto.languageCode,
@@ -296,35 +307,22 @@ export class BlogService {
             );
           }
 
-          const translation = manager.create(BlogPostTranslation, {
-            blogPostId: id,
-            languageId: language.id,
-            title: transDto.title ? transDto.title.substring(0, 255) : transDto.title,
-            excerpt: transDto.excerpt ?? null,
-            content: transDto.content ?? null,
-            seoTitle: transDto.seoTitle ? transDto.seoTitle.substring(0, 255) : null,
-            seoDescription: transDto.seoDescription ? transDto.seoDescription.substring(0, 255) : null,
-          });
-
-          await manager.save(translation);
+          newTranslations.push(
+            manager.create(BlogPostTranslation, {
+              blogPostId: id,
+              languageId: language.id,
+              title: transDto.title ? transDto.title.substring(0, 255) : transDto.title,
+              excerpt: transDto.excerpt ?? null,
+              content: transDto.content ?? null,
+              seoTitle: transDto.seoTitle ? transDto.seoTitle.substring(0, 255) : null,
+              seoDescription: transDto.seoDescription ? transDto.seoDescription.substring(0, 255) : null,
+            })
+          );
         }
+        post.translations = newTranslations;
       }
 
-      if (dto.categoryIds) {
-        const categories = dto.categoryIds.length > 0
-          ? await manager.findBy(Category, { id: In(dto.categoryIds) })
-          : [];
-        post.categories = categories;
-        await manager.save(post);
-      }
-
-      if (dto.tagIds) {
-        const tags = dto.tagIds.length > 0
-          ? await manager.findBy(Tag, { id: In(dto.tagIds) })
-          : [];
-        post.tags = tags;
-        await manager.save(post);
-      }
+      await manager.save(post);
 
       return manager.findOne(BlogPost, {
         where: { id },
