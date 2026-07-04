@@ -4,7 +4,7 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, Repository, In } from 'typeorm';
 import { BlogPost } from '../entities/blog-post.entity';
 import { BlogPostTranslation } from '../entities/blog-post-translation.entity';
 import { Category } from '../entities/category.entity';
@@ -216,13 +216,13 @@ export class BlogService {
       }
 
       if (dto.categoryIds && dto.categoryIds.length > 0) {
-        const categories = await manager.findByIds(Category, dto.categoryIds);
+        const categories = await manager.findBy(Category, { id: In(dto.categoryIds) });
         savedPost.categories = categories;
         await manager.save(savedPost);
       }
 
       if (dto.tagIds && dto.tagIds.length > 0) {
-        const tags = await manager.findByIds(Tag, dto.tagIds);
+        const tags = await manager.findBy(Tag, { id: In(dto.tagIds) });
         savedPost.tags = tags;
         await manager.save(savedPost);
       }
@@ -312,7 +312,7 @@ export class BlogService {
 
       if (dto.categoryIds) {
         const categories = dto.categoryIds.length > 0
-          ? await manager.findByIds(Category, dto.categoryIds)
+          ? await manager.findBy(Category, { id: In(dto.categoryIds) })
           : [];
         post.categories = categories;
         await manager.save(post);
@@ -320,7 +320,7 @@ export class BlogService {
 
       if (dto.tagIds) {
         const tags = dto.tagIds.length > 0
-          ? await manager.findByIds(Tag, dto.tagIds)
+          ? await manager.findBy(Tag, { id: In(dto.tagIds) })
           : [];
         post.tags = tags;
         await manager.save(post);
@@ -392,6 +392,26 @@ export class BlogService {
     }
 
     const { translations, ...postData } = post as any;
+
+    if (postData.categories) {
+      postData.categories = postData.categories.map((cat: any) => {
+        if (cat.translations && cat.translations.length > 0) {
+          const catTrans = cat.translations.find((t: any) => t.language?.code === locale) || cat.translations[0];
+          return { ...cat, name: catTrans.name };
+        }
+        return cat;
+      });
+    }
+
+    if (postData.tags) {
+      postData.tags = postData.tags.map((tag: any) => {
+        if (tag.translations && tag.translations.length > 0) {
+          const tagTrans = tag.translations.find((t: any) => t.language?.code === locale) || tag.translations[0];
+          return { ...tag, name: tagTrans.name };
+        }
+        return tag;
+      });
+    }
 
     return {
       ...postData,
