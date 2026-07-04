@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { Quote, Star } from 'lucide-react';
 import type { GoogleReview } from '@/lib/google-places';
+import Image from 'next/image';
 
 const defaultTestimonials = [
   {
@@ -80,10 +81,12 @@ export function Testimonials({ initialReviews = [] }: TestimonialsProps) {
               <div className="mt-6 flex items-center gap-3">
                 {/* Optional profile photo if coming from google */}
                 {('profile_photo_url' in item && item.profile_photo_url) ? (
-                  <img 
+                  <Image 
                     src={item.profile_photo_url as string} 
                     alt={item.author_name}
-                    className="w-10 h-10 rounded-full"
+                    width={40}
+                    height={40}
+                    className="w-10 h-10 rounded-full object-cover"
                     referrerPolicy="no-referrer"
                   />
                 ) : (
