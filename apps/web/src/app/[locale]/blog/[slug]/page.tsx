@@ -157,9 +157,7 @@ export default async function BlogPostPage({ params }: Props) {
         <div className="mx-auto max-w-3xl">
           {post.content && (
             <div
-              className="prose prose-lg md:prose-xl prose-gray dark:prose-invert max-w-none 
-                         prose-headings:font-serif prose-headings:font-bold prose-headings:tracking-tight 
-                         prose-a:text-primary hover:prose-a:text-primary/80 prose-img:rounded-xl"
+              className="rich-content text-base md:text-lg max-w-none [&>h1]:font-serif [&>h2]:font-serif [&>h3]:font-serif [&>h4]:font-serif [&>h5]:font-serif [&>h6]:font-serif [&>h1]:tracking-tight [&>h2]:tracking-tight [&>h3]:tracking-tight"
               dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content) }}
             />
           )}
