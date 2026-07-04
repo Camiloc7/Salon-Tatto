@@ -13,6 +13,7 @@ import type { BlogPost, PaginatedResponse } from '@salon-tatto/shared';
 import { toast } from 'sonner';
 
 import { useParams } from 'next/navigation';
+import { ConfirmDeleteButton } from '@/components/shared/confirm-delete-button';
 
 export default function BlogListPage() {
   const t = useTranslations('admin.blog');
@@ -47,9 +48,7 @@ export default function BlogListPage() {
   });
 
   const handleDelete = (post: BlogPost) => {
-    if (window.confirm(t('confirmDelete'))) {
-      deleteMutation.mutate(post.id);
-    }
+    deleteMutation.mutate(post.id);
   };
 
   const formatDate = (dateStr: string | null) => {
@@ -139,14 +138,11 @@ export default function BlogListPage() {
                             <Eye className="h-4 w-4 text-green-600" />
                           )}
                         </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => handleDelete(post)}
+                        <ConfirmDeleteButton 
+                          onConfirm={() => handleDelete(post)} 
                           disabled={deleteMutation.isPending}
-                        >
-                          <Trash2 className="h-4 w-4 text-destructive" />
-                        </Button>
+                          confirmText="¿Eliminar?"
+                        />
                       </div>
                     </td>
                   </tr>
