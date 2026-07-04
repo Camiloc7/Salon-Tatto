@@ -57,6 +57,7 @@ export async function generateMetadata({ params }: Props) {
       images: artist.avatar ? [{ url: getOptimizedImageUrl(artist.avatar) }] : [],
     },
     alternates: {
+      canonical: `/${locale}/artists/${slug}`,
       languages: {
         en: `/en/artists/${slug}`,
         es: `/es/artists/${slug}`,

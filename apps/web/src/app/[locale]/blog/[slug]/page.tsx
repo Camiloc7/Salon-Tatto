@@ -53,6 +53,7 @@ export async function generateMetadata({ params }: Props) {
       publishedTime: post.publishedAt || undefined,
     },
     alternates: {
+      canonical: `/${locale}/blog/${slug}`,
       languages: {
         en: `/en/blog/${slug}`,
         es: `/es/blog/${slug}`,

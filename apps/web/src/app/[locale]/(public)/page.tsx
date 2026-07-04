@@ -39,6 +39,7 @@ export async function generateMetadata({ params }: Props) {
       images: seo?.ogImage ? [{ url: getOptimizedImageUrl(seo.ogImage) }] : [],
     },
     alternates: {
+      canonical: `/${locale}`,
       languages: {
         en: '/en',
         es: '/es',

@@ -24,7 +24,11 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: 'site' });
+  
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://larolatattoonyc.com';
+
   return {
+    metadataBase: new URL(baseUrl),
     title: t('name'),
     description: t('description'),
   };
