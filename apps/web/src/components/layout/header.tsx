@@ -39,8 +39,8 @@ export function Header() {
           className="flex items-center gap-3 text-xl font-bold tracking-tight shrink-0 hover:opacity-90 transition-opacity"
         >
           {/* LOGO NUEVO (Imagen WebP) */}
-          <div className="relative h-12 w-12 sm:h-14 sm:w-14">
-            <Image src="/LR.png" alt="Logo" fill className="object-contain" />
+          <div className="relative h-12 w-12 sm:h-10 sm:w-10">
+            <Image src="/LR.png" alt="Logo" fill className="object-contain" priority />
           </div>
 
           {/* LOGO ANTERIOR (Máscara SVG Dorado) - Descomentar para restaurar */}
