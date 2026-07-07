@@ -75,7 +75,7 @@ export function Hero({ settings }: { settings: StudioSettings | null }) {
 
         {/* LOGO NUEVO (Imagen WebP) */}
         <div className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-[400px] md:h-[400px] mx-auto mb-6">
-          <Image src="/LR.webp" alt="Studio Logo" fill className="object-contain" priority />
+          <Image src="/LR.png" alt="Studio Logo" fill className="object-contain" priority />
         </div>
 
         {/* LOGO ANTERIOR (Máscara SVG Dorado) - Descomentar para restaurar */}

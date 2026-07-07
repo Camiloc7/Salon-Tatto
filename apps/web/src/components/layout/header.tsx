@@ -40,7 +40,7 @@ export function Header() {
         >
           {/* LOGO NUEVO (Imagen WebP) */}
           <div className="relative h-12 w-12 sm:h-14 sm:w-14">
-            <Image src="/LR.webp" alt="Logo" fill className="object-contain" />
+            <Image src="/LR.png" alt="Logo" fill className="object-contain" />
           </div>
 
           {/* LOGO ANTERIOR (Máscara SVG Dorado) - Descomentar para restaurar */}
