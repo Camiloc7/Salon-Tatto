@@ -10,6 +10,8 @@ import { QueryProvider } from '@/providers/query-provider';
 import { AuthProvider } from '@/providers/auth-provider';
 import { Toaster } from 'sonner';
 import { GoogleAnalytics } from '@next/third-parties/google';
+import { api } from '@/lib/api-client';
+import type { StudioSettings } from '@salon-tatto/shared';
 
 type Props = {
   children: ReactNode;
@@ -39,13 +41,22 @@ export default async function LocaleLayout({ children, params }: Props) {
   setRequestLocale(locale);
   const messages = await getMessages();
 
+  let settings: StudioSettings | null = null;
+  try {
+    settings = await api.get<StudioSettings>('/settings', {
+      next: { revalidate: 300 },
+    });
+  } catch (err) {
+    console.error('Failed to fetch settings in layout', err);
+  }
+
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
       <QueryProvider>
         <AuthProvider>
           <div className="flex min-h-screen flex-col">
             <HideOnAdmin>
-              <Header />
+              <Header logoUrl={settings?.logoUrl} />
             </HideOnAdmin>
             
             <main className="flex-1">{children}</main>

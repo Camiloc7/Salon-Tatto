@@ -39,6 +39,7 @@ type SettingsForm = {
   licenseNumber: string;
   licenseDates: string;
   sameDayReservation: string;
+  logoUrl: string;
 };
 
 const emptyForm: SettingsForm = {
@@ -65,6 +66,7 @@ const emptyForm: SettingsForm = {
   licenseNumber: '',
   licenseDates: '',
   sameDayReservation: 'false',
+  logoUrl: '',
 };
 
 export default function SettingsPage() {
@@ -103,6 +105,7 @@ export default function SettingsPage() {
         licenseNumber: settings.licenseNumber || '',
         licenseDates: settings.licenseDates || '',
         sameDayReservation: settings.sameDayReservation || 'false',
+        logoUrl: settings.logoUrl || '',
       });
     }
   }, [settings]);
@@ -155,6 +158,37 @@ export default function SettingsPage() {
     maxFiles: 1,
   });
 
+  const logoUploadMutation = useMutation({
+    mutationFn: async (file: File) => {
+      const formData = new FormData();
+      formData.append('file', file);
+      return api.post<{ url: string }>('/upload/image', formData);
+    },
+    onSuccess: (data) => {
+      updateField('logoUrl', data.url);
+      toast.success(t('saved'));
+    },
+    onError: () => {
+      toast.error('Failed to upload logo');
+    }
+  });
+
+  const {
+    getRootProps: getLogoRootProps,
+    getInputProps: getLogoInputProps,
+    isDragActive: isLogoDragActive
+  } = useDropzone({
+    onDrop: (acceptedFiles) => {
+      if (acceptedFiles.length > 0) {
+        logoUploadMutation.mutate(acceptedFiles[0]);
+      }
+    },
+    accept: {
+      'image/*': [],
+    },
+    maxFiles: 1,
+  });
+
   if (isLoading) {
     return (
       <div className="flex justify-center py-12">
@@ -188,6 +222,41 @@ export default function SettingsPage() {
               onChange={(e) => updateField('studioName', e.target.value)}
               className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             />
+          </div>
+          <div>
+            <label className="block text-base font-medium mb-1">Site Logo</label>
+            <div className="flex gap-2">
+              <input
+                value={form.logoUrl}
+                onChange={(e) => updateField('logoUrl', e.target.value)}
+                placeholder="https://..."
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 flex-1"
+              />
+            </div>
+            {form.logoUrl && (
+              <div className="mt-2 bg-black/5 rounded-md flex justify-center p-4 w-fit border border-border">
+                <img src={form.logoUrl} alt="Logo" className="h-16 object-contain" />
+              </div>
+            )}
+            <div 
+              {...getLogoRootProps()} 
+              className={`mt-2 border-2 border-dashed rounded-xl p-4 text-center cursor-pointer transition-colors ${
+                isLogoDragActive ? 'border-primary bg-primary/5' : 'border-muted hover:border-primary/50'
+              }`}
+            >
+              <input {...getLogoInputProps()} />
+              {logoUploadMutation.isPending ? (
+                <div className="flex flex-col items-center gap-1 text-muted-foreground">
+                  <Loader2 className="h-6 w-6 animate-spin" />
+                  <span className="text-sm">Uploading...</span>
+                </div>
+              ) : (
+                <div className="flex flex-col items-center gap-1 text-muted-foreground">
+                  <UploadCloud className="h-6 w-6 mb-1" />
+                  <span className="text-sm">Drag & drop or click to upload logo</span>
+                </div>
+              )}
+            </div>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>

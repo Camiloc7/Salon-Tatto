@@ -41,4 +41,6 @@ export type StudioSettings = {
   studioOverlayOpacity?: string;
   /** Layout de la página: 'default' | 'fullwidth' | 'centered' */
   studioLayout?: string;
+  /** URL del logo del sitio */
+  logoUrl?: string;
 };

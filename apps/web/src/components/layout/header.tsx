@@ -19,7 +19,7 @@ const navLinks = [
   { href: '/contact', labelKey: 'nav.contact' },
 ] as const;
 
-export function Header() {
+export function Header({ logoUrl }: { logoUrl?: string }) {
   const t = useTranslations();
   const locale = useLocale();
   const pathname = usePathname();
@@ -40,7 +40,7 @@ export function Header() {
         >
           {/* LOGO NUEVO (Imagen WebP) */}
           <div className="relative h-12 w-12 sm:h-10 sm:w-10">
-            <Image src="/LR.png" alt="Logo" fill className="object-contain" priority />
+            <Image src={logoUrl || "/LR.png"} alt="Logo" fill className="object-contain" priority />
           </div>
 
           {/* LOGO ANTERIOR (Máscara SVG Dorado) - Descomentar para restaurar */}
