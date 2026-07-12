@@ -26,6 +26,7 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { api } from '@/lib/api-client';
 import { toast } from 'sonner';
+import { useBlogPosts } from '@/hooks/use-blog';
 
 interface RichTextEditorProps {
   content: string;
@@ -274,15 +275,139 @@ function ImageUrlModal({
   );
 }
 
+// Modal para insertar enlace
+function LinkUrlModal({
+  initialUrl,
+  initialText,
+  onInsert,
+  onClose,
+}: {
+  initialUrl: string;
+  initialText: string;
+  onInsert: (url: string, text: string, openInNewTab: boolean) => void;
+  onClose: () => void;
+}) {
+  const [url, setUrl] = useState(initialUrl);
+  const [text, setText] = useState(initialText);
+  const [openInNewTab, setOpenInNewTab] = useState(false);
+  
+  const [search, setSearch] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
+  
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedSearch(search), 300);
+    return () => clearTimeout(timer);
+  }, [search]);
+
+  const { data, isLoading } = useBlogPosts(
+    debouncedSearch ? { search: debouncedSearch, limit: 5 } : { limit: 5 }
+  );
+  
+  const posts = data?.data || [];
+
+  return (
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50">
+      <div className="bg-background rounded-xl border shadow-2xl p-6 w-full max-w-md space-y-4">
+        <h3 className="text-lg font-semibold">Insertar enlace</h3>
+        <div className="space-y-4">
+          <div>
+            <label className="text-sm font-medium block mb-1">Texto a mostrar</label>
+            <input
+              autoFocus
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              placeholder="Ej. Small Tattoos NYC"
+              className="w-full h-10 px-3 rounded-md border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+            />
+          </div>
+          <div>
+            <label className="text-sm font-medium block mb-1">URL o buscar artículo interno</label>
+            <input
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
+              placeholder="https://... o /blog/..."
+              className="w-full h-10 px-3 rounded-md border-b-0 rounded-b-none border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary z-10 relative"
+            />
+            
+            <div className="border border-t-0 rounded-b-md border-input bg-muted/20 flex flex-col">
+              <div className="p-2 border-b border-input/50 bg-background/50">
+                <input 
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="Buscar artículos internos..."
+                  className="w-full h-8 px-2 rounded-sm border border-input bg-background text-xs focus:outline-none focus:ring-1 focus:ring-primary"
+                />
+              </div>
+              <div className="max-h-32 overflow-y-auto">
+                {isLoading && <div className="p-3 text-xs text-muted-foreground text-center">Buscando...</div>}
+                {!isLoading && posts.length === 0 && search && (
+                  <div className="p-3 text-xs text-muted-foreground text-center">No se encontraron artículos</div>
+                )}
+                {!isLoading && posts.map((post: any) => (
+                  <button
+                    key={post.id}
+                    type="button"
+                    className="w-full text-left p-2 px-3 text-sm hover:bg-muted focus:bg-muted transition-colors border-b border-input/30 last:border-b-0 flex items-center justify-between group"
+                    onClick={() => {
+                      setUrl(`/blog/${post.slug}`);
+                      if (!text) setText(post.title || post.slug);
+                    }}
+                  >
+                    <span className="truncate pr-2">{post.title || post.slug}</span>
+                    <span className="text-[10px] text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                      Seleccionar
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+          
+          <label className="flex items-center gap-2 text-sm cursor-pointer select-none">
+            <input 
+              type="checkbox" 
+              checked={openInNewTab}
+              onChange={(e) => setOpenInNewTab(e.target.checked)}
+              className="rounded border-input text-primary focus:ring-primary w-4 h-4"
+            />
+            Abrir en una nueva pestaña
+          </label>
+        </div>
+        <div className="flex justify-end gap-2 pt-2">
+          <Button type="button" variant="outline" size="sm" onClick={onClose}>Cancelar</Button>
+          <Button
+            type="button"
+            size="sm"
+            disabled={!url.trim() || !text.trim()}
+            onClick={() => {
+              if (url.trim() && text.trim()) {
+                onInsert(url.trim(), text.trim(), openInNewTab);
+                onClose();
+              }
+            }}
+          >
+            Insertar
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function RichTextEditor({ content, onChange, placeholder, className, fullPage }: RichTextEditorProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
   const [showUrlModal, setShowUrlModal] = useState(false);
+  const [showLinkModal, setShowLinkModal] = useState(false);
+  const [linkModalState, setLinkModalState] = useState({ url: '', text: '' });
   const [paintFormat, setPaintFormat] = useState<{ marks: readonly any[], textStyle: any } | null>(null);
 
   const editor = useEditor({
     extensions: [
-      StarterKit,
+      StarterKit.configure({
+        link: false,
+        underline: false,
+      } as any),
       Underline,
       Subscript,
       Superscript,
@@ -335,14 +460,47 @@ export function RichTextEditor({ content, onChange, placeholder, className, full
   const setLink = useCallback(() => {
     if (!editor) return;
     const previousUrl = editor.getAttributes('link').href;
-    const url = window.prompt('URL del enlace:', previousUrl);
-    if (url === null) return;
+    
+    const { from, to, empty } = editor.state.selection;
+    let selectedText = '';
+    
+    if (!empty) {
+      selectedText = editor.state.doc.textBetween(from, to, ' ');
+    }
+    
+    setLinkModalState({ 
+      url: previousUrl || '', 
+      text: selectedText 
+    });
+    setShowLinkModal(true);
+  }, [editor]);
+
+  const handleInsertLink = (url: string, text: string, openInNewTab: boolean) => {
+    if (!editor) return;
+    
     if (url === '') {
       editor.chain().focus().extendMarkRange('link').unsetLink().run();
       return;
     }
-    editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
-  }, [editor]);
+    
+    const { empty, from, to } = editor.state.selection;
+    const currentText = editor.state.doc.textBetween(from, to, ' ');
+    
+    if (text && text !== currentText) {
+      editor
+        .chain()
+        .focus()
+        .insertContent(`<a href="${url}" ${openInNewTab ? 'target="_blank"' : ''}>${text}</a>`)
+        .run();
+    } else {
+      editor
+        .chain()
+        .focus()
+        .extendMarkRange('link')
+        .setLink({ href: url, target: openInNewTab ? '_blank' : undefined })
+        .run();
+    }
+  };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -427,6 +585,15 @@ export function RichTextEditor({ content, onChange, placeholder, className, full
         <ImageUrlModal
           onInsert={handleInsertImageUrl}
           onClose={() => setShowUrlModal(false)}
+        />
+      )}
+
+      {showLinkModal && (
+        <LinkUrlModal
+          initialUrl={linkModalState.url}
+          initialText={linkModalState.text}
+          onInsert={handleInsertLink}
+          onClose={() => setShowLinkModal(false)}
         />
       )}
 
