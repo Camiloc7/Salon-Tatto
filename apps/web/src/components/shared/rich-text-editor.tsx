@@ -278,7 +278,7 @@ export function RichTextEditor({ content, onChange, placeholder, className, full
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
   const [showUrlModal, setShowUrlModal] = useState(false);
-  const [paintFormat, setPaintFormat] = useState<{ marks: any[], textStyle: any } | null>(null);
+  const [paintFormat, setPaintFormat] = useState<{ marks: readonly any[], textStyle: any } | null>(null);
 
   const editor = useEditor({
     extensions: [
