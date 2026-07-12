@@ -165,7 +165,7 @@ function ColorPickerPopover({
       </button>
 
       {open && (
-        <div className="absolute top-9 left-0 z-50 p-2 bg-popover border rounded-lg shadow-xl w-64 max-h-[300px] overflow-y-auto">
+        <div className="absolute top-9 left-0 z-50 p-2 bg-background dark:bg-zinc-950 border border-border rounded-lg shadow-[0_0_15px_rgba(0,0,0,0.2)] w-64 max-h-[300px] overflow-y-auto">
           <div className="grid grid-cols-8 gap-1 mb-2">
             {colors.map((color) => (
               <button

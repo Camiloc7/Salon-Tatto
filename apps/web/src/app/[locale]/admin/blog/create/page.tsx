@@ -276,16 +276,16 @@ export default function CreateBlogPostPage() {
           </div>
         </div>
 
-        <div className="sticky bottom-0 z-40 bg-background/80 backdrop-blur-sm border-t p-4 -mx-6 mt-8 flex flex-col sm:flex-row gap-4 justify-end shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
-          <Link href="/admin/blog" className="w-full sm:w-auto">
-            <Button type="button" variant="outline" className="w-full sm:w-auto">Cancel</Button>
-          </Link>
+        <div className="flex flex-col sm:flex-row gap-4 pt-4">
           <Button type="submit" disabled={isSubmitting || createMutation.isPending} className="w-full sm:w-auto">
             {(isSubmitting || createMutation.isPending) && (
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
             )}
             {t('create')}
           </Button>
+          <Link href="/admin/blog" className="w-full sm:w-auto">
+            <Button type="button" variant="outline" className="w-full sm:w-auto">Cancel</Button>
+          </Link>
         </div>
       </form>
     </div>
