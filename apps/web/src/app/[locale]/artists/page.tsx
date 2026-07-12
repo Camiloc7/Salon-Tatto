@@ -3,7 +3,7 @@ import { locales } from '@/i18n';
 import { api } from '@/lib/api-client';
 import { ArtistCard } from '@/components/artists/artist-card';
 import { StructuredData } from '@/components/shared/structured-data';
-import { getOptimizedImageUrl } from '@/lib/utils';
+import { getOptimizedImageUrl, stripHtml } from '@/lib/utils';
 import type { Artist, SeoPage } from '@salon-tatto/shared';
 import Link from 'next/link';
 import { InkBackground } from '@/components/artists/ink-background';
@@ -130,7 +130,7 @@ export default async function ArtistsPage({ params, searchParams }: Props) {
             type="Person"
             data={{
               name: artist.name,
-              description: artist.biography,
+              description: stripHtml(artist.biography),
               image: artist.avatar,
               knowsAbout: artist.specialty,
             }}

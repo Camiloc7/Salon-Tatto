@@ -50,3 +50,8 @@ export function getImageUrl(url: string): string {
   const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || 'dlimmlxeh';
   return `https://res.cloudinary.com/${cloudName}/image/upload/${transformations}/${url}`;
 }
+
+export function stripHtml(html: string | undefined | null): string {
+  if (!html) return '';
+  return html.replace(/<[^>]*>?/gm, '');
+}

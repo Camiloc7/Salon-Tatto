@@ -6,7 +6,7 @@ import { ImageOptimized } from '@/components/shared/image-optimized';
 import { ArtistGallery } from '@/components/artists/artist-gallery';
 import { WhatsAppButton } from '@/components/shared/whatsapp-button';
 import { StructuredData } from '@/components/shared/structured-data';
-import { getImageUrl, getOptimizedImageUrl } from '@/lib/utils';
+import { getImageUrl, getOptimizedImageUrl, stripHtml } from '@/lib/utils';
 import { Instagram } from 'lucide-react';
 import Link from 'next/link';
 import type { Artist, SeoPage, StudioSettings } from '@salon-tatto/shared';
@@ -50,10 +50,10 @@ export async function generateMetadata({ params }: Props) {
 
   return {
     title: artist.seoTitle || artist.name,
-    description: artist.seoDescription || artist.biography,
+    description: artist.seoDescription || stripHtml(artist.biography),
     openGraph: {
       title: artist.seoTitle || artist.name,
-      description: artist.seoDescription || artist.biography,
+      description: artist.seoDescription || stripHtml(artist.biography),
       images: artist.avatar ? [{ url: getOptimizedImageUrl(artist.avatar) }] : [],
     },
     alternates: {
@@ -113,7 +113,7 @@ export default async function ArtistProfilePage({ params }: Props) {
         type="Person"
         data={{
           name: artist.name,
-          description: artist.biography,
+          description: stripHtml(artist.biography),
           image: artist.avatar,
           knowsAbout: artist.specialty,
           url: artist.instagramUrl,

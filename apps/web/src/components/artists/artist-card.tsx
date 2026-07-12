@@ -48,9 +48,10 @@ export function ArtistCard({ artist, locale, isPriority = false }: ArtistCardPro
             {artist.specialty}
           </p>
           
-          <p className="mt-4 text-xs leading-relaxed text-muted-foreground line-clamp-3 md:line-clamp-4 px-2">
-            {artist.biography || t('defaultBiography')}
-          </p>
+          <div 
+            className="mt-4 text-xs leading-relaxed text-muted-foreground line-clamp-3 md:line-clamp-4 px-2 [&>p]:inline"
+            dangerouslySetInnerHTML={{ __html: artist.biography || t('defaultBiography') }}
+          />
         </div>
         
         <div className="mt-8 flex items-center justify-between border-t border-border pt-4">
