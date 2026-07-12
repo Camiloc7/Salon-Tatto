@@ -165,28 +165,61 @@ export class BlogService {
       const savedPost = await manager.save(post);
 
       if (dto.translations) {
-        const hasEs = dto.translations.some(t => t.languageCode === 'es');
-        const hasEn = dto.translations.some(t => t.languageCode === 'en');
+        let esTrans = dto.translations.find(t => t.languageCode === 'es');
+        let enTrans = dto.translations.find(t => t.languageCode === 'en');
         
-        if (hasEs && !hasEn) {
-          const esTrans = dto.translations.find(t => t.languageCode === 'es');
-          if (esTrans) {
-            const translated = await this.translationService.translateObject(esTrans, [
-              'title', 'excerpt', 'content', 'seoTitle', 'seoDescription'
-            ]);
+        if (esTrans || enTrans) {
+          if (!esTrans) {
+            esTrans = { languageCode: 'es' } as any;
+            dto.translations.push(esTrans!);
+          }
+          if (!enTrans) {
+            enTrans = { languageCode: 'en' } as any;
+            dto.translations.push(enTrans!);
+          }
+          
+          const fieldsToTranslateToEn: any[] = [];
+          const fieldsToTranslateToEs: any[] = [];
+          const fieldsToCheck = ['title', 'excerpt', 'content', 'seoTitle', 'seoDescription'] as const;
+          
+          for (const field of fieldsToCheck) {
+            const esValue = (esTrans as any)[field];
+            const enValue = (enTrans as any)[field];
             
-            ['title', 'seoTitle', 'seoDescription'].forEach(field => {
-              const val = (translated as any)[field];
-              if (val && typeof val === 'string' && val.length > 255) {
-                (translated as any)[field] = val.substring(0, 255);
-              }
-            });
+            const hasEs = esValue && (typeof esValue !== 'string' || esValue.trim() !== '');
+            const hasEn = enValue && (typeof enValue !== 'string' || enValue.trim() !== '');
 
-            dto.translations.push({
-              ...esTrans,
-              ...translated,
-              languageCode: 'en',
-            });
+            if (hasEs && !hasEn) {
+              fieldsToTranslateToEn.push(field);
+            } else if (hasEn && !hasEs) {
+              fieldsToTranslateToEs.push(field);
+            }
+          }
+          
+          if (fieldsToTranslateToEn.length > 0) {
+            const translated = await this.translationService.translateObject(esTrans as any, fieldsToTranslateToEn, 'es', 'en');
+            for (const field of fieldsToTranslateToEn) {
+              if ((translated as any)[field]) {
+                let val = (translated as any)[field];
+                if (['title', 'seoTitle', 'seoDescription'].includes(field) && typeof val === 'string' && val.length > 255) {
+                  val = val.substring(0, 255);
+                }
+                (enTrans as any)[field] = val;
+              }
+            }
+          }
+
+          if (fieldsToTranslateToEs.length > 0) {
+            const translated = await this.translationService.translateObject(enTrans as any, fieldsToTranslateToEs, 'en', 'es');
+            for (const field of fieldsToTranslateToEs) {
+              if ((translated as any)[field]) {
+                let val = (translated as any)[field];
+                if (['title', 'seoTitle', 'seoDescription'].includes(field) && typeof val === 'string' && val.length > 255) {
+                  val = val.substring(0, 255);
+                }
+                (esTrans as any)[field] = val;
+              }
+            }
           }
         }
 
@@ -268,28 +301,61 @@ export class BlogService {
       }
 
       if (dto.translations) {
-        const hasEs = dto.translations.some(t => t.languageCode === 'es');
-        const hasEn = dto.translations.some(t => t.languageCode === 'en');
+        let esTrans = dto.translations.find(t => t.languageCode === 'es');
+        let enTrans = dto.translations.find(t => t.languageCode === 'en');
         
-        if (hasEs && !hasEn) {
-          const esTrans = dto.translations.find(t => t.languageCode === 'es');
-          if (esTrans) {
-            const translated = await this.translationService.translateObject(esTrans, [
-              'title', 'excerpt', 'content', 'seoTitle', 'seoDescription'
-            ]);
+        if (esTrans || enTrans) {
+          if (!esTrans) {
+            esTrans = { languageCode: 'es' } as any;
+            dto.translations.push(esTrans!);
+          }
+          if (!enTrans) {
+            enTrans = { languageCode: 'en' } as any;
+            dto.translations.push(enTrans!);
+          }
+          
+          const fieldsToTranslateToEn: any[] = [];
+          const fieldsToTranslateToEs: any[] = [];
+          const fieldsToCheck = ['title', 'excerpt', 'content', 'seoTitle', 'seoDescription'] as const;
+          
+          for (const field of fieldsToCheck) {
+            const esValue = (esTrans as any)[field];
+            const enValue = (enTrans as any)[field];
             
-            ['title', 'seoTitle', 'seoDescription'].forEach(field => {
-              const val = (translated as any)[field];
-              if (val && typeof val === 'string' && val.length > 255) {
-                (translated as any)[field] = val.substring(0, 255);
-              }
-            });
+            const hasEs = esValue && (typeof esValue !== 'string' || esValue.trim() !== '');
+            const hasEn = enValue && (typeof enValue !== 'string' || enValue.trim() !== '');
 
-            dto.translations.push({
-              ...esTrans,
-              ...translated,
-              languageCode: 'en',
-            });
+            if (hasEs && !hasEn) {
+              fieldsToTranslateToEn.push(field);
+            } else if (hasEn && !hasEs) {
+              fieldsToTranslateToEs.push(field);
+            }
+          }
+          
+          if (fieldsToTranslateToEn.length > 0) {
+            const translated = await this.translationService.translateObject(esTrans as any, fieldsToTranslateToEn, 'es', 'en');
+            for (const field of fieldsToTranslateToEn) {
+              if ((translated as any)[field]) {
+                let val = (translated as any)[field];
+                if (['title', 'seoTitle', 'seoDescription'].includes(field) && typeof val === 'string' && val.length > 255) {
+                  val = val.substring(0, 255);
+                }
+                (enTrans as any)[field] = val;
+              }
+            }
+          }
+
+          if (fieldsToTranslateToEs.length > 0) {
+            const translated = await this.translationService.translateObject(enTrans as any, fieldsToTranslateToEs, 'en', 'es');
+            for (const field of fieldsToTranslateToEs) {
+              if ((translated as any)[field]) {
+                let val = (translated as any)[field];
+                if (['title', 'seoTitle', 'seoDescription'].includes(field) && typeof val === 'string' && val.length > 255) {
+                  val = val.substring(0, 255);
+                }
+                (esTrans as any)[field] = val;
+              }
+            }
           }
         }
 
