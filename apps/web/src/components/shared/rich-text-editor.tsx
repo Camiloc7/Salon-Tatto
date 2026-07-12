@@ -19,7 +19,7 @@ import {
   AlignLeft, AlignCenter, AlignRight, AlignJustify, Image as ImageIcon,
   Loader2, UnderlineIcon, Subscript as SubscriptIcon,
   Superscript as SuperscriptIcon, Minus, Highlighter, Link2,
-  Indent as IndentIcon, Outdent as OutdentIcon, WrapText,
+  Indent as IndentIcon, Outdent as OutdentIcon, WrapText, Eraser,
 } from 'lucide-react';
 import { useCallback, useRef, useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
@@ -610,8 +610,13 @@ export function RichTextEditor({ content, onChange, placeholder, className, full
             className="hidden"
           />
 
-          {/* Spacer + Deshacer/Rehacer */}
+          {/* Spacer + Deshacer/Rehacer/Limpiar */}
           <div className="flex-1" />
+          <ToolBtn title="Limpiar formato" onClick={() => {
+            editor.chain().focus().unsetAllMarks().clearNodes().run();
+          }}>
+            <Eraser className="h-4 w-4" />
+          </ToolBtn>
           <ToolBtn title="Deshacer (Ctrl+Z)" disabled={!editor.can().undo()} onClick={() => editor.chain().focus().undo().run()}>
             <Undo className="h-4 w-4" />
           </ToolBtn>
