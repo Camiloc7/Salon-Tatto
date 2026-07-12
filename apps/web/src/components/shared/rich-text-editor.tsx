@@ -19,7 +19,7 @@ import {
   AlignLeft, AlignCenter, AlignRight, AlignJustify, Image as ImageIcon,
   Loader2, UnderlineIcon, Subscript as SubscriptIcon,
   Superscript as SuperscriptIcon, Minus, Highlighter, Link2,
-  Indent as IndentIcon, Outdent as OutdentIcon, WrapText, Eraser,
+  Indent as IndentIcon, Outdent as OutdentIcon, WrapText, Eraser, Paintbrush,
 } from 'lucide-react';
 import { useCallback, useRef, useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
@@ -278,6 +278,7 @@ export function RichTextEditor({ content, onChange, placeholder, className, full
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
   const [showUrlModal, setShowUrlModal] = useState(false);
+  const [paintFormat, setPaintFormat] = useState<{ marks: any[], textStyle: any } | null>(null);
 
   const editor = useEditor({
     extensions: [
@@ -381,6 +382,39 @@ export function RichTextEditor({ content, onChange, placeholder, className, full
       width: width || '100%',
     }).run();
   };
+
+  useEffect(() => {
+    if (!editor || !paintFormat) return;
+
+    const handleMouseUp = () => {
+      // Check if there is an actual text selection
+      const { empty } = editor.state.selection;
+      if (!empty) {
+        // Clear existing marks if desired, or just add new ones. 
+        // We'll add the new ones to match typical Format Painter behavior.
+        const chain = editor.chain().focus();
+        
+        paintFormat.marks.forEach((mark: any) => {
+          chain.setMark(mark.type.name, mark.attrs);
+        });
+
+        if (paintFormat.textStyle) {
+          if (paintFormat.textStyle.fontFamily) chain.setFontFamily(paintFormat.textStyle.fontFamily);
+          if (paintFormat.textStyle.fontSize) chain.setFontSize(paintFormat.textStyle.fontSize);
+          if (paintFormat.textStyle.color) chain.setColor(paintFormat.textStyle.color);
+        }
+
+        chain.run();
+        
+        setPaintFormat(null);
+        toast.success('Formato aplicado');
+      }
+    };
+
+    const dom = editor.view.dom;
+    dom.addEventListener('mouseup', handleMouseUp);
+    return () => dom.removeEventListener('mouseup', handleMouseUp);
+  }, [editor, paintFormat]);
 
   if (!editor) return null;
 
@@ -612,6 +646,22 @@ export function RichTextEditor({ content, onChange, placeholder, className, full
 
           {/* Spacer + Deshacer/Rehacer/Limpiar */}
           <div className="flex-1" />
+          <ToolBtn 
+            title={paintFormat ? 'Cancelar copiar formato' : 'Copiar formato'} 
+            active={!!paintFormat}
+            onClick={() => {
+              if (paintFormat) {
+                setPaintFormat(null);
+              } else {
+                const marks = editor.state.selection.$from.marks();
+                const textStyle = editor.getAttributes('textStyle');
+                setPaintFormat({ marks, textStyle });
+                toast.info('Selecciona el texto al que deseas aplicar el formato');
+              }
+            }}
+          >
+            <Paintbrush className="h-4 w-4" />
+          </ToolBtn>
           <ToolBtn title="Limpiar formato" onClick={() => {
             editor.chain().focus().unsetAllMarks().clearNodes().run();
           }}>
@@ -628,7 +678,7 @@ export function RichTextEditor({ content, onChange, placeholder, className, full
         {/* ─── Área de edición ─── */}
         <EditorContent
           editor={editor}
-          className="cursor-text bg-background flex-1"
+          className={cn("cursor-text bg-background flex-1", paintFormat && "cursor-cell")}
           onClick={() => editor.commands.focus()}
         />
       </div>

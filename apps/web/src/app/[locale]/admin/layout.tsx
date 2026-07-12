@@ -51,9 +51,9 @@ export default function AdminLayout({ children, params }: Props) {
   }
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex h-screen overflow-hidden">
       <AdminSidebar />
-      <main className="flex-1 overflow-auto p-6 md:p-8 pt-20 md:pt-8">
+      <main className="flex-1 overflow-y-auto p-6 md:p-8 pt-20 md:pt-8">
         {children}
       </main>
     </div>
