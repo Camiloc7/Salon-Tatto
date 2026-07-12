@@ -24,8 +24,8 @@ const translationSchema = z.object({
   title: z.string().max(200).optional().or(z.literal('')),
   excerpt: z.string().max(500).optional(),
   content: z.string().optional(),
-  seoTitle: z.string().max(70).optional(),
-  seoDescription: z.string().max(160).optional(),
+  seoTitle: z.string().max(255).optional().or(z.literal('')),
+  seoDescription: z.string().max(500).optional().or(z.literal('')),
 });
 
 const updatePostSchema = z.object({
