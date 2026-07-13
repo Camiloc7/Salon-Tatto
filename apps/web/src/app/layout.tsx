@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { ReactNode } from 'react';
 import { Inter, Playfair_Display } from 'next/font/google';
 import './globals.css';
@@ -8,10 +8,32 @@ import { api } from '@/lib/api-client';
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair' });
 
+export const viewport: Viewport = {
+  themeColor: '#000000',
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.WEB_URL || 'https://larolatattoonyc.com'),
-  title: 'La Rola Tattoo NYC | Premium Studio',
-  description: 'Estudio de tatuajes boutique, arte personalizado y exclusivo.',
+  title: {
+    template: '%s | La Rola Tattoo NYC',
+    default: 'La Rola Tattoo NYC | Custom Tattoo Studio',
+  },
+  description: 'Custom Tattoo Studio in Midtown Manhattan, NYC. Specializing in Fine Line, Black & Grey, Color, Ornamental, and Cover-Up tattoos.',
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
+  },
+  openGraph: {
+    type: 'website',
+    siteName: 'La Rola Tattoo NYC',
+    title: 'La Rola Tattoo NYC | Custom Tattoo Studio',
+    description: 'Custom Tattoo Studio in Midtown Manhattan, NYC. Specializing in Fine Line, Black & Grey, Color, Ornamental, and Cover-Up tattoos.',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'La Rola Tattoo NYC | Custom Tattoo Studio',
+    description: 'Custom Tattoo Studio in Midtown Manhattan, NYC. Specializing in Fine Line, Black & Grey, Color, Ornamental, and Cover-Up tattoos.',
+  }
 };
 
 export default async function RootLayout({

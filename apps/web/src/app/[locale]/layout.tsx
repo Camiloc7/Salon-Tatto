@@ -27,12 +27,18 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: 'site' });
   
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://larolatattoonyc.com';
+  const baseUrl = process.env.WEB_URL || 'https://larolatattoonyc.com';
 
   return {
     metadataBase: new URL(baseUrl),
     title: t('name'),
     description: t('description'),
+    openGraph: {
+      title: t('name'),
+      description: t('description'),
+      locale: locale === 'es' ? 'es_ES' : 'en_US',
+      alternateLocale: locale === 'es' ? ['en_US'] : ['es_ES'],
+    },
   };
 }
 

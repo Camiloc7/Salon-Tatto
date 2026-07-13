@@ -46,11 +46,13 @@ export async function generateMetadata({ params }: Props) {
     openGraph: {
       title: post.seoTitle || post.title,
       description: post.seoDescription || post.excerpt,
+      url: `/${locale}/blog/${slug}`,
       images: post.featuredImage
         ? [{ url: getOptimizedImageUrl(post.featuredImage) }]
         : [],
       type: 'article',
       publishedTime: post.publishedAt || undefined,
+      locale: locale === 'es' ? 'es_ES' : 'en_US',
     },
     alternates: {
       canonical: `/${locale}/blog/${slug}`,
