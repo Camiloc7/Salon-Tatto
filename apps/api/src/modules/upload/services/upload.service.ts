@@ -14,24 +14,22 @@ export class UploadService {
       throw new BadRequestException('No file provided');
     }
 
-    const base64 = file.buffer.toString('base64');
-    const dataUri = `data:${file.mimetype};base64,${base64}`;
-
     const result = await new Promise<UploadApiResponse>((resolve, reject) => {
-      const uploadStream = this.cloudinary.uploader.upload(
-        dataUri,
+      const uploadStream = this.cloudinary.uploader.upload_stream(
         {
           folder: 'salon-tatto/uploads',
           resource_type: 'auto',
-          transformation: [
-            { quality: 'auto', fetch_format: 'auto' },
-          ],
         },
         (error: UploadApiErrorResponse, result: UploadApiResponse) => {
           if (error) reject(error);
           else resolve(result);
         },
       );
+      
+      const stream = require('stream');
+      const bufferStream = new stream.PassThrough();
+      bufferStream.end(file.buffer);
+      bufferStream.pipe(uploadStream);
     });
 
     return {
