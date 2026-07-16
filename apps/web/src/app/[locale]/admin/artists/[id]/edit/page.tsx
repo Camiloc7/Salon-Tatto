@@ -19,6 +19,7 @@ import { Loader2, ArrowLeft, User, ImageIcon, Settings, Save, Wand2 } from 'luci
 import Link from 'next/link';
 import { toast } from 'sonner';
 import type { Artist, LocaleCode } from '@salon-tatto/shared';
+import { stripHtml } from '@/lib/utils';
 
 const translationSchema = z.object({
   languageCode: z.enum(['en', 'es']),
@@ -336,7 +337,7 @@ export default function EditArtistPage() {
                   onTitleChange={(val) => updateTranslationField('seoTitle', val)}
                   onDescriptionChange={(val) => updateTranslationField('seoDescription', val)}
                   defaultTitle={currentTranslation?.name || ''}
-                  defaultDescription={currentTranslation?.biography?.slice(0, 150) || ''}
+                  defaultDescription={stripHtml(currentTranslation?.biography)?.slice(0, 150) || ''}
                 />
               </div>
             </div>

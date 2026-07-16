@@ -62,21 +62,22 @@ export class GalleryService {
       if (!file.buffer) {
         throw new BadRequestException('File buffer missing. Check multer config.');
       }
-      const base64 = file.buffer.toString('base64');
-      const dataUri = `data:${file.mimetype || 'image/jpeg'};base64,${base64}`;
-
-      const result = await cloudinary.uploader.upload(dataUri, {
-        folder: `salon-tatto/artists/${artistId}`,
-        resource_type: 'auto',
-        transformation: [
+      const result = await new Promise<any>((resolve, reject) => {
+        const uploadStream = cloudinary.uploader.upload_stream(
           {
-            width: 1200,
-            height: 1200,
-            crop: 'limit',
-            quality: 'auto',
-            fetch_format: 'auto',
+            folder: `salon-tatto/artists/${artistId}`,
+            resource_type: 'auto',
           },
-        ],
+          (error, result) => {
+            if (error) reject(error);
+            else resolve(result);
+          },
+        );
+        
+        const stream = require('stream');
+        const bufferStream = new stream.PassThrough();
+        bufferStream.end(file.buffer);
+        bufferStream.pipe(uploadStream);
       });
 
       const image = this.imageRepository.create({
