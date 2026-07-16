@@ -49,21 +49,11 @@ export class BlogService {
     }
 
     if (categorySlug) {
-      qb.andWhere(
-        `EXISTS (SELECT 1 FROM blog_post_categories bpc
-                 INNER JOIN categories c ON c.id = bpc."categoryId"
-                 WHERE bpc."blogPostId" = post.id AND c.slug = :categorySlug)`,
-        { categorySlug },
-      );
+      qb.andWhere('categories.slug = :categorySlug', { categorySlug });
     }
 
     if (tagSlug) {
-      qb.andWhere(
-        `EXISTS (SELECT 1 FROM blog_post_tags bpt
-                 INNER JOIN tags t ON t.id = bpt."tagId"
-                 WHERE bpt."blogPostId" = post.id AND t.slug = :tagSlug)`,
-        { tagSlug },
-      );
+      qb.andWhere('tags.slug = :tagSlug', { tagSlug });
     }
 
     qb.orderBy('post.createdAt', 'DESC');
