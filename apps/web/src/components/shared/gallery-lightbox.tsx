@@ -176,8 +176,8 @@ export function GalleryLightbox({ images, initialIndex, onClose }: GalleryLightb
                   />
                 )}
                 {currentImage.artistName && (
-                  <div className="absolute bottom-6 md:bottom-[-20px] left-0 right-0 text-center">
-                    <span className="bg-black/50 backdrop-blur-md px-4 py-2 rounded-full text-white text-xs tracking-widest uppercase shadow-lg">
+                  <div className="absolute bottom-6 left-0 right-0 text-center z-50">
+                    <span className="bg-black/70 backdrop-blur-md px-4 py-2 rounded-full text-white text-xs tracking-widest uppercase shadow-lg border border-white/10">
                       Artist: {currentImage.artistName}
                     </span>
                   </div>
