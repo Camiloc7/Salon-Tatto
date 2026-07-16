@@ -13,7 +13,7 @@ type ArtistGalleryProps = {
 };
 
 export function ArtistGallery({ images }: ArtistGalleryProps) {
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [lightboxData, setLightboxData] = useState<{ images: LightboxImage[], index: number } | null>(null);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   if (!images?.length) return null;
@@ -28,17 +28,7 @@ export function ArtistGallery({ images }: ArtistGalleryProps) {
 
   const sortedCategories = Object.keys(groupedImages).sort((a, b) => a.localeCompare(b));
 
-  const allLightboxImages: LightboxImage[] = images.map(img => ({
-    id: img.id,
-    url: img.url || img.cloudinaryId,
-    alt: img.alt || '',
-    format: img.format,
-  }));
 
-  // Find global index for lightbox
-  const getGlobalIndex = (imgId: string) => {
-    return allLightboxImages.findIndex(img => img.id === imgId);
-  };
 
   return (
     <div className="relative w-full pb-20">
@@ -46,6 +36,13 @@ export function ArtistGallery({ images }: ArtistGalleryProps) {
         {sortedCategories.map((category) => {
           const categoryImages = groupedImages[category];
           
+          const categoryLightboxImages: LightboxImage[] = categoryImages.map(img => ({
+            id: img.id,
+            url: img.url || img.cloudinaryId,
+            alt: img.alt || '',
+            format: img.format,
+          }));
+
           return (
             <CategoryAccordionCard
               key={category}
@@ -71,7 +68,7 @@ export function ArtistGallery({ images }: ArtistGalleryProps) {
                       )}
                       onMouseEnter={() => setHoveredId(image.id)}
                       onMouseLeave={() => setHoveredId(null)}
-                      onClick={() => setSelectedIndex(getGlobalIndex(image.id))}
+                      onClick={() => setLightboxData({ images: categoryLightboxImages, index })}
                       initial={{ opacity: 0, y: 30 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true, margin: "-50px" }}
@@ -123,11 +120,11 @@ export function ArtistGallery({ images }: ArtistGalleryProps) {
       </div>
 
       <AnimatePresence>
-        {selectedIndex !== null && (
+        {lightboxData !== null && (
           <GalleryLightbox
-            images={allLightboxImages}
-            initialIndex={selectedIndex}
-            onClose={() => setSelectedIndex(null)}
+            images={lightboxData.images}
+            initialIndex={lightboxData.index}
+            onClose={() => setLightboxData(null)}
           />
         )}
       </AnimatePresence>

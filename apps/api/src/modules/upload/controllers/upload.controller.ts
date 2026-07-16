@@ -32,7 +32,7 @@ const imageFileFilter = (
   file: Express.Multer.File,
   callback: (error: Error | null, acceptFile: boolean) => void,
 ) => {
-  const allowedMimes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'video/mp4', 'video/webm', 'video/quicktime'];
+  const allowedMimes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/heic', 'image/heif', 'video/mp4', 'video/webm', 'video/quicktime'];
   if (allowedMimes.includes(file.mimetype)) {
     callback(null, true);
   } else {

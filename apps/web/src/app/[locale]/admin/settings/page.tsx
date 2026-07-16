@@ -153,6 +153,8 @@ export default function SettingsPage() {
     },
     accept: {
       'image/*': [],
+      'image/heic': ['.heic'],
+      'image/heif': ['.heif'],
       'video/*': [],
     },
     maxFiles: 1,
@@ -185,6 +187,8 @@ export default function SettingsPage() {
     },
     accept: {
       'image/*': [],
+      'image/heic': ['.heic'],
+      'image/heif': ['.heif'],
     },
     maxFiles: 1,
   });

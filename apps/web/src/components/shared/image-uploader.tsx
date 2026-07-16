@@ -75,7 +75,7 @@ export function ImageUploader({ value, onChange, className }: ImageUploaderProps
       <input
         ref={inputRef}
         type="file"
-        accept="image/*"
+        accept="image/*, image/heic, image/heif, .heic, .heif"
         className="hidden"
         onChange={handleFile}
       />

@@ -72,6 +72,8 @@ export function GalleryManager({ artistId }: GalleryManagerProps) {
     onDrop,
     accept: { 
       'image/*': [],
+      'image/heic': ['.heic'],
+      'image/heif': ['.heif'],
       'video/*': [],
     },
   });

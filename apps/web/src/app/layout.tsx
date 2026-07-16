@@ -5,8 +5,8 @@ import './globals.css';
 import PromotionBanner, { type Promotion } from '@/components/PromotionBanner';
 import { api } from '@/lib/api-client';
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
-const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair' });
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
+const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair', display: 'swap' });
 
 export const viewport: Viewport = {
   themeColor: '#000000',
