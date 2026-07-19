@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import type { StudioSettings } from '@salon-tatto/shared';
 
 import { motion } from 'framer-motion';
+import { sendGAEvent } from '@next/third-parties/google';
 
 export function WhatsAppButton() {
   const [whatsapp, setWhatsapp] = useState('+1234567890'); // Fallback number
@@ -24,6 +25,13 @@ export function WhatsAppButton() {
   const message = encodeURIComponent("Hi! I'd like to book an appointment. Here's my tattoo idea and reference photo. Could you recommend the best artist for my project?");
   const url = `https://wa.me/${phone}?text=${message}`;
 
+  const handleWhatsAppClick = () => {
+    sendGAEvent('event', 'whatsapp_click', {
+      event_category: 'engagement',
+      event_label: 'WhatsApp Floating Button',
+    });
+  };
+
   return (
     <Link
       href={url}
@@ -31,6 +39,7 @@ export function WhatsAppButton() {
       rel="noopener noreferrer"
       className="fixed bottom-6 right-6 z-40"
       aria-label="Chat on WhatsApp"
+      onClick={handleWhatsAppClick}
     >
       <motion.div
         animate={{
