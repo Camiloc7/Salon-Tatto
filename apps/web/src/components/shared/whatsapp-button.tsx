@@ -10,7 +10,7 @@ import { motion } from 'framer-motion';
 import { sendGAEvent } from '@next/third-parties/google';
 
 export function WhatsAppButton() {
-  const [whatsapp, setWhatsapp] = useState('+1234567890'); // Fallback number
+  const [whatsapp, setWhatsapp] = useState('+19294139976'); // Fallback number
 
   useEffect(() => {
     api
