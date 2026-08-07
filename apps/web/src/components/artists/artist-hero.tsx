@@ -12,9 +12,13 @@ type ArtistHeroProps = {
   tInstagram: string;
   tContact: string;
   whatsappNumber: string;
+  whatsappMessage?: string;
 };
 
-export function ArtistHero({ artist, tInstagram, tContact, whatsappNumber }: ArtistHeroProps) {
+export function ArtistHero({ artist, tInstagram, tContact, whatsappNumber, whatsappMessage }: ArtistHeroProps) {
+  const defaultWaMessage = "Hi! I'd like to book an appointment. Here's my tattoo idea and reference photo. Could you recommend the best artist for my project?";
+  const waMessage = encodeURIComponent(whatsappMessage || defaultWaMessage);
+
   return (
     <div className="relative flex flex-col md:flex-row items-center md:items-start justify-center md:justify-start gap-8 md:gap-16 pt-10 pb-20">
       
@@ -66,7 +70,7 @@ export function ArtistHero({ artist, tInstagram, tContact, whatsappNumber }: Art
             </Link>
           )}
           <Link
-            href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Hi! I'd like to book an appointment. Here's my tattoo idea and reference photo. Could you recommend the best artist for my project?")}`}
+            href={`https://wa.me/${whatsappNumber}?text=${waMessage}`}
             target="_blank"
             rel="noopener noreferrer"
             className="text-sm font-medium text-background bg-primary px-6 py-3 rounded-none hover:bg-primary/90 transition-colors uppercase tracking-wider"

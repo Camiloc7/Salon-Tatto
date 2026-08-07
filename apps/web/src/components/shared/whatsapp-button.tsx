@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { MessageCircle } from 'lucide-react';
 import { api } from '@/lib/api-client';
 import { useEffect, useState } from 'react';
+import { useLocale } from 'next-intl';
 import type { StudioSettings } from '@salon-tatto/shared';
 
 import { motion } from 'framer-motion';
@@ -11,19 +12,22 @@ import { sendGAEvent } from '@next/third-parties/google';
 
 export function WhatsAppButton() {
   const [whatsapp, setWhatsapp] = useState('+19294139976'); // Fallback number
+  const [message, setMessage] = useState("Hi! I'd like to book an appointment. Here's my tattoo idea and reference photo. Could you recommend the best artist for my project?");
+  const locale = useLocale();
 
   useEffect(() => {
     api
       .get<StudioSettings>('/settings')
       .then((settings) => {
         if (settings.whatsapp) setWhatsapp(settings.whatsapp);
+        const customMessage = locale === 'es' ? settings.whatsappMessage_es : settings.whatsappMessage_en;
+        if (customMessage) setMessage(customMessage);
       })
       .catch(() => {});
-  }, []);
+  }, [locale]);
 
   const phone = whatsapp.replace(/[^0-9]/g, '');
-  const message = encodeURIComponent("Hi! I'd like to book an appointment. Here's my tattoo idea and reference photo. Could you recommend the best artist for my project?");
-  const url = `https://wa.me/${phone}?text=${message}`;
+  const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 
   const handleWhatsAppClick = () => {
     sendGAEvent('event', 'whatsapp_click', {

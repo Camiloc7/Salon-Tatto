@@ -90,6 +90,7 @@ export default async function ArtistProfilePage({ params }: Props) {
   } catch {}
 
   const whatsappPhone = settings?.whatsapp ? settings.whatsapp.replace(/[^0-9]/g, '') : '';
+  const rawWaMessage = locale === 'es' ? settings?.whatsappMessage_es : settings?.whatsappMessage_en;
 
   return (
     <div className="container py-20">
@@ -99,6 +100,7 @@ export default async function ArtistProfilePage({ params }: Props) {
           tInstagram={t('instagram')} 
           tContact={t('contactViaWhatsapp')} 
           whatsappNumber={whatsappPhone} 
+          whatsappMessage={rawWaMessage}
         />
 
         {artist.images && artist.images.length > 0 && (

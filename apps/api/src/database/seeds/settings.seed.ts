@@ -11,6 +11,8 @@ export async function seedSettings(dataSource: DataSource): Promise<void> {
     { key: 'address', value: '', type: 'string', group: 'contact' },
     { key: 'phone', value: '+19294139976', type: 'string', group: 'contact' },
     { key: 'whatsapp', value: '+19294139976', type: 'string', group: 'contact' },
+    { key: 'whatsappMessage_en', value: "Hi! I'd like to book an appointment. Here's my tattoo idea and reference photo. Could you recommend the best artist for my project?", type: 'string', group: 'contact' },
+    { key: 'whatsappMessage_es', value: "¡Hola! Me gustaría reservar una cita. Aquí tengo mi idea de tatuaje y foto de referencia. ¿Podrían recomendarme el mejor artista para mi proyecto?", type: 'string', group: 'contact' },
     { key: 'email', value: 'booking@nyctattoostudio.com', type: 'string', group: 'contact' },
     { key: 'instagram', value: 'https://instagram.com/nyctattoostudio', type: 'string', group: 'social' },
     { key: 'facebook', value: '', type: 'string', group: 'social' },

@@ -41,6 +41,13 @@ export class SettingsService {
       settings.heroSubtitle_es = await this.translationService.translateText(settings.heroSubtitle_en, 'en', 'es');
     }
 
+    // Auto-translate whatsappMessage if one language is missing
+    if (settings.whatsappMessage_es?.trim() && !settings.whatsappMessage_en?.trim()) {
+      settings.whatsappMessage_en = await this.translationService.translateText(settings.whatsappMessage_es, 'es', 'en');
+    } else if (settings.whatsappMessage_en?.trim() && !settings.whatsappMessage_es?.trim()) {
+      settings.whatsappMessage_es = await this.translationService.translateText(settings.whatsappMessage_en, 'en', 'es');
+    }
+
     // Auto-translate studioPageContent if one language is missing
     const esStudioContent = settings.studioPageContent_es?.trim();
     const enStudioContent = settings.studioPageContent_en?.trim();

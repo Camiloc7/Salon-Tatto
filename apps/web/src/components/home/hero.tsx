@@ -15,7 +15,9 @@ export function Hero({ settings }: { settings: StudioSettings | null }) {
 
   const title = settings?.studioName || t('hero.title');
   const phoneDigits = settings?.phone ? settings.phone.replace(/\D/g, '') : '1234567890';
-  const waMessage = encodeURIComponent("Hi! I'd like to book an appointment. Here's my tattoo idea and reference photo. Could you recommend the best artist for my project?");
+  const defaultWaMessage = "Hi! I'd like to book an appointment. Here's my tattoo idea and reference photo. Could you recommend the best artist for my project?";
+  const rawWaMessage = locale === 'es' ? settings?.whatsappMessage_es : settings?.whatsappMessage_en;
+  const waMessage = encodeURIComponent(rawWaMessage || defaultWaMessage);
   const whatsappLink = `https://wa.me/${phoneDigits}?text=${waMessage}`;
 
   const isVideo = settings?.heroMediaUrl?.match(/\.(mp4|webm|mov)$/i);

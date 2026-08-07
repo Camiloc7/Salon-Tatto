@@ -40,6 +40,8 @@ type SettingsForm = {
   licenseDates: string;
   sameDayReservation: string;
   logoUrl: string;
+  whatsappMessage_en: string;
+  whatsappMessage_es: string;
 };
 
 const emptyForm: SettingsForm = {
@@ -67,6 +69,8 @@ const emptyForm: SettingsForm = {
   licenseDates: '',
   sameDayReservation: 'false',
   logoUrl: '',
+  whatsappMessage_en: '',
+  whatsappMessage_es: '',
 };
 
 export default function SettingsPage() {
@@ -106,6 +110,8 @@ export default function SettingsPage() {
         licenseDates: settings.licenseDates || '',
         sameDayReservation: settings.sameDayReservation || 'false',
         logoUrl: settings.logoUrl || '',
+        whatsappMessage_en: settings.whatsappMessage_en || '',
+        whatsappMessage_es: settings.whatsappMessage_es || '',
       });
     }
   }, [settings]);
@@ -347,6 +353,24 @@ export default function SettingsPage() {
                 value={form.email}
                 onChange={(e) => updateField('email', e.target.value)}
                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              />
+            </div>
+            <div className="sm:col-span-2">
+              <label className="block text-base font-medium mb-1">WhatsApp Message (English)</label>
+              <textarea
+                value={form.whatsappMessage_en}
+                onChange={(e) => updateField('whatsappMessage_en', e.target.value)}
+                rows={3}
+                className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              />
+            </div>
+            <div className="sm:col-span-2">
+              <label className="block text-base font-medium mb-1">WhatsApp Message (Español)</label>
+              <textarea
+                value={form.whatsappMessage_es}
+                onChange={(e) => updateField('whatsappMessage_es', e.target.value)}
+                rows={3}
+                className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               />
             </div>
           </div>

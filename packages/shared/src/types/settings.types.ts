@@ -43,4 +43,6 @@ export type StudioSettings = {
   studioLayout?: string;
   /** URL del logo del sitio */
   logoUrl?: string;
+  whatsappMessage_en?: string;
+  whatsappMessage_es?: string;
 };
