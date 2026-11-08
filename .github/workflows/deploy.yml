@@ -50,6 +50,19 @@ jobs:
             echo "=== 5. REINICIANDO PM2 ==="
             cd $CURRENT_DIR
             pm2 reload ecosystem.config.js --env production
+
+            echo "=== 5.5. ACTUALIZANDO NGINX (si hay permiso NOPASSWD) ==="
+            # Se omite silenciosamente si el usuario no tiene la regla en
+            # /etc/sudoers.d/nginx-deploy. La web sigue funcionando igual.
+            if sudo -n install -m 644 $CURRENT_DIR/nginx.vps.conf /etc/nginx/sites-available/salon-tatto 2>/dev/null; then
+              if sudo -n nginx -t; then
+                sudo -n systemctl reload nginx && echo "✅ Nginx actualizado y recargado."
+              else
+                echo "❌ La config de nginx no pasó la validación; no se recargó."
+              fi
+            else
+              echo "⚠️ Nginx: sin permiso NOPASSWD, se omite (config del VPS intacta)."
+            fi
             
             echo "=== 6. VERIFICANDO HEALTHCHECK ==="
             # Esperar 15 segundos para que NestJS levante
