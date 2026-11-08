@@ -3,6 +3,10 @@ import { locales, defaultLocale } from '../i18n';
 import { api } from '@/lib/api-client';
 import type { BlogPost } from '@salon-tatto/shared';
 
+// Se genera en cada request: durante el build la API puede no estar disponible
+// (o responder 429 por el rate limit) y el sitemap quedaría cacheado sin posts.
+export const dynamic = 'force-dynamic';
+
 const BASE_URL = process.env.WEB_URL || 'https://larolatattoonyc.com';
 
 type SitemapEntry = {
